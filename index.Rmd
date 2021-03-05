@@ -1,0 +1,153 @@
+---
+title: "Raster with R"
+author: "inSileco Team"
+date: 2021-03-02
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  dev = "png",
+  dpi = 108,
+  fig.width = 6,
+  fig.height = 4.5,
+  fig.align = 'center',
+  width = 120
+)
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
+cdw <- function(...) countdown::countdown(...)
+rfa <- function(...) icons::fontawesome(...)
+emj <- function(...) emo::ji(...)
+kig <- function(...) knitr::include_graphics(...)
+gh <- function() rfa("github")
+rp <- function() rfa("r-project")
+ck <- function() rfa("clock")
+db <- function() rfa("database")
+nf <- function() rfa("info-circle")
+lk <- function() rfa("link")
+bk <- function() rfa("book")
+```
+
+
+class: title-slide, middle
+
+
+## .font200[`r rp()`eproducible]
+
+<br>
+
+.instructors[
+  .font180[Workshop with `r rp()`]
+  <br><br><br>
+  .authors140[David Beauchesne & Kevin Cazelles]
+  <br><br>
+  `r format(Sys.time(), '%B %d, %Y')`
+  <br>
+  .font200[
+  [`r gh()`](https://github.com/inSilecoInc)
+  [`r db()`](link_to_data)
+  [`r rfa("file-pdf")`](link_to_pdf_version)
+  ]
+]
+
+<br>
+<img src="img/logoW.png" width="140px"></img>
+
+<!-- Modify accordingly -->
+![deploy workshop](https://github.com/inSilecoInc/workshop_raster/workflows/deploy%20workshop/badge.svg)
+
+.instructors[Content under [`r rfa("creative-commons")` `r rfa("creative-commons-by")`](https://creativecommons.org/licenses/by/4.0/) unless otherwise specified.]
+
+
+
+
+---
+
+class: inverse, center, middle
+
+# Learning objectives
+
+![:custom_hr]()
+
+## .font160[`r rfa("map")`  + `r rp()`]
+
+
+---
+
+# Learning objectives
+
+<br>
+
+### Main Goal
+
+--
+
+1. L.O. 1 
+
+1. L.O. 2
+
+
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Rationalize
+
+![:custom_hr]()
+
+## Why (`r ck()` ~ 15min)
+
+
+???
+
+With the 3 ? you can add useful comments.
+
+
+
+---
+# Plot
+
+```{R plot1}
+plot(1,1)
+```
+
+
+---
+# Exercice 
+
+### Description
+
+`r cdw(minutes = 15, seconds = 0)`
+
+
+
+---
+# Resources `r lk()`
+
+### Add ressources here 
+
+- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+
+
+---
+# Last slides
+
+## About inSileco
+
+--
+
+## About us
