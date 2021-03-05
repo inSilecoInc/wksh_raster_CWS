@@ -60,7 +60,7 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
   
 --
 
-- `r icon::fontawesome("info-circle")` More details :
+- `r nf()` More details :
 
   - https://gisgeography.com/gis-formats/
   - https://gdal.org/drivers/raster/index.html
@@ -186,8 +186,8 @@ You don't start from scratch
 - [`stars`](https://CRAN.R-project.org/package=stars) `r rfa("check")`
 - [`terra`](https://CRAN.R-project.org/package=terra) 
 
-`r icon::fontawesome("info-circle")` https://keen-swartz-3146c4.netlify.app/raster.html#package-stars
-`r icon::fontawesome("info-circle")` https://github.com/rspatial (15 packages)
+`r nf()` https://keen-swartz-3146c4.netlify.app/raster.html#package-stars
+`r nf()` https://github.com/rspatial (15 packages)
 
 ???
 
