@@ -1,0 +1,265 @@
+---
+title: "Minimal intro"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Rationalize
+
+![:custom_hr]()
+
+## Why use `r rp()` for rasters? (~20min)
+
+
+???
+
+If after the workshop what follows makes sense and you feel it is kind of true, it would a success. 
+
+
+
+
+---
+
+# Raster files 
+
+> Raster files are grids of equally sized (most often) cells (or pixels).
+
+--
+
+> Every cell has one or several values (or missing values).
+
+--
+
+> Cells are georeferenced: coordinates + CRS 
+
+--
+
+> Commonly used to represent continuous phenomena (e.g. temperature, elevation) and images (airborne or satellite imagery).
+
+
+
+
+---
+# Raster files 
+
+- Examples of raster file formats: 
+
+  - **GeoTIFF** (see https://trac.osgeo.org/geotiff)
+  - **NetCDF** (see https://www.unidata.ucar.edu/software/netcdf/)
+  - **KML** (also supports vector objects, see https://www.ogc.org/standards/kml/)
+  - **GeoPackage** (also supports vector objects, see https://www.ogc.org/standards/geopackage)
+  
+--
+
+- `r icon::fontawesome("info-circle")` More details :
+
+  - https://gisgeography.com/gis-formats/
+  - https://gdal.org/drivers/raster/index.html
+
+
+---
+# About `r rp()`
+
+> R is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing. &nbsp;&nbsp; [Wikipedia](https://bit.ly/2WFv1Nu)
+
+--
+
+.center[![:scale 50%](https://roelverbelen.netlify.app/img/hex-stickers.png)]
+
+
+
+---
+# Coding vs clicking
+
+### 1. Programming/coding allows to automate what is frequently done!
+
+--
+
+### 2. Allow to make analyses/reports reproducible 
+
+--
+
+  - create data pipeline 
+  - for colleagues and future you
+
+--
+
+### 3. Increase efficiency (spend more time thinking)
+
+
+--
+
+### 4. Feeling empowered
+
+
+
+???
+
+One is not better than the other
+do more, oik but do it in a better way
+
+
+---
+# Why `r rp()`?
+
+<br>
+
+### 1. Freeware + Open source
+
+--
+
+### 2. **Package ecosystem** is rich and under active development  
+
+--
+
+### 3. Many packages connect `r rp()` to other software/language
+
+--
+
+### 4. Community is wide, quite involved, responsive
+
+--
+
+### 5. You are most likely already using it! You are not starting from scratch
+
+--
+
+### **`r rfa("arrow-right")` Very little cannot be done with `r rp()`**
+
+
+???
+
+Very few people look at the R source code but many people are now involved in package dev via GH or GL.
+
+R Python Julia, whatever, language itself matters less that these
+If you have time to learn a bit it might sometime makes sense, notably to work with other colleagues.
+
+You don't start from scratch
+
+
+
+---
+# `r rp()` packages ecosystem for spatial objects
+
+--
+
+## Classes and Methods 
+
+--
+
+## Statistical Analyses
+
+--
+
+## Visualisation
+
+--
+
+## Data Retrieval 
+
+---
+# `r rp()` packages ecosystem for spatial objects
+
+## Classes and Methods 
+
+--
+
+### Vectors 
+
+- [`sp`](https://CRAN.R-project.org/package=sp)
+- [`sf`](https://CRAN.R-project.org/package=sf) `r rfa("check")`
+
+--
+
+### **Rasters** (our main focus)
+
+- [`raster`](https://CRAN.R-project.org/package=raster) `r rfa("check")`
+- [`stars`](https://CRAN.R-project.org/package=stars) `r rfa("check")`
+- [`terra`](https://CRAN.R-project.org/package=terra) 
+
+`r icon::fontawesome("info-circle")` https://keen-swartz-3146c4.netlify.app/raster.html#package-stars
+`r icon::fontawesome("info-circle")` https://github.com/rspatial (15 packages)
+
+???
+
+Not visualisation later 
+
+
+
+---
+# Raster packages
+
+### [`raster`](https://CRAN.R-project.org/package=raster) .font90[03/2010 (1.0.0) &nbsp; // &nbsp; 11/2020 (3.3-7)]
+  
+<br>
+
+--
+  
+### [`terra`](https://CRAN.R-project.org/package=terra) .font90[03/2019 (0.5-2) &nbsp; // &nbsp; 11/2020 (0.9-11)]
+  
+> terra is an R package that replaces raster. It has a very similar interface, but it is simpler and much faster. 
+
+<br>
+--
+  
+### [`stars`](https://CRAN.R-project.org/package=stars) .font90[07/2018  (0.1-1) &nbsp; // &nbsp; 07/2020 (0.4-3)]
+  
+> Reading, manipulating, writing and plotting spatiotemporal arrays (raster and vector data cubes) in 'R'. 
+
+Depends on [`sf`](https://CRAN.R-project.org/package=sf).
+Note that `stars` and `sf` are [Tidyverse](https://www.tidyverse.org/) friendly.
+
+
+
+---
+# Package [`raster`](https://CRAN.R-project.org/package=raster)
+
+
+### - Well documented 
+  
+  - see https://rspatial.org/raster/
+  - many blog posts and tutorials (e.g. https://datacarpentry.org/r-raster-vector-geospatial/01-raster-structure/)
+
+<!-- length(devtools::revdep("raster", dependencies = c("Depends", "
+   Imports"))) -->
+
+--
+
+### - 383 packages depend on or import `raster` 
+
+--
+
+### - Depends on `sp` but also works with `sf`.
+
+
+---
+# Package [`stars`](https://CRAN.R-project.org/package=stars): SpatioTemporal ARrayS
+
+### Extent `sf` to Raster and Vector Datacubes
+
+.center[[![:scale 62%](https://raw.githubusercontent.com/r-spatial/stars/master/images/cube3.png)](https://r-spatial.github.io/stars/index.html)] 
+.right[.font80[see https://r-spatial.github.io/stars/index.html]]
+
+
+---
+# Package [`stars`](https://CRAN.R-project.org/package=stars): SpatioTemporal ARrayS
+
+### - Well documented too
+
+.center[![:scale 92%](img/pkgdown_stars.png)]
+.right[.font80[see https://r-spatial.github.io/stars/index.html]]
+
+--
+
+### - 9 packages depend on [`stars`](https://CRAN.R-project.org/package=stars)
+
+### - So far, less material available online.

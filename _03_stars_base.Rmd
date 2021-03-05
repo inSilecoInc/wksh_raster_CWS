@@ -1,0 +1,28 @@
+---
+title: "intro to sf"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Introduction to stars
+
+![:custom_hr]()
+
+## `r ck()` ~20min
+
+
+---
+
+This section should introduce stars
+
+* what is it 
+* understand the object 
+* import/export
+* raster conversion 

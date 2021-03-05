@@ -15,30 +15,7 @@ output:
 
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  comment = "#>",
-  collapse = TRUE,
-  warning = FALSE,
-  message = FALSE,
-  dev = "png",
-  dpi = 108,
-  fig.width = 6,
-  fig.height = 4.5,
-  fig.align = 'center',
-  width = 120
-)
-options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
-cdw <- function(...) countdown::countdown(...)
-rfa <- function(...) icons::fontawesome(...)
-emj <- function(...) emo::ji(...)
-kig <- function(...) knitr::include_graphics(...)
-gh <- function() rfa("github")
-rp <- function() rfa("r-project")
-ck <- function() rfa("clock")
-db <- function() rfa("database")
-nf <- function() rfa("info-circle")
-lk <- function() rfa("link")
-bk <- function() rfa("book")
+source("_setup.R")
 ```
 
 
@@ -50,16 +27,16 @@ class: title-slide, middle
 <br>
 
 .instructors[
-  .font180[Workshop with `r rp()`]
+  .font140[Manipulate and visualize rasters with `r rfa("r-project")`]
   <br><br><br>
-  .authors140[David Beauchesne & Kevin Cazelles]
+  .authors120[David Beauchesne & Kevin Cazelles]
   <br><br>
   `r format(Sys.time(), '%B %d, %Y')`
   <br>
   .font200[
-  [`r gh()`](https://github.com/inSilecoInc)
-  [`r db()`](link_to_data)
-  [`r rfa("file-pdf")`](link_to_pdf_version)
+  [`r gh()`](https://github.com/inSilecoInc/workshop_raster)
+  [`r db()`](https://github.com/inSilecoInc/workshop_raster/raw/gh-pages/data_and_script.zip)
+  [`r pd()`](https://github.com/inSilecoInc/workshop_raster/raw/main/raster_p1.pdf)
   ]
 ]
 
@@ -89,65 +66,39 @@ class: inverse, center, middle
 
 # Learning objectives
 
-<br>
-
-### Main Goal
-
---
-
-1. L.O. 1 
-
-1. L.O. 2
 
 
-
----
-
-class: inverse, center, middle
-
-# `r nf()` Rationalize
-
-![:custom_hr]()
-
-## Why (`r ck()` ~ 15min)
-
-
-???
-
-With the 3 ? you can add useful comments.
-
-
-
----
-# Plot
-
-```{R plot1}
-plot(1,1)
+```{R, child = "_01_intro.Rmd"}
 ```
 
 
----
-# Exercice 
-
-### Description
-
-`r cdw(minutes = 15, seconds = 0)`
+```{R, child = "_02_sfmin.Rmd"}
+```
 
 
-
----
-# Resources `r lk()`
-
-### Add ressources here 
-
-- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+```{R, child = "_02e_sfmin.Rmd"}
+```
 
 
----
-# Last slides
+```{R, child = "_03_stars_base.Rmd"}
+```
 
-## About inSileco
 
---
+```{R, child = "_04_stars_manip.Rmd"}
+```
 
-## About us
+
+```{R, child = "_04e_stars_manip.Rmd"}
+```
+
+
+```{R, child = "_05_visualise.Rmd"}
+```
+
+
+```{R, child = "_06_tmap.Rmd"}
+```
+
+
+```{R, child = "_06e_tmap.Rmd"}
+```
