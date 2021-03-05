@@ -1,0 +1,23 @@
+---
+title: "intro to sf"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Visualise rasters
+
+![:custom_hr]()
+
+## `r ck()` ~15min
+
+
+---
+
+This section show several options to visualize map with R

@@ -1,0 +1,35 @@
+---
+title: "intro to sf"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Introduction to sf
+
+![:custom_hr]()
+
+## `r ck()` ~20min
+
+
+???
+
+If after the workshop what follows makes sense and you feel it is kind of true, it would a success. 
+
+---
+
+This section should cover sf 
+
+* what is it 
+* understand the object 
+* how to manipulate sf attribute tabkle with tidyverse
+* how to do basic spatial manipulations
+  * intersect /union / difference
+  * projection 
+  * areas

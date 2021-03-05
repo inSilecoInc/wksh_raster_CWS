@@ -1,0 +1,104 @@
+---
+title: "Raster with R"
+author: "inSileco Team"
+date: 2021-03-02
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+
+```{r setup, include = FALSE}
+source("_setup.R")
+```
+
+
+class: title-slide, middle
+
+
+## .font200[`r rp()`eproducible]
+
+<br>
+
+.instructors[
+  .font140[Manipulate and visualize rasters with `r rfa("r-project")`]
+  <br><br><br>
+  .authors120[David Beauchesne & Kevin Cazelles]
+  <br><br>
+  `r format(Sys.time(), '%B %d, %Y')`
+  <br>
+  .font200[
+  [`r gh()`](https://github.com/inSilecoInc/workshop_raster)
+  [`r db()`](https://github.com/inSilecoInc/workshop_raster/raw/gh-pages/data_and_script.zip)
+  [`r pd()`](https://github.com/inSilecoInc/workshop_raster/raw/main/raster_p1.pdf)
+  ]
+]
+
+<br>
+<img src="img/logoW.png" width="140px"></img>
+
+<!-- Modify accordingly -->
+![deploy workshop](https://github.com/inSilecoInc/workshop_raster/workflows/deploy%20workshop/badge.svg)
+
+.instructors[Content under [`r rfa("creative-commons")` `r rfa("creative-commons-by")`](https://creativecommons.org/licenses/by/4.0/) unless otherwise specified.]
+
+
+
+
+---
+
+class: inverse, center, middle
+
+# Learning objectives
+
+![:custom_hr]()
+
+## .font160[`r rfa("map")`  + `r rp()`]
+
+
+---
+
+# Learning objectives
+
+
+
+```{R, child = "_01_intro.Rmd"}
+```
+
+
+```{R, child = "_02_sfmin.Rmd"}
+```
+
+
+```{R, child = "_02e_sfmin.Rmd"}
+```
+
+
+```{R, child = "_03_stars_base.Rmd"}
+```
+
+
+```{R, child = "_04_stars_manip.Rmd"}
+```
+
+
+```{R, child = "_04e_stars_manip.Rmd"}
+```
+
+
+```{R, child = "_05_visualise.Rmd"}
+```
+
+
+```{R, child = "_06_tmap.Rmd"}
+```
+
+
+```{R, child = "_06e_tmap.Rmd"}
+```

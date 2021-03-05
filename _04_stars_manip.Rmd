@@ -1,0 +1,25 @@
+---
+title: "intro to sf"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Raster manipulation with stars
+
+![:custom_hr]()
+
+## `r ck()` ~25min
+
+
+
+---
+
+This section shows raster manipulations with stars
+
