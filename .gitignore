@@ -9,7 +9,8 @@ output/
 data/*
 !*/st_laurence.geojson
 !*/bathy.tif
-
+tmp/*
+!tmp/cws_input.docx
 
 # History files
 .Rhistory

@@ -7,8 +7,9 @@ Authors@R: c(
   )
 Imports:
   countdown,
-  emo,
   dplyr,
+  emo,
+  eDrivers,
   icons,
   leaflet,
   mapview,
@@ -20,7 +21,9 @@ Imports:
   rgdal,
   xaringan
 Remotes: 
-  mitchelloharawild/icons,
+  eDrivers/eDrivers,
   gadenbuie/countdown,
-  hadley/emo
+  hadley/emo,
+  mitchelloharawild/icons
+
 
