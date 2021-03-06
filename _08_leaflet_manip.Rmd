@@ -1,0 +1,417 @@
+---
+title: "intro to leaflet"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## Quick map
+
+.pull-left2[
+Leaflet map centered on the St. Lawrence
+
+```{r, eval = FALSE, purl = FALSE}
+library(leaflet)
+lf <- leaflet() %>%
+ setView(lng = -63,
+         lat = 48,
+         zoom = 5)
+ addTiles(group = 'Default')
+
+lf
+```
+
+.font70[See [`setView()`](https://www.rdocumentation.org/packages/leaflet/versions/2.0.3/topics/setView) documentation for more options to set map extent.]
+
+
+]
+
+.pull-right2[
+```{r load_leaflet, fig.width = 6, fig.height = 6, echo = FALSE}
+library(leaflet)
+lf <- leaflet() %>%
+ addTiles(group = 'Default') %>%
+ setView(lng = -63,
+         lat = 48,
+         zoom = 5)
+
+lf
+```
+]
+
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## A quick word on pipes
+
+The pipe operator `%>%` is a chained method that lets you pass an intermediate result to the next function. Thus, these two code chunks provide the same output:
+
+.pull-left[
+```{r use_pipe}
+# Example with pipe operator
+lf <- leaflet() %>%
+ setView(lng = -63,
+         lat = 48,
+         zoom = 5) %>%
+ addTiles(group = 'Default')
+
+```
+]
+
+.pull-right[
+```{r nopipe}
+# Example without pipe operator
+lf <- setView(map = leaflet(),
+              lng = -63,
+              lat = 48,
+              zoom = 5)
+lf <- addTiles(map = lf,
+               group = 'Default')
+```
+]
+
+
+
+.font70[`%>%` is similar to the `+` operator used by `ggplot2` and `tmap`]
+
+.font70[See [here](https://www.datacamp.com/community/tutorials/pipe-r-tutorial) for a full description of the history and use of pipes. Note that in the upcoming release
+
+A [simple native pipe syntax](https://cran.r-project.org/doc/manuals/r-devel/NEWS.html), `|>`, will be included in the upcoming stable release.
+
+]
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## Base maps
+
+.pull-left2[
+`addTiles()` uses [OpenStreetMap](https://www.openstreetmap.org/) as default base map.
+
+Use `addProviderTiles()` for other options.
+
+```{r, eval = FALSE, purl = FALSE}
+leaflet() %>%
+ setView(lng = -63,
+         lat = 48,
+         zoom = 5) %>%
+ addProviderTiles('Esri.OceanBasemap',
+                  group = 'Ocean')
+```
+
+.font90[Full provider list [here](http://leaflet-extras.github.io/leaflet-providers/preview/index.html)]
+]
+
+.pull-right2[
+```{r base_maps, fig.width = 6, fig.height = 6, echo = FALSE}
+leaflet() %>%
+      setView(lng = -63,
+              lat = 48,
+              zoom = 5) %>%
+      addProviderTiles('Esri.OceanBasemap',
+                       group = 'Ocean')
+```
+]
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## Multiple base maps
+
+.pull-left2[
+Use [`addLayersControl()`](https://www.rdocumentation.org/packages/leaflet/versions/2.0.3/topics/addLayersControl) to toggle base map selection.
+
+.font90[
+```{r, eval = FALSE, purl = FALSE}
+lf <-
+ lf %>%
+ addProviderTiles('Esri.OceanBasemap',
+     group = 'Ocean') %>%
+ addProviderTiles("OpenTopoMap",
+     group = "Topo") %>%
+
+ # Add layer selection
+ addLayersControl(
+     baseGroups = c('Default','Ocean',
+                    'Topo'),
+     position = 'topleft')
+
+lf
+```
+
+Note that we are adding features to the preexisting `lf` object
+]
+]
+
+.pull-right2[
+```{r multiple_base, fig.width = 6, fig.height = 6, echo = FALSE}
+lf <- lf %>%
+ addProviderTiles('Esri.OceanBasemap',
+     group = 'Ocean') %>%
+ addProviderTiles("OpenTopoMap",
+     group = "Topo") %>%
+
+ # Add layer selection
+ addLayersControl(
+     baseGroups = c('Default','Ocean','Topo'),
+     position = 'topleft')
+
+lf
+```
+]
+
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## Add rasters
+
+First, get some raster layers from the [`eDrivers`](https://github.com/eDrivers/eDrivers) `r rp()` package, which provides data on environmental stressors for the St. Lawrence System.
+
+Let's get data for hypoxia, demersal destructive fisheries (trawl and dredge), and acidification.
+
+```{r eDrivers, eval = TRUE}
+# Install eDrivers
+# devtools::install_github('eDrivers/eDrivers')
+
+# Load data from eDrivers
+library(eDrivers)
+fetchDrivers(drivers = c('Hypoxia','FisheriesDD','Acidification'),
+             output = 'data')
+
+# Raster objects from eDrivers class objects
+library(raster)
+hyp <- raster('data/Hypoxia.tif')
+fish <- raster('data/FisheriesDD.tif')
+acid <- raster('data/Acidification.tif')
+```
+
+.font70[Use `fetchList()` to see all data available in `eDrivers`]
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## Add rasters
+
+.pull-left2[
+
+Use [`addRasterImage()`](https://www.rdocumentation.org/packages/leaflet/versions/2.0.3/topics/addRasterImage) to add rasters from `raster` package.
+
+```{r, eval = FALSE, purl = FALSE}
+lf <- lf %>%
+ addRasterImage(hyp,group = 'Hyp') %>%
+ addRasterImage(fish,group = 'Fish') %>%
+ addRasterImage(acid,group = 'Acid') %>%
+
+# Reset layer selection
+addLayersControl(
+   baseGroups = c('Default','Ocean',
+                  'Topo'),
+   overlayGroups = c('Hyp','Fish',
+                     'Acid'),
+   position = 'topleft')
+
+lf
+```
+]
+
+.pull-right2[
+```{r leaflet_raster, fig.width = 6, fig.height = 6, echo = FALSE, eval = TRUE}
+# Add layers to leaflet map
+lf <- lf %>%
+ addRasterImage(hyp,group = 'Hyp') %>%
+ addRasterImage(fish,group = 'Fish') %>%
+ addRasterImage(acid,group = 'Acid') %>%
+
+# Reset layer selection
+addLayersControl(
+   baseGroups = c('Default','Ocean','Topo'),
+   overlayGroups = c('Hyp','Fish','Acid'),
+   position = 'topleft')
+
+lf
+```
+]
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+## Add rasters
+
+**A couple warnings:**
+
+- `leaflet` uses the [EPSG:3857](https://spatialreference.org/ref/sr-org/7483/) projection and will convert the layers you add automatically. You may want to reproject your rasters manually with argument `project = FALSE` in `addRasterImage()` to save computing time.
+
+--
+
+- Raster size is limited by default. Use argument `maxBytes` in `addRasterImage()` to change this. (Hint: try to add `bathy.tif` to a leaflet map)
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+- Leaflet maps can be exported using `saveWidget()` from the `htmlwidget` package
+
+```{r export_leaflet, eval = FALSE}
+dir.create('output')
+htmlwidgets::saveWidget(lf, file="output/lf.html")
+```
+
+---
+
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+
+`r cdw(minutes = 20, seconds = 0)`
+
+
+### .font90[`r rfa("star")` Select two raster layers to map and change their projection to EPSG:3857]
+
+.font80[
+- Use [https://epsg.io/](https://epsg.io/) to get the `proj` string
+]
+
+### .font90[`r rfa("star")` Generate a leaflet map with:]
+
+.font80[
+- Two tile providers (hint: visit [this](http://leaflet-extras.github.io/leaflet-providers/preview/index.html) website)
+
+- The two newly projected raster layers
+
+- Set view to the Bedford Institute of Oceanography
+  - Get coordinates from [Google Maps](https://www.google.ca/maps) or [OpenStreetMap](https://www.openstreetmap.org/)
+]
+
+### .font90[`r rfa("star")` `r rfa("star")` Use a custom color palette to render the rasters (hint: look up [`colorNumeric()`](https://www.rdocumentation.org/packages/leaflet/versions/2.0.3/topics/colorNumeric))]
+
+### .font90[`r rfa("star")` `r rfa("star")` Render a single raster on map startup (hint: look up [`hideGroup()`](https://rdrr.io/cran/leaflet/man/showGroup.html))]
+
+---
+
+# Solution
+
+.font90[
+```{r leafletEx, eval = FALSE, include = FALSE, purl = FALSE}
+# Project rasters
+prj <- '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs'
+hyp2 <- projectRaster(hyp, crs = CRS(prj))
+acid2 <- projectRaster(acid, crs = CRS(prj))
+
+# Colors
+cols <- c("#c7cbce", "#687677", "#222d3d", "#25364a", "#172434",
+          "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b")
+
+# Leaflet map
+leaflet() %>%
+  setView(lng = -63.6118, lat = 44.6828, zoom = 5) %>%
+  addProviderTiles('Esri.OceanBasemap', group = 'Ocean') %>%
+  addProviderTiles("OpenTopoMap", group = "Topo") %>%
+  addRasterImage(hyp2, group = 'Hyp', project = FALSE,
+                colors = colorNumeric(cols, values(hyp2), na.color = "transparent")) %>%
+  addRasterImage(acid2, group = 'Acid', project = FALSE,
+                colors = colorNumeric(cols, values(acid2), na.color = "transparent")) %>%
+
+  # Reset layer selection
+  addLayersControl(baseGroups = c('Ocean', 'Topo'),
+    overlayGroups = c('Hyp','Acid'),
+    position = 'topleft') %>%
+
+  # Hide 2 layers
+  hideGroup(c("Fish","Acid"))
+```
+]
+
+---
+
+# Package [`mapview`](https://cran.r-project.org/package=mapview)
+
+## `r rp()` package
+
+[`mapview`](https://cran.r-project.org/package=mapview) .font90[12/2015 (1.0.0) &nbsp; // &nbsp; 08/2020 (2.9.0)]
+
+> `mapview` provides functions to very quickly and conveniently create interactive visualisations of spatial data. It’s main goal is to fill the gap of quick (not presentation grade) interactive plotting to examine and visually investigate both aspects of spatial data, the geometries and their attributes.
+
+
+---
+
+# Package [`mapview`](https://cran.r-project.org/package=mapview)
+
+```{r mapview, eval = TRUE, fig.width = 12, fig.height = 6}
+library(mapview)
+mv <- mapview(hyp) + fish + acid
+mv
+```
+
+
+---
+
+# Package [`mapview`](https://cran.r-project.org/package=mapview)
+
+```{r mapview_export, eval = TRUE, fig.width = 12, fig.height = 6}
+dir.create('output')
+mapshot(mv, url = 'output/map.html')
+```
+
+The interactive map can then be shared with the `html` file and `map_files/` folder
+
+
+---
+
+# Package [`mapview`](https://cran.r-project.org/package=mapview)
+
+`r cdw(minutes = 10, seconds = 0)`
+
+
+<br/>
+
+### `r rfa("star")` Recreate the map you generated before with `leaflet` using `mapview`
+
+--
+
+### `r rfa("star")` Export it as a `html` file in the `output/` folder
+
+--
+
+### `r rfa("star")` Open the `.html` file in your web browser
+
+--
+
+### `r rfa("star")` `r rfa("star")` `r rfa("star")` `r rfa("star")` Send it to your best friend!
+
+---
+
+# Solution
+
+```{r mapviewEx, eval = FALSE, include = FALSE, purl = FALSE}
+# Color ramp palette
+pal <- colorRampPalette(cols)
+
+# Mapview
+mv <- mapview(hyp2, col.regions = pal) +
+      mapview(acid2, col.regions = pal)
+
+# Export
+dir.create('output')
+mapshot(mv, url = 'output/mapviewEx.html')
+
+# Send email
+# Not actually going to do this! But! If you want to send emails through R, check this blog post:
+# https://blog.mailtrap.io/r-send-email/
+```
+
+
+

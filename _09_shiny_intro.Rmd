@@ -1,0 +1,89 @@
+---
+title: "Exercise leaflet"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+
+
+---
+
+class: inverse, center, middle
+
+# Shiny applications
+
+![:custom_hr]()
+
+## .font160[~30 min]
+
+---
+
+# Shiny applications
+
+- Interactive capabilities thus far limited to base maps, panning, zooming and clicking.
+
+--
+
+- Underlying code remains static with a fixed user interfaces.
+
+--
+
+- Capabilities are limited in terms of user input for controlling interactive content.
+
+--
+
+- In comes Shiny!
+
+
+---
+
+# Shiny applications
+
+## `r rp()` package
+
+[`shiny`](https://cran.r-project.org/package=shiny) .font90[12/2012 (0.2.3) &nbsp; // &nbsp; 06/2020 (1.5.0)]
+
+
+> [`shiny`](https://cran.r-project.org/package=shiny) makes it incredibly easy to build interactive web applications with R. Automatic "reactive" binding between inputs and outputs and extensive prebuilt widgets make it possible to build beautiful, responsive, and powerful applications with minimal effort.
+
+
+<img src="https://images.ctfassets.net/k49d63tr8kcn/5lTAuBdak8qsamGwC0kEMO/61052086f3eca17dc27bd79b4b5737aa/Shiny.png" alt="" width="45%">
+
+---
+
+# [`shiny`](https://CRAN.R-project.org/package=shiny)
+
+## Pros
+
+- The package makes it possible to use R's data analysis and visualization capabilities in an app. Although we focuse on mapping rasters, `shiny` allows for much more extensive capabilities.
+
+--
+
+- Applications can be run locally, deployed on R Studio's [Shiny Server](https://rstudio.com/products/shiny/shiny-server/), or to a hosting service such as [shinyapps.io](https://shinyapps.io)
+
+--
+
+- Extensive documentation and material is available for shiny applications.
+
+--
+
+- See R Studio's [Shiny apps library](https://shiny.rstudio.com/gallery/) for many examples
+
+---
+
+# [`shiny`](https://CRAN.R-project.org/package=shiny)
+
+## Cons
+
+- Syntax and logic of a Shiny application is a little bit different than what we are usually used to with R
+
+--
+
+- Harder to troubleshoot and know exactly what is going on under the hood
+
+--
+
+- Because it is more complex, it is worthwhile to really ponder whether a shiny application is necessary for what we wish to accomplish

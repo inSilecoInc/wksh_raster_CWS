@@ -25,4 +25,149 @@ This section should introduce stars
 * what is it 
 * understand the object 
 * import/export
-* raster conversion 
+* raster conversion
+
+
+---
+# Read a raster file 
+
+
+## .center[.font200[ `r fl()` `r ar()` `r rp()`]]
+
+<br>
+
+--
+
+### 1. Files you created 
+
+--
+
+### 2. Files you found on the Internet 
+
+--
+
+### 3. `r rp()` packages to download raster files
+
+
+
+---
+# Example file 
+
+![Accessed 16/12/2020](img/gebco.png)
+
+- https://download.gebco.net/ 
+- `r lk()` [data_and_script.zip](https://github.com/inSilecoInc/workshop_raster/raw/main/data_and_script.zip)
+
+
+
+
+---
+# Read with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R read_stars}
+library(stars)
+ras <- read_stars("data/bathy.tif")   # argument `driver` to specify the driver
+class(ras)
+```
+
+---
+# Read with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R plot_stars, cache = TRUE}
+plot(ras)
+```
+
+---
+
+# So ...
+
+<br>
+
+## - GeoTIFF `r ch()`
+
+--
+
+## - Other formats, how do we know?
+
+
+```{R stars_drivers}
+st_dr <- sf::st_drivers(what = "raster")
+head(st_dr)
+```
+
+---
+# Check read/write capabilities with 
+
+
+```{R stars_drivers2}
+st_dr[which(st_dr$name == "GTiff"), ]
+```
+
+--
+.right[
+
+.font80[`r nf()` https://gdal.org/drivers/raster/index.html]
+
+.font80[`r nf()` https://keen-swartz-3146c4.netlify.app/intro.html#reading]
+
+]
+
+
+
+
+---
+# Write raster files
+
+##  .center[.font200[`r rp()` `r ar()` `r fl()`]]
+
+--
+
+## - Share the output file
+
+--
+
+## - Use another software (e.g. QGIS)
+
+--
+
+<br>
+
+### `r rfa("exclamation-circle")` Create an `output` directory
+
+```{R create_dir}
+dir.create("output", showWarnings = FALSE)
+```
+
+
+
+---
+# Write with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R write_stars0}
+sort(st_dr$name[st_dr$write])
+```
+
+---
+# Write with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R write_stars1, cache = TRUE}
+write_stars(ras, dsn = "output/ras.gpkg", driver = "GPKG")
+```
+
+`r rfa("pencil-alt")` dsn stands for **data source name**.
+
+
+---
+# `r rfa("flag-checkered")` Recap 
+
+<br><br>
+
+| Action            | *raster*                 | *stars*               |
+|:------------------|:-------------------------|:----------------------|
+| list drivers      | `rgdal::gdalDrivers()`   | `sf::st_drivers()`    |
+| read files        | `raster()`               | `read_stars()`        |
+| write files       | `writeRaster()`          | `write_stars()`        |
+
+
+
+

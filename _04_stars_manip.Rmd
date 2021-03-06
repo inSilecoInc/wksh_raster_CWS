@@ -23,3 +23,426 @@ class: inverse, center, middle
 
 This section shows raster manipulations with stars
 
+
+
+---
+
+class: inverse, center, middle
+
+# `r cg()`Manipulate 
+
+![:custom_hr]()
+
+## Do whatever you need with raster files (~1h15)
+
+
+---
+# Common operations
+
+##  .center[.font200[`r fl()` `r ar()` `r rp()` `r ar()` `r fl()`]]
+
+
+---
+# Common operations
+
+##  .center[.font200[`r fl()` `r ar()` `r rp()` `r ar()` `r cg()` `r ar()` `r fl()`]]
+
+--
+
+- change projection
+- basic calculations (e.g. average per regions, min/max)
+- crop/mask 
+- extraction
+- resample 
+- etc.
+
+
+---
+# What do we have? 
+
+```{R stars_obj}
+library(stars)
+ras <- read_stars("data/bathy.tif") 
+class(ras)
+ras
+```
+
+---
+# What do we have? 
+
+```{R stars_val}
+class(ras[[1]])
+ras[[1]]
+```
+
+---
+# What do we have? 
+
+```{R stars_obj_fun1}
+dim(ras)
+st_bbox(ras)
+```
+
+---
+# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R stars_obj_fun2}
+ras_crs <- st_crs(ras)
+class(ras_crs)
+ras_crs
+```
+
+---
+# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R stars_obj_fun3}
+ras_crs$input
+ras_crs$proj4string
+ras_crs$epsg
+```
+--
+
+- https://epsg.io/
+- https://epsg.io/4326
+
+
+---
+# Conversion between [`stars`](https://CRAN.R-project.org/package=stars) and [`raster`](https://CRAN.R-project.org/package=raster)
+
+
+### Use a temporary file (see above)
+
+
+```{R convert2}
+ras_c <- as(ras, "Raster") 
+class(ras_c)
+```
+
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R bc_ras1}
+# extract value
+class(ras[[1]])
+ras[[1]][1, 1]
+ras[[1]][1:10, 11:20]
+```
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R bc_ras1_2}
+mean(ras[[1]]) 
+quantile(ras[[1]])
+```
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+  
+```{R bc_rar1_3}
+ras2 <- ras # create a copy
+ras2[[1]][ras[[1]] > units::as_units(0, "m")] <- NA # filter
+plot(ras2)
+```
+
+
+
+
+
+
+---
+# Change map projection
+
+- Reminder 
+
+  - [`r rfa("wikipedia-w")` List of map projections](https://en.wikipedia.org/wiki/List_of_map_projections)
+
+--
+
+  - [Interactive examples](https://mathigon.org/course/circles/spheres-cones-cylinders#sphere-maps)
+
+--
+
+- Let's use the spherical Mercator 
+  - https://epsg.io/
+  - https://epsg.io/3857
+
+
+
+---
+# Change map projection with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R projrar2, cache = TRUE}
+ras_t <- st_transform(ras, crs = 3857)
+st_crs(ras_t)
+```
+
+
+
+
+
+---
+# Crop 
+
+```{R crop0}
+# show what it is
+# plot(rar)
+# rect(-65, 45, -60, 50)
+```
+
+---
+# Crop with [`stars`](https://CRAN.R-project.org/package=raster)
+
+```{R crop_ras, cache = TRUE}
+ext <- st_bbox(c(xmin = -65, xmax = -60, ymin = 45, ymax = 50), crs = 4326)
+ras_c <- st_crop(ras, ext)
+plot(ras_c)
+```
+
+
+
+---
+# Mask 
+
+Let's use a shapefile of the Gulf of the St-Lawrence 
+
+`r lk()` https://www.marineregions.org/gazetteer.php?p=details&id=4290
+
+```{R stl} 
+(stl <- sf::st_read("data/st_laurence.geojson"))
+```
+
+---
+# Mask 
+
+Values outside of a given geometry set to `NA`
+
+```{R plot_stl, cache = TRUE} 
+plot(sf::st_geometry(stl))
+```
+
+
+---
+# Mask with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_m, cache = TRUE} 
+ras_m <- ras[stl]
+plot(ras_m)
+```
+
+---
+# Mask with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_m1, cache = TRUE} 
+stl_i <- sf::st_difference(sf::st_as_sfc(st_bbox(ras)), stl)
+plot(stl_i, col = 2)
+```
+
+
+---
+# Mask with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_m2, cache = TRUE} 
+ras_mi <- ras[stl_i]
+plot(ras_mi)
+```
+
+
+
+
+
+
+---
+# Warping/Resampling
+
+<br>
+
+## Work with rasters of different resolutions
+
+
+
+---
+# Warping/Resampling with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_warp, cache = TRUE}
+ras_template1 <- st_as_stars(st_bbox(ras), nx = 21, ny = 21, 
+  values = runif(21 * 21)) # create template
+ras_w1 <- st_warp(ras, ras_template1)
+plot(ras_w1)
+```
+
+<!-- show how to do this with a second object -->
+
+---
+# Warping/Resampling with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_warp2, cache = TRUE}
+ras_w2 <- st_warp(ras, cellsize = 0.25, crs = st_crs(ras)) 
+plot(ras_w2)
+```
+
+
+
+
+---
+# Rasterize 
+
+## Vectors `r rfa("arrow-right")` Raster 
+
+--
+
+## Create a raster template 
+
+
+---
+# Rasterize with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R rasters1, cache = TRUE}
+stl_s <- st_rasterize(stl, dy = .1, dx = .1)
+plot(stl_s)
+```
+
+
+
+
+
+---
+# Stack 
+
+### - Collection of rasters 
+
+### - Same extent/resolution
+
+### - Multi-band rasters (satellite images)
+
+### - Handle several rasters at once 
+
+
+---
+# Stack with [`raster`](https://CRAN.R-project.org/package=raster)
+
+
+### 2 classes : `RasterBrick` and `RasterStack`
+
+--
+
+> The main difference is that a RasterStack is loose collection of RasterLayer objects that can refer to different files (but must all have the same extent and resolution), whereas a RasterBrick can only point to a single file. 
+
+.right[.font80[ `r rfa("info-circle")` https://rspatial.org/raster/spatial/4-rasterdata.html#rasterstack-and-rasterbrick]]
+
+
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc0}
+ras
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc1}
+ras_stc1 <- c(ras, ras * 2)
+names(ras_stc1) <- c("bath_v1", "bath_v2")
+ras_stc1
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc1b}
+plot(ras_stc1)
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+
+```{R ras_stc2}
+ras_stc1[1] # or ras_stc1["bath_v1"]
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+
+```{R ras_stc2b}
+ras_stc1[2] # or ras_stc1["bath_v2"]
+```
+
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc2c}
+library(dplyr)
+ras_stc1 %>% select("bath_v1")
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc2d}
+ras_stc1 %>% mutate(bath_v3 = bath_v2 * 2)
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc3, cache = TRUE}
+ras_stc2 <- c(ras, ras*2, along = "z")
+ras_stc2
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc4, cache = TRUE}
+plot(ras_stc2)
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc5, cache = TRUE}
+ext <- st_bbox(c(xmin = -65, xmax = -60, ymin = 45, ymax = 50), crs = 4326)
+plot(st_crop(ras_stc2, ext))
+```
+
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc6, cache = TRUE}
+(ras_ap <- st_apply(ras_stc2, c(1, 2), sum))
+```
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_stc6b, cache = TRUE}
+plot(ras_ap)
+```
+
+
+---
+# `r rfa("flag-checkered")` Recap 
+
+
+| Action                    | `raster`               | `stars`                |
+|:--------------------------|:-----------------------|:-----------------------|
+| Get projection            | `projection()`         | `st_crs()`             |
+| Get bounding box          | `bbox()`               | `st_bbox()`            |
+| Change projection         | `projectRaster()`      | `st_transform()`       |
+| Crop                      | `crop()`               | `st_crop()`            |
+| Mask                      | `mask()`               | `[]<-`                 |
+| Resample                  | `projectRaster()`      | `st_warp()`            |
+| Rasterize                 | `rasterize()`          | `st_rasterize()`       |
+| Stack                     | `stack()` or `brick()` | `c(along=...)`         |
+| Apply functions on stacks | `calc()`               | `st_apply()`           |
+
+
+`r nf()` https://r-spatial.github.io/stars/articles/stars6.html
+
