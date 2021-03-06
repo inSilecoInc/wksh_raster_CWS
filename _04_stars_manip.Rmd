@@ -444,5 +444,5 @@ plot(ras_ap)
 | Apply functions on stacks | `calc()`               | `st_apply()`           |
 
 
-`r rfa("info-circle")` https://r-spatial.github.io/stars/articles/stars6.html
+`r nf()` https://r-spatial.github.io/stars/articles/stars6.html
 

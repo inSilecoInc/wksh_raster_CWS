@@ -16,6 +16,7 @@ output:
 
 ```{r setup, include = FALSE}
 source("_setup.R")
+knitr::clean_cache(TRUE)
 ```
 
 
