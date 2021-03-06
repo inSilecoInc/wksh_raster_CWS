@@ -1,6 +1,6 @@
 Package: placeholder
 Type: workshop
-Title: Workshop title
+Title: Manipulate and visualize rasters with
 Version: 0.0.0.9000
 Authors@R: c(
   person("inSileco Inc.", role = c("aut", "cre"), email = "kevin.cazelles@gmail.com")
@@ -8,8 +8,16 @@ Authors@R: c(
 Imports:
   countdown,
   emo,
+  dplyr,
   icons,
-  rmarkdown,
+  leaflet,
+  mapview,
+  rmarkdown, 
+  sf,
+  shiny,
+  stars,
+  raster,
+  rgdal,
   xaringan
 Remotes: 
   mitchelloharawild/icons,

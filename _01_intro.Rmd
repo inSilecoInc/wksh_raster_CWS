@@ -133,7 +133,7 @@ do more, oik but do it in a better way
 
 --
 
-### **`r rfa("arrow-right")` Very little cannot be done with `r rp()`**
+### **`r ar()` Very little cannot be done with `r rp()`**
 
 
 ???
@@ -176,14 +176,14 @@ You don't start from scratch
 ### Vectors 
 
 - [`sp`](https://CRAN.R-project.org/package=sp)
-- [`sf`](https://CRAN.R-project.org/package=sf) `r rfa("check")`
+- [`sf`](https://CRAN.R-project.org/package=sf) `r ch()`
 
 --
 
 ### **Rasters** (our main focus)
 
-- [`raster`](https://CRAN.R-project.org/package=raster) `r rfa("check")`
-- [`stars`](https://CRAN.R-project.org/package=stars) `r rfa("check")`
+- [`raster`](https://CRAN.R-project.org/package=raster)
+- [`stars`](https://CRAN.R-project.org/package=stars) `r ch()`
 - [`terra`](https://CRAN.R-project.org/package=terra) 
 
 `r nf()` https://keen-swartz-3146c4.netlify.app/raster.html#package-stars

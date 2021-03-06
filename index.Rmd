@@ -22,14 +22,14 @@ source("_setup.R")
 class: title-slide, middle
 
 
-## .font200[`r rp()`eproducible]
+## .font200[`r rp()`asters]
 
 <br>
 
 .instructors[
-  .font140[Manipulate and visualize rasters with `r rfa("r-project")`]
+  .font160[Manipulate and visualize rasters with `r rp()`]
   <br><br><br>
-  .authors120[David Beauchesne & Kevin Cazelles]
+  .authors140[David Beauchesne & Kevin Cazelles]
   <br><br>
   `r format(Sys.time(), '%B %d, %Y')`
   <br>
@@ -67,6 +67,8 @@ class: inverse, center, middle
 # Learning objectives
 
 
+<!-- Day1 -->
+
 
 ```{R, child = "_01_intro.Rmd"}
 ```
@@ -101,4 +103,33 @@ class: inverse, center, middle
 
 
 ```{R, child = "_06e_tmap.Rmd"}
+```
+
+
+
+<!-- Day2 -->
+
+```{R, child = "_07_leaflet_base.Rmd"}
+```
+
+```{R, child = "_08_leaflet_manip.Rmd"}
+```
+
+```{R, child = "_08e_leaflet_manip.Rmd"}
+```
+
+
+```{R, child = "_09_shiny_intro.Rmd"}
+```
+
+```{R, child = "_10_shiny_mini.Rmd"}
+```
+
+```{R, child = "_10e_shiny_mini.Rmd"}
+```
+
+```{R, child = "_11_shiny_spatial.Rmd"}
+```
+
+```{R, child = "_11e_shiny_spatial.Rmd"}
 ```

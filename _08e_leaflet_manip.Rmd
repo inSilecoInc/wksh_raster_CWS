@@ -1,0 +1,20 @@
+---
+title: "Exercise leaflet"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+---
+
+class: inverse, center, middle
+
+# `r nf()` Exercise
+
+![:custom_hr]()
+
+## `r ck()` ~40min
+
+

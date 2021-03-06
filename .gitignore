@@ -5,6 +5,10 @@ assets/
 index_files/
 index_cache/
 script.R
+output/
+data/*
+!*/st_laurence.geojson
+!*/bathy.tif
 
 
 # History files
