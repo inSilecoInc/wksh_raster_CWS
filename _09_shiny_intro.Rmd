@@ -1,5 +1,14 @@
 ---
 title: "Exercise leaflet"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -13,11 +22,11 @@ source("_setup.R")
 
 class: inverse, center, middle
 
-# Shiny applications
+# About shiny applications 
 
 ![:custom_hr]()
 
-## .font160[~30 min]
+## .font160[~20 min]
 
 ---
 
@@ -44,7 +53,7 @@ class: inverse, center, middle
 
 ## `r rp()` package
 
-[`shiny`](https://cran.r-project.org/package=shiny) .font90[12/2012 (0.2.3) &nbsp; // &nbsp; 06/2020 (1.5.0)]
+[`shiny`](https://cran.r-project.org/package=shiny) .font90[12/2012 (0.2.3) &nbsp; // &nbsp; 01/2021 (1.6.0)]
 
 
 > [`shiny`](https://cran.r-project.org/package=shiny) makes it incredibly easy to build interactive web applications with R. Automatic "reactive" binding between inputs and outputs and extensive prebuilt widgets make it possible to build beautiful, responsive, and powerful applications with minimal effort.

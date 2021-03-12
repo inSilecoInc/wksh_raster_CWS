@@ -1,6 +1,13 @@
 ## ----setup, include = FALSE---------------------------------------------------
 source("_setup.R")
-knitr::clean_cache(TRUE)
+# knitr::clean_cache(TRUE)
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 
 
 ## ---- child = "_01_intro.Rmd"-------------------------------------------------
@@ -14,6 +21,76 @@ source("_setup.R")
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
+library(sf)
+
+
+## ----csv----------------------------------------------------------------------
+if (!file.exists("data/cdqs.csv")) {
+  download.file("http://donnees.ec.gc.ca/data/species/assess/computerized-database-of-qu-bec-seabirds-cdqs/CDQS_BIOMQ_2017.csv",
+                destfile = "data/cdqs.csv")
+}
+
+# Import csv
+cdqs <- read.csv('data/cdqs.csv')
+
+
+## ----csvsf--------------------------------------------------------------------
+cdqs <- st_as_sf(x = cdqs,
+                 coords = c("CentroideX", "CentroideY"),
+                 crs = 4326)
+
+
+## ----showcsvsf, echo = FALSE--------------------------------------------------
+cdqs[,1]
+
+
+## ----shp, messages = FALSE, warnings = FALSE----------------------------------
+if (!file.exists("data/roseate.zip")) {
+  download.file("http://data.ec.gc.ca/data/species/assess/atlantic-canada-critical-habitat-data/roseate-tern-sterna-dougallii-critical-habitat-for-species-at-risk-atlantic-canada-nova-scotia/Sterna_dougallii_Roseate_Tern_CH_2015.zip",
+                destfile = "data/roseate.zip")
+  unzip("data/roseate.zip", exdir = 'data')
+}
+
+# Import shapefile
+roseate <- st_read("data/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRUE)
+
+
+## ----showshp, echo = FALSE----------------------------------------------------
+roseate
+
+
+## ----mydata-------------------------------------------------------------------
+# Dummy data
+mylon <- -82+2*runif(20)
+mylat <- 42+2*runif(20)
+mydata <- data.frame(
+  lon = mylon,
+  lat = mylat,
+  var1 = rnorm(20),
+  var2 = 10*runif(20))
+
+
+## ----showmydata, echo = FALSE-------------------------------------------------
+mydata[1:10, ]
+
+
+## ----createsf-----------------------------------------------------------------
+library(sf)
+pts_sf <- st_as_sf(x = mydata,
+                   coords = c("lon", "lat"),
+                   crs = 4326)
+
+
+## ----showsf, echo = FALSE-----------------------------------------------------
+pts_sf
+
+
+## ----sp, eval = FALSE---------------------------------------------------------
+## newsf <- st_as_sf(oldsp)
+
+
+## ----spsf, eval = FALSE-------------------------------------------------------
+## newsp <- as(oldsf, "Spatial")
 
 
 

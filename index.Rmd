@@ -16,7 +16,14 @@ output:
 
 ```{r setup, include = FALSE}
 source("_setup.R")
-knitr::clean_cache(TRUE)
+# knitr::clean_cache(TRUE)
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 
 
@@ -45,7 +52,7 @@ class: title-slide, middle
 <img src="img/logoW.png" width="140px"></img>
 
 <!-- Modify accordingly -->
-![deploy workshop](https://github.com/inSilecoInc/workshop_raster/workflows/deploy%20workshop/badge.svg)
+[![deploy workshop](https://github.com/inSilecoInc/wksh_raster_CWS/actions/workflows/deploy.yml/badge.svg)](https://github.com/inSilecoInc/wksh_raster_CWS/actions/workflows/deploy.yml)
 
 .instructors[Content under [`r rfa("creative-commons")` `r rfa("creative-commons-by")`](https://creativecommons.org/licenses/by/4.0/) unless otherwise specified.]
 
