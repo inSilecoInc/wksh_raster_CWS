@@ -10,6 +10,7 @@ Imports:
   dplyr,
   emo,
   eDrivers,
+  htmltools,
   icons,
   leaflet,
   mapview,
@@ -19,11 +20,14 @@ Imports:
   stars,
   raster,
   rgdal,
-  xaringan
+  xaringan,
+  xaringanExtra
 Remotes: 
   eDrivers/eDrivers,
   gadenbuie/countdown,
+  gadenbuie/xaringanExtra,
   hadley/emo,
   mitchelloharawild/icons
+  
 
 

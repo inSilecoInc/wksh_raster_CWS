@@ -5,6 +5,7 @@ title: "intro to sf"
 
 ```{r include = FALSE}
 source("_setup.R")
+library(sf)
 ```
 
 ---
