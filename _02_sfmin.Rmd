@@ -5,7 +5,6 @@ title: "intro to sf"
 
 ```{r include = FALSE}
 source("_setup.R")
-library(sf)
 ```
 
 ---
@@ -53,13 +52,22 @@ Intro to package, vector objects
 ![](https://r-spatial.github.io/sf/articles/sf1_files/figure-html/unnamed-chunk-20-1.png)
 ]
 
+
+---
+
+# Introduction to `sf`
+
+## `sf` objects
+
+![](https://r-spatial.github.io/sf/articles/sf_xfig.png)
+
 ---
 
 # Introduction to `sf`
 
 ## Importing: from `.csv`
 
-Let's grab the [Computerized Database of Québec Seabirds (CDQS)](https://open.canada.ca/data/en/dataset/9cd6f8a1-e660-4e78-89a8-6e3f781da556)
+[Computerized Database of Québec Seabirds (CDQS)](https://open.canada.ca/data/en/dataset/9cd6f8a1-e660-4e78-89a8-6e3f781da556)
 
 ```{r csv}
 if (!file.exists("data/cdqs.csv")) {
@@ -89,6 +97,16 @@ cdqs[,1]
 ```
 ]
 
+---
+
+# Introduction to `sf`
+
+## Importing: from `.csv`
+
+```{r csvplot}
+plot(st_geometry(cdqs))
+```
+
 
 ---
 
@@ -97,7 +115,7 @@ cdqs[,1]
 
 ## Importing: from `.shp`
 
-Now let's grab the [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
+[Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
 ```{r shp, messages = FALSE, warnings = FALSE}
 if (!file.exists("data/roseate.zip")) {
@@ -117,7 +135,7 @@ roseate <- st_read("data/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRU
 
 ## Importing: from `.shp`
 
-Now let's grab the [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
+[Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
 .font80[
 ```{r showshp, echo = FALSE}
@@ -125,11 +143,195 @@ roseate
 ```
 ]
 
+---
 
 
-geodatabase: http://data.ec.gc.ca/data/species/assess/atlas-of-seabirds-at-sea-in-eastern-canada-2006-2016/AtlasGrid-GrilleAtlas.gdb.zip
-shapefile:
-geojson:
+# Introduction to `sf`
+
+## Importing: from `.shp`
+
+[Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
+
+.font80[
+```{r shpplot}
+plot(st_geometry(roseate[4,]))
+```
+]
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.geojson`
+
+We already have a geojson included in the workshop data: `st_laurence.geojson`
+
+```{r geojson, hold = TRUE}
+stl <- st_read('data/st_laurence.geojson')
+stl
+```
+
+`r tr()` We strongly suggest using geojson (single file) rather than shapefiles (multiple files)
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.geojson`
+
+We already have a geojson included in the workshop data: `st_laurence.geojson`
+
+```{r geojsonplot, eval = FALSE}
+plot(st_geometry(stl))
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+```{r gbd, messages = FALSE, warnings = FALSE}
+if (!file.exists("data/atlas.zip")) {
+  download.file("http://data.ec.gc.ca/data/species/assess/atlas-of-seabirds-at-sea-in-eastern-canada-2006-2016/AtlasGrid-GrilleAtlas.gdb.zip",
+                destfile = "data/atlas.zip")
+  unzip("data/atlas.zip", exdir = 'data')
+}
+```
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+```{r gbdlayer, messages = FALSE, warnings = FALSE}
+# Visualize layers available in the geodatabase
+st_layers("data/AtlasGrid-GrilleAtlas.gdb")
+
+# Load layer
+atlas <- st_read('data/AtlasGrid-GrilleAtlas.gdb',
+                  layer = 'AtlasGrid_GrilleAtlas')
+```
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+```{r gbdplot, messages = FALSE, warnings = FALSE}
+plot(st_geometry(atlas))
+```
+
+---
+
+# Introduction to `sf`
+
+## Exporting
+
+```{r export}
+st_write(roseate, "data/roseate.shp", delete_dsn = TRUE)
+st_write(stl, "data/stl.geojson", delete_dsn = TRUE)
+```
+
+---
+
+# Introduction to `sf`
+
+## Exporting
+
+```{r echo = FALSE}
+oldopt <- options()$width
+options(width=150)
+```
+
+.font60[
+```{r drivers}
+
+st_drivers()
+```
+]
+
+```{r echo = FALSE}
+options(width=oldopt)
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Transform between `sf` and `sp`
+
+
+`r tr()` You can use `st_as_sf()` to transform `sp` object to `sf` objects...
+
+.font80[
+```{r sp, eval = FALSE}
+# Do not run
+newsf <- st_as_sf(oldsp)
+```
+]
+
+... and vice-versa with `as()`
+
+.font80[
+```{r spsf, eval = FALSE}
+# Do not run
+newsp <- as(oldsf, "Spatial")
+```
+]
+
+
+---
+
+# Introduction to `sf`
+
+## Projection
+
+`r tr()` Covered in `stars` portion of the workshop
+
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes
+
+- The `sf` package is built to work well with the `tidyverse`
+
+```{r atlasdata}
+if (!file.exists("data/atlasdata.xlsx")) {
+  download.file("http://data.ec.gc.ca/data/species/assess/atlas-of-seabirds-at-sea-in-eastern-canada-2006-2016/DensityData-DonneesDeDensite.xlsx",
+                destfile = "data/atlasdata.xlsx")
+}
+
+x = read.table("data/atlasdata.xlsx", skip = 1)
+x = readxl::read_excel("data/atlasdata.xlsx", sheet = 2)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -184,28 +386,6 @@ pts_sf
 ]
 ]
 
----
-
-# Introduction to `sf`
-
-## Create a `sf` object
-
-
-`r tr()` You can also use `st_as_sf()` to transform `sp` object to `sf` objects...
-
-.font80[
-```{r sp, eval = FALSE}
-newsf <- st_as_sf(oldsp)
-```
-]
-
-... and vice-versa with `as()`
-
-.font80[
-```{r spsf, eval = FALSE}
-newsp <- as(oldsf, "Spatial")
-```
-]
 
 
 ---
@@ -221,7 +401,3 @@ This section should cover sf
   * intersect /union / difference
   * projection
   * areas
-
-  * import
-  * geodatabases: st_layers()
-  * export
