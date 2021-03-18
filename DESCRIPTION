@@ -14,20 +14,18 @@ Imports:
   icons,
   leaflet,
   mapview,
-  rmarkdown, 
+  rmarkdown,
   sf,
   shiny,
   stars,
   raster,
   rgdal,
+  rgovcan,
   xaringan,
-  xaringanExtra
-Remotes: 
+  xaringanExtra,
+Remotes:
   eDrivers/eDrivers,
   gadenbuie/countdown,
   gadenbuie/xaringanExtra,
   hadley/emo,
   mitchelloharawild/icons
-  
-
-

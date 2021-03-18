@@ -10,8 +10,10 @@ output/
 data/*
 !*/st_laurence.geojson
 !*/bathy.tif
+!*/DensityData-DonneesDeDensite.csv
 tmp/*
 !tmp/cws_input.docx
+_02_sfmin_files/
 
 # History files
 .Rhistory
