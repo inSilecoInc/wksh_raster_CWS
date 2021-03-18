@@ -1,27 +1,11 @@
 ---
 title: "intro to sf"
-output:
-  xaringan::moon_reader:
-    css: [default, rd.css, rd-font.css, "hygge"]
-    lib_dir: assets
-    seal: false
-    nature:
-      highlightStyle: dracula
-      countIncrementalSlides: false
-      beforeInit: "macros.js"
 ---
 
 ```{r include = FALSE}
 source("_setup.R")
 library(sf)
-# knitr::clean_cache(TRUE)
-htmltools::tagList(
-  xaringanExtra::use_clipboard(
-    button_text = "<i class=\"fa fa-clipboard\"></i>",
-    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
-  ),
-  rmarkdown::html_dependency_font_awesome()
-)
+library(tidyverse)
 ```
 
 ---
@@ -327,16 +311,170 @@ newsp <- as(oldsf, "Spatial")
 - As such, you can essentially treat an `sf` object as you would a `data.frame`
 
 
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: new variable
+
+
+```{r attr_hist, fig.width=6,fig.height=4}
+hist(cdqs$Nombre.de.nicheurs.Number.of.Breeders)
+```
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: new variable
+
+```{r attr_add, fig.width=6,fig.height=4}
+cdqs$var2 <- log(cdqs$Nombre.de.nicheurs.Number.of.Breeders+1)
+hist(cdqs$var2)
+```
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: new variable
+
+```{r attr_add2, fig.width=6,fig.height=4}
+cdqs <- cdqs %>% mutate(var3 = log(Nombre.de.nicheurs.Number.of.Breeders+1))
+hist(cdqs$var3)
+```
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: remove variable
+
+```{r attr_rem, fig.width=6,fig.height=4}
+cdqs$var2 <- NULL
+cdqs <- cdqs %>% select(-var3)
+colnames(cdqs)
+```
+
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: subsets
+
+- Working with conditional statements (use `filter()` from the tidyverse)
+
+```{r attr_sub, fig.width=6,fig.height=3.5}
+newcdqs <- cdqs[cdqs$Annee.Year > 2000, ]
+plot(st_geometry(cdqs), pch = 1, col = '#2ae9ee', cex = 1)
+plot(st_geometry(newcdqs), pch = 20, col = '#d76060', cex = .8, add = TRUE)
+```
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: joins
+
+```{r attr_join, fig.width=6,fig.height=3.5}
+atlas
+```
+
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: joins
+
+```{r attr_join2, fig.width=6,fig.height=3.5}
+join_data <- data.frame(id = paste0('g', sample(nrow(atlas), nrow(atlas))),
+                        value = runif(nrow(atlas)))
+join_data[1:10, ]
+```
+
+---
+
+# introduction to `sf`
+
+## Manipulating attributes: joins
+
+```{r attr_join3, fig.width=6,fig.height=3.5}
+newatlas <- left_join(atlas, join_data, by='id')
+```
+
+.pull-left[
+.font80[
+```{r, echo = FALSE}
+newatlas[1:10,c('id','value','Shape'), drop = TRUE]
+```
+]
+]
+
+.pull-right[
+```{r, echo = FALSE, fig.width=4, fig.height=3.5}
+plot(newatlas[,'value'])
+```
+]
+
+---
+
+# introduction to `sf`
+
+## Geometry manipulations: union (a.k.a. dissolve)
+
+```{r union, fig.width = 6, fig.height=4}
+newatlas <- st_union(atlas)
+plot(newatlas)
+```
+
+
+---
+
+# introduction to `sf`
+
+## Geometry manipulations: buffer (units = projection)
+
+.pull-left[
+```{r buffer1, fig.width = 4, fig.height=4}
+newatlas <- st_buffer(atlas, 10000)
+plot(st_geometry(newatlas))
+```
+]
+
+.pull-left[
+```{r buffer2, fig.width = 4, fig.height=4}
+newatlas <- st_buffer(atlas, -10000)
+plot(st_geometry(newatlas))
+```
+]
+
+
+- intersect
+- buffer
+- difference
+- area / distance
 
 
 
+---
 
+# introduction to `sf`
 
+## Geometry manipulations
 
+R Studio [Cheat sheets](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf) for `sf`
 
+.pull-left[
+  <center><img src="img/sf1.png" width="100%"></img></center>
+]
 
+.pull-right[
+  <center><img src="img/sf2.png" width="100%"></img></center>
+]
 
-
+- This [vignette](https://cran.r-project.org/web/packages/sf/vignettes/sf3.html) for an overview of geometry manipulations using `sf`
 
 
 
