@@ -25,11 +25,16 @@ lg_shiny <- function(width) {
 
 class: inverse, center, middle
 
-# About shiny applications 
+# About Shiny Apps 
 
 ![:custom_hr]()
 
-## .font160[~20 min]
+## .font160[`r ck()`~20 min]
+
+???
+
+We can imagine a full week on this to help you build a relatively complex shiny app.
+We have ~2hours 30min on the topics, we'll give you idea and let you build app, but there are much more to cover.
 
 ---
 
@@ -175,7 +180,7 @@ class: inverse, center, middle
 
 ## Why?
 
-`r lc()` [Very simple shiny app](https://shiny.rstudio.com/gallery/single-file-shiny-app.html)
+`r lc()` [Simple shiny app](https://shiny.rstudio.com/gallery/single-file-shiny-app.html)
 
 --
 
