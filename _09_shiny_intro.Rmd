@@ -332,3 +332,8 @@ could involve a (way) more complex tree of dependencies
 
 ### inputs and outputs are presented in `ui` and the rule that link them are defined in `server`
 
+
+```{R, include = FALSE}
+reactiveConsole(FALSE)
+```
+

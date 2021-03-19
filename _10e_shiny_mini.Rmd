@@ -23,7 +23,7 @@ class: inverse, center, middle
 
 ## Keep adding features to your interactive Atlas! 
 
--- 
+--
 
 ### Examples:
 
@@ -33,3 +33,5 @@ class: inverse, center, middle
   1. replace species filter by a colony filter
   2. double filter species/colony
 
+
+`r cdw(minutes = 40)`
