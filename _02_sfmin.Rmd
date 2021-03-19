@@ -2,10 +2,10 @@
 title: "intro to sf"
 ---
 
-
 ```{r include = FALSE}
 source("_setup.R")
 library(sf)
+library(tidyverse)
 ```
 
 ---
@@ -22,15 +22,6 @@ class: inverse, center, middle
 ???
 
 If after the workshop what follows makes sense and you feel it is kind of true, it would a success.
-
----
-
-# Introduction to `sf`
-
-## What is `sf`
-
-Intro to package, vector objects
-
 
 ---
 
@@ -53,23 +44,36 @@ Intro to package, vector objects
 ![](https://r-spatial.github.io/sf/articles/sf1_files/figure-html/unnamed-chunk-20-1.png)
 ]
 
+
+---
+
+# Introduction to `sf`
+
+## `sf` objects
+
+![](https://r-spatial.github.io/sf/articles/sf_xfig.png)
+
 ---
 
 # Introduction to `sf`
 
 ## Importing: from `.csv`
 
-Let's grab the [Computerized Database of Québec Seabirds (CDQS)](https://open.canada.ca/data/en/dataset/9cd6f8a1-e660-4e78-89a8-6e3f781da556)
+Acess the [Computerized Database of Québec Seabirds (CDQS)](https://open.canada.ca/data/en/dataset/9cd6f8a1-e660-4e78-89a8-6e3f781da556) data using the [`rgovcan`](https://github.com/VLucet/rgovcan) package.
 
 ```{r csv}
-if (!file.exists("data/cdqs.csv")) {
-  download.file("http://donnees.ec.gc.ca/data/species/assess/computerized-database-of-qu-bec-seabirds-cdqs/CDQS_BIOMQ_2017.csv",
-                destfile = "data/cdqs.csv")
-}
+# Output folder
+dir.create('output')
+
+# remotes::install_github("vlucet/rgovcan")
+library(rgovcan)
+id <- "9cd6f8a1-e660-4e78-89a8-6e3f781da556"
+govcan_dl_resources(id, path = 'output')
 
 # Import csv
-cdqs <- read.csv('data/cdqs.csv')
+cdqs <- read.csv('output/CDQS_BIOMQ_2017.csv')
 ```
+
 
 ---
 
@@ -89,6 +93,16 @@ cdqs[,1]
 ```
 ]
 
+---
+
+# Introduction to `sf`
+
+## Importing: from `.csv`
+
+```{r csvplot}
+plot(st_geometry(cdqs))
+```
+
 
 ---
 
@@ -97,17 +111,15 @@ cdqs[,1]
 
 ## Importing: from `.shp`
 
-Now let's grab the [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
+[Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
 ```{r shp, messages = FALSE, warnings = FALSE}
-if (!file.exists("data/roseate.zip")) {
-  download.file("http://data.ec.gc.ca/data/species/assess/atlantic-canada-critical-habitat-data/roseate-tern-sterna-dougallii-critical-habitat-for-species-at-risk-atlantic-canada-nova-scotia/Sterna_dougallii_Roseate_Tern_CH_2015.zip",
-                destfile = "data/roseate.zip")
-  unzip("data/roseate.zip", exdir = 'data')
-}
+id <- "0c469c0e-8afd-4c62-9420-c50af2d34f97"
+govcan_dl_resources(id, path = 'output')
+unzip("output/Sterna_dougallii_Roseate_Tern_CH_2015.zip", exdir = 'output')
 
 # Import shapefile
-roseate <- st_read("data/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRUE)
+roseate <- st_read("output/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRUE)
 ```
 
 ---
@@ -117,7 +129,7 @@ roseate <- st_read("data/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRU
 
 ## Importing: from `.shp`
 
-Now let's grab the [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
+[Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
 .font80[
 ```{r showshp, echo = FALSE}
@@ -125,76 +137,138 @@ roseate
 ```
 ]
 
-
-
-geodatabase: http://data.ec.gc.ca/data/species/assess/atlas-of-seabirds-at-sea-in-eastern-canada-2006-2016/AtlasGrid-GrilleAtlas.gdb.zip
-shapefile:
-geojson:
-
-
-
-
 ---
+
 
 # Introduction to `sf`
 
-## Create a `sf` object
+## Importing: from `.shp`
 
-.pull-left[
-```{r mydata}
-# Dummy data
-mylon <- -82+2*runif(20)
-mylat <- 42+2*runif(20)
-mydata <- data.frame(
-  lon = mylon,
-  lat = mylat,
-  var1 = rnorm(20),
-  var2 = 10*runif(20))
-```
-]
-
-.pull-right[
-.font80[
-```{r showmydata, echo = FALSE}
-mydata[1:10, ]
-```
-]
-]
-
-`r tr()` Does this look familiar? You probably often deal with this type of data in the form of a `.csv` file with coordinates and attributes.
-
----
-
-# Introduction to `sf`
-
-## Create a `sf` object
-
-.pull-left[
-```{r createsf}
-library(sf)
-pts_sf <- st_as_sf(x = mydata,
-                   coords = c("lon", "lat"),
-                   crs = 4326)
-```
+[Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
 .font80[
-```{r showsf, echo = FALSE}
-pts_sf
+```{r shpplot}
+plot(st_geometry(roseate[4,]))
 ```
-]
 ]
 
 ---
 
 # Introduction to `sf`
 
-## Create a `sf` object
+## Importing: from `.geojson`
+
+We already have a geojson included in the workshop data: `st_laurence.geojson`
+
+```{r geojson, hold = TRUE}
+stl <- st_read('data/st_laurence.geojson', quiet = TRUE)
+stl
+```
+
+`r tr()` We strongly suggest using geojson (single file) rather than shapefiles (multiple files)
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.geojson`
+
+We already have a geojson included in the workshop data: `st_laurence.geojson`
+
+```{r geojsonplot, eval = FALSE}
+plot(st_geometry(stl))
+```
 
 
-`r tr()` You can also use `st_as_sf()` to transform `sp` object to `sf` objects...
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+```{r gbd, messages = FALSE, warnings = FALSE}
+id <- "f612e2b4-5c67-46dc-9a84-1154c649ab4e"
+govcan_dl_resources(id, path = 'output')
+unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
+```
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+```{r gbdlayer, messages = FALSE, warnings = FALSE}
+# Visualize layers available in the geodatabase
+st_layers("output/AtlasGrid-GrilleAtlas.gdb")
+
+# Load layer
+atlas <- st_read('output/AtlasGrid-GrilleAtlas.gdb',
+                  layer = 'AtlasGrid_GrilleAtlas')
+```
+
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+```{r gbdplot, messages = FALSE, warnings = FALSE}
+plot(st_geometry(atlas))
+```
+
+---
+
+# Introduction to `sf`
+
+## Exporting
+
+```{r export}
+st_write(roseate, "output/roseate.shp", delete_dsn = TRUE)
+st_write(stl, "output/stl.geojson", delete_dsn = TRUE)
+```
+
+---
+
+# Introduction to `sf`
+
+## Exporting
+
+```{r echo = FALSE}
+oldopt <- options()$width
+options(width=150)
+```
+
+.font60[
+```{r drivers}
+
+st_drivers()
+```
+]
+
+```{r echo = FALSE}
+options(width=oldopt)
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Transform between `sf` and `sp`
+
+
+`r tr()` You can use `st_as_sf()` to transform `sp` object to `sf` objects...
 
 .font80[
 ```{r sp, eval = FALSE}
+# Do not run
 newsf <- st_as_sf(oldsp)
 ```
 ]
@@ -203,6 +277,7 @@ newsf <- st_as_sf(oldsp)
 
 .font80[
 ```{r spsf, eval = FALSE}
+# Do not run
 newsp <- as(oldsf, "Spatial")
 ```
 ]
@@ -210,18 +285,271 @@ newsp <- as(oldsf, "Spatial")
 
 ---
 
+# Introduction to `sf`
+
+## Spatial projections
+
+```{r crs}
+cdqs <- st_transform(cdqs, st_crs(atlas))
+```
+
+`r tr()` Covered in more details in the `stars` portion of the workshop
 
 
-This section should cover sf
+---
 
-* what is it
-* understand the object
-* how to manipulate sf attribute tabkle with tidyverse
-* how to do basic spatial manipulations
-  * intersect /union / difference
-  * projection
-  * areas
+# Introduction to `sf`
 
-  * import
-  * geodatabases: st_layers()
-  * export
+## Manipulating attributes
+
+- The `sf` package is built to work well with the `tidyverse`
+- As such, you can essentially treat an `sf` object as you would a `data.frame`
+
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: new variable
+
+
+```{r attr_hist, fig.width=6,fig.height=4}
+hist(cdqs$Nombre.de.nicheurs.Number.of.Breeders)
+```
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: new variable
+
+```{r attr_add, fig.width=6,fig.height=4}
+cdqs$var2 <- log(cdqs$Nombre.de.nicheurs.Number.of.Breeders+1)
+hist(cdqs$var2)
+```
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: new variable
+
+```{r attr_add2, fig.width=6,fig.height=4}
+cdqs <- cdqs %>% mutate(var3 = log(Nombre.de.nicheurs.Number.of.Breeders+1))
+hist(cdqs$var3)
+```
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: remove variable
+
+```{r attr_rem, fig.width=6,fig.height=4}
+cdqs$var2 <- NULL
+cdqs <- cdqs %>% select(-var3)
+colnames(cdqs)
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: subsets
+
+- Working with conditional statements (use `filter()` from the tidyverse)
+
+```{r attr_sub, fig.width=6,fig.height=3.5}
+newcdqs <- cdqs[cdqs$Annee.Year > 2000, ]
+plot(st_geometry(cdqs), pch = 1, col = '#2ae9ee', cex = 1)
+plot(st_geometry(newcdqs), pch = 20, col = '#d76060', cex = .8, add = TRUE)
+```
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: joins
+
+```{r attr_join, fig.width=6,fig.height=3.5}
+atlas
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: joins
+
+```{r attr_join2, fig.width=6,fig.height=3.5}
+join_data <- data.frame(id = paste0('g', sample(nrow(atlas), nrow(atlas))),
+                        value = runif(nrow(atlas)))
+join_data[1:10, ]
+```
+
+---
+
+# Introduction to `sf`
+
+## Manipulating attributes: joins
+
+```{r attr_join3, fig.width=6,fig.height=3.5}
+newatlas <- left_join(atlas, join_data, by='id')
+```
+
+.pull-left[
+.font80[
+```{r, echo = FALSE}
+newatlas[1:10,c('id','value','Shape'), drop = TRUE]
+```
+]
+]
+
+.pull-right[
+```{r, echo = FALSE, fig.width=4, fig.height=3.5}
+plot(newatlas[,'value'])
+```
+]
+
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: area
+
+```{r area}
+atlas$area <- st_area(atlas)
+atlas
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: distance
+
+```{r distance}
+st_distance(atlas[1:5, ], cdqs[1:5,])
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: logical intersect
+
+```{r intersect}
+st_intersects(atlas[151:160, ], cdqs)
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: buffer (units = projection)
+
+.pull-left[
+.font80[
+```{r buffer1, fig.width = 4, fig.height=4}
+newatlas <- st_buffer(atlas[1:10, ], 30000)
+plot(st_geometry(atlas[1:10, ]))
+plot(st_geometry(newatlas),
+     border = 'red', add = TRUE)
+```
+]
+]
+
+.pull-left[
+.font80[
+```{r buffer2, fig.width = 4, fig.height=4}
+newatlas <- st_buffer(atlas[1:10, ], -30000)
+plot(st_geometry(atlas[1:10, ]))
+plot(st_geometry(newatlas),
+     border = 'red', add = TRUE)
+```
+]
+]
+
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: union (a.k.a. dissolve)
+
+```{r union, fig.width = 6, fig.height=4}
+newatlas <- st_union(atlas)
+plot(newatlas)
+```
+
+
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: convex hull
+
+```{r convex, fig.width = 4, fig.height=4}
+cdqshull <- st_convex_hull(st_union(cdqs))
+plot(st_geometry(cdqshull))
+plot(st_geometry(cdqs), add = TRUE)
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: zonal intersection
+
+```{r intersection, fig.width = 4, fig.height=4}
+cdqs_atlas <- st_intersection(newatlas, cdqshull)
+plot(st_geometry(newatlas))
+plot(st_geometry(cdqshull), add = TRUE)
+plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: difference (order matters!)
+
+```{r difference, fig.width = 4, fig.height=4}
+cdqs_atlas <- st_difference(cdqshull, newatlas)
+plot(st_geometry(newatlas))
+plot(st_geometry(cdqshull), add = TRUE)
+plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations
+
+R Studio [Cheat sheets](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf) for `sf`
+
+.pull-left[
+  <center><img src="img/sf1.png" width="100%"></img></center>
+]
+
+.pull-right[
+  <center><img src="img/sf2.png" width="100%"></img></center>
+]
+
+- This [vignette](https://cran.r-project.org/web/packages/sf/vignettes/sf3.html) for an overview of geometry manipulations using `sf`
+
+---
+
+class: inverse, center, middle
+
+# Questions?
+
+![:custom_hr]()
+
+## .font150[`r icons::fontawesome("question-circle")`]

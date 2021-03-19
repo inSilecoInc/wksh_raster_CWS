@@ -24,6 +24,7 @@ htmltools::tagList(
   ),
   rmarkdown::html_dependency_font_awesome()
 )
+xaringanExtra::use_scribble()
 ```
 
 

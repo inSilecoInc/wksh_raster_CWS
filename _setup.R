@@ -10,6 +10,7 @@ knitr::opts_chunk$set(
   fig.align = 'center',
   width = 120
 )
+library(glue)
 options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 cdw <- function(...) countdown::countdown(...)
 rfa <- function(...) icons::fontawesome(...)
@@ -29,3 +30,6 @@ ar <- function() rfa("arrow-right")
 cg <- function() rfa("cogs")
 tr <- function() rfa("exclamation-triangle")
 cb <- function() rfa("clipboard")
+ey <- function() rfa("eye")
+lc <- function() rfa("laptop-code")
+

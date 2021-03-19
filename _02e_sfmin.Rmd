@@ -17,3 +17,17 @@ class: inverse, center, middle
 
 ## `r ck()` ~40min
 
+---
+
+# Exercice
+
+## Context
+
+
+---
+
+# Exercice
+
+## Steps
+
+Work with the atlas data and do some attributes and geog manips
