@@ -1,5 +1,14 @@
 ---
 title: "Shiny spatial"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -7,21 +16,45 @@ title: "Shiny spatial"
 source("_setup.R")
 ```
 
+
 ---
-## [Reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
+class: inverse, center, middle
+
+# `r nf()` Spatial Shiny Apps
+
+![:custom_hr]()
+
+## `r ck()` ~20min
+
+
+---
+# Spatial Features within 
+
+- Any `r rp()` packages can be used to do computation. 
+
+--
+
+- Special output for `leaflet` 
+
+--
+
+- special module in [`mapedit`](https://github.com/r-spatial/mapedit)
+
+---
+# [Reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
 
 .font90[
-| Output function (`ui`) | Render function (`server`) | Creates |
-| :--------------------- | :------------------------- | :------ |
-| `dataTableOutput` |	`renderDataTable()` | DataTable |
-| `htmlOutput` | `renderImage()` | raw HTML |
-| `imageOutput` |	`renderImage()` | image |
-| `plotOutput` |	`renderPlot()` | plot |
-| `tableOutput` |	`renderTable()` | table |
-| `textOutput` |	`renderText()` | text |
-| `uiOutput` | `renderUI()` | raw HTML |
-| `verbatimTextOutput` | `renderVerbatimText()` |	text |
-| `leafletOutput()` | `renderLeaflet()` | leaflet map |
+| Output function (`ui`) | Render function (`server`) | Creates     |
+| :--------------------- | :------------------------- | :-----------|
+| `dataTableOutput`      | `renderDataTable()`        | DataTable   |
+| `htmlOutput`           | `renderImage()`            | raw HTML    |
+| `imageOutput`          | `renderImage()`            | image       |
+| `plotOutput`           | `renderPlot()`             | plot        |
+| `tableOutput`          | `renderTable()`            | table       |
+| `textOutput`           | `renderText()`             | text        |
+| `uiOutput`             | `renderUI()`               | raw HTML    |
+| `verbatimTextOutput`   | `renderVerbatimText()`     | text        |
+| `leafletOutput()`      | `renderLeaflet()`          | leaflet map |
 ]
 
 ---
@@ -65,28 +98,7 @@ shinyApp(ui, server)
 
 # [`shiny`](https://CRAN.R-project.org/package=shiny)
 
-## Structure
-
-- User interface object `ui`:
-  - Controls layout and appearance of the app
-  - Front end of the app
-  - What the user sees and interacts with
-
---
-
-- Server function `server`:
-  - Instructions sent to the computer/server running R to build the app
-  - Back end of the application
-
---
-
-- A call to the shinyApp function `shinyApp(ui, server)`
-
----
-
-# [`shiny`](https://CRAN.R-project.org/package=shiny)
-
-## General environment
+## Global environment
 
 ```{r, eval = TRUE}
 # General environment / data preparation
@@ -125,16 +137,6 @@ input <- list(raster = 'Hypoxia')
 input$raster
 > "Hypoxia"
 ```
-
-
----
-
-# [`shiny`](https://CRAN.R-project.org/package=shiny)
-
-## [Control widget](https://shiny.rstudio.com/gallery/widget-gallery.html)
-
-
-<iframe src="https://shiny.rstudio.com/gallery/widget-gallery.html" style="width:100%; height:65vh;"></iframe>
 
 
 ---

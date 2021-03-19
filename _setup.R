@@ -3,6 +3,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
+  cache = TRUE,
   dev = "png",
   dpi = 108,
   fig.width = 6,
@@ -25,6 +26,7 @@ nf <- function() rfa("info-circle")
 lk <- function() rfa("link")
 bk <- function() rfa("book")
 fl <- function() rfa("file")
+fd <- function() rfa("folder")
 pd <- function() rfa("file-pdf")
 ar <- function() rfa("arrow-right")
 cg <- function() rfa("cogs")

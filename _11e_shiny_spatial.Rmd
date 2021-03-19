@@ -1,5 +1,5 @@
 ---
-title: "Exercise leaflet"
+title: "Exercise leaflet final"
 ---
 
 
@@ -15,11 +15,26 @@ class: inverse, center, middle
 
 ![:custom_hr]()
 
-## `r ck()` ~40min
+## `r ck()` ~1h20min
+
 
 
 ---
+# Interactive Atlas with shiny App 
 
-Dans cet exercice inclure des manipulations faites part la shiny 
+## Keep adding features to your interactive Atlas! 
 
-Simple exemple => utilise mapedit + extraire d'un raster.
+--
+
+### Use `leaflet`
+
+-- 
+
+### Example
+
+1. Select species (or colony)  
+2. display species (or colony) on the map 
+3. add a raster layer on the map 
+4. draw a polygon around the colony (interactively) or compute a convex hull (programmatically)
+5. Extract values
+6. Display a histogram of values extracted (plus the mean)
