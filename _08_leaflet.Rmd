@@ -316,9 +316,9 @@ lf
 ```{r leaflet_raster, fig.width = 6, fig.height = 6, echo = FALSE, eval = TRUE}
 # Add layers to leaflet map
 lf <- lf %>%
- addRasterImage(hyp,group = 'Hyp') %>%
- addRasterImage(fish,group = 'Fish') %>%
- addRasterImage(acid,group = 'Acid') %>%
+ addStarsImage(hyp, group = 'Hyp') %>%
+ addStarsImage(fish ,group = 'Fish') %>%
+ addStarsImage(acid, group = 'Acid') %>%
 
 # Reset layer selection
 addLayersControl(

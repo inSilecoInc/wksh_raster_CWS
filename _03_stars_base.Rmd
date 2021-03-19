@@ -1,5 +1,14 @@
 ---
-title: "intro to sf"
+title: "intro to stars"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -29,7 +38,16 @@ This section should introduce stars
 
 
 ---
-# Read a raster file 
+# Package [`stars`](https://CRAN.R-project.org/package=stars): SpatioTemporal ARrayS
+
+### Extent `sf` to Raster and Vector Datacubes
+
+.center[[![:scale 62%](https://raw.githubusercontent.com/r-spatial/stars/master/images/cube3.png)](https://r-spatial.github.io/stars/index.html)] 
+.right[.font80[see https://r-spatial.github.io/stars/index.html]]
+
+
+---
+# Read a raster file with `stars`
 
 
 ## .center[.font200[ `r fl()` `r ar()` `r rp()`]]
@@ -67,28 +85,113 @@ This section should introduce stars
 ```{R read_stars}
 library(stars)
 ras <- read_stars("data/bathy.tif")   # argument `driver` to specify the driver
-class(ras)
+ras
 ```
 
 ---
-# Read with [`stars`](https://CRAN.R-project.org/package=stars)
+# What do we have? 
+
+```{R stars_val}
+class(ras)
+class(ras[[1]])
+ras[[1]]
+```
+
+---
+# What do we have? 
+
+```{R stars_obj_fun1}
+dim(ras)
+st_bbox(ras)
+```
+
+---
+# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R stars_obj_fun2}
+ras_crs <- st_crs(ras)
+class(ras_crs)
+ras_crs
+```
+
+---
+# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R stars_obj_fun3}
+ras_crs$input
+ras_crs$proj4string
+ras_crs$epsg
+```
+--
+
+- https://epsg.io/
+- https://epsg.io/4326
+
+
+---
+# Conversion between [`stars`](https://CRAN.R-project.org/package=stars) and [`raster`](https://CRAN.R-project.org/package=raster)
+
+```{R convert1}
+library(raster)
+rar <- raster("data/bathy.tif")
+ras_c <- st_as_stars(rar) 
+class(ras_c)
+```
+
+--
+
+```{R convert1}
+rar_c <- as(ras, "Raster") 
+class(rar_c)
+```
+
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R bc_ras1}
+# extract value
+class(ras[[1]])
+ras[[1]][1, 1]
+ras[[1]][1:10, 11:20]
+```
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R bc_ras1_2}
+range(ras[[1]])  # min/max
+diff(range(ras[[1]]))
+mean(ras[[1]]) 
+quantile(ras[[1]])
+```
+
+---
+# Basic plot with [`stars`](https://CRAN.R-project.org/package=stars)
 
 ```{R plot_stars, cache = TRUE}
 plot(ras)
 ```
 
 ---
+# Basic plot with [`stars`](https://CRAN.R-project.org/package=stars)
 
-# So ...
+```{R plot_stars_ar, cache = TRUE, fig.width = 9.5, fig.height = 4}
+par(mfrow = c(1, 2))
+hist(ras[[1]])
+plot(density(ras[[1]]))
+```
 
-<br>
 
-## - GeoTIFF `r ch()`
+
+---
+# Available drivers
+
+### - GeoTIFF `r ch()`
 
 --
 
-## - Other formats, how do we know?
-
+### - Other formats, how do we know?
 
 ```{R stars_drivers}
 st_dr <- sf::st_drivers(what = "raster")
