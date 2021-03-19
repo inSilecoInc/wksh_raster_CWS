@@ -151,12 +151,6 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
----
-# 1 App 1 folder 
-
-### atlasv2 [`r fd()`](https://github.com/inSilecoInc/wksh_raster_CWS/raw/gh-pages/demo/atlasv2.zip)
- 
-
 
 ---
 # mapEdit module:  `ui` `r ey()`
@@ -232,7 +226,6 @@ ui <- fluidPage(
 ```R
 server <- function(input, output, session) {
   updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
-  edits <- callModule(editMod, leafmap = map, id = "map")
   observeEvent(input$species, {
     tmp <- cdqs %>% 
       filter(Espece.Species.EN == !!input$species) 
@@ -242,19 +235,33 @@ server <- function(input, output, session) {
       addCircleMarkers(
         stroke = FALSE,
         popup = ~as.character(Nom.de.colonie.Colony.name))
-    edits <- callModule(editMod, leafmap = map, id = "map")
+    edits <<- callModule(editMod, leafmap = map, id = "map")
   })
   observeEvent(input$save, {
     geom <- edits()$finished
     if (!is.null(geom)) {
        assign('new_geom', geom, envir = .GlobalEnv)
        sf::write_sf(geom, 'new_geom.geojson', delete_layer = TRUE, delete_dsn = TRUE)
-     }
+     } # see https://github.com/r-spatial/mapedit/issues/95
    })
 }
 ```
 
-See https://github.com/r-spatial/mapedit/issues/95
+
+---
+# 1 App 1 folder 
+
+<br>
+
+### atlasv2 [`r fd()`](https://github.com/inSilecoInc/wksh_raster_CWS/raw/gh-pages/demo/atlasv2.zip)
+ 
+- version with leaflet 
+
+<br>
+
+### atlasv3 [`r fd()`](https://github.com/inSilecoInc/wksh_raster_CWS/raw/gh-pages/demo/atlasv3.zip)
+
+- version with mapedit
 
 
 ---
