@@ -140,7 +140,7 @@ class(ras_c)
 
 --
 
-```{R convert1}
+```{R convert2}
 rar_c <- as(ras, "Raster") 
 class(rar_c)
 ```
@@ -269,8 +269,60 @@ write_stars(ras, dsn = "output/ras.gpkg", driver = "GPKG")
 |:------------------|:-------------------------|:----------------------|
 | list drivers      | `rgdal::gdalDrivers()`   | `sf::st_drivers()`    |
 | read files        | `raster()`               | `read_stars()`        |
-| write files       | `writeRaster()`          | `write_stars()`        |
+| write files       | `writeRaster()`          | `write_stars()`       |
 
 
 
+---
+# Create a raster from scratch: Matrix
 
+```{R from_mat}
+M1 <- matrix(runif(36), 6, 6)
+M1
+```
+
+---
+# Create a raster from scratch: Matrix
+
+```{R}
+ras_M1 <- st_as_stars(M1) 
+ras_M1
+st_crs(ras_M1)
+```
+
+---
+# Create a raster from scratch: Matrix
+
+```{R}
+plot(ras_M1)
+```
+
+---
+# Create a raster from scratch: Matrix
+
+```{R}
+st_crs(ras_M1) <- st_crs(4326)
+st_crs(ras_M1)
+```
+
+
+
+---
+# Create a raster from scratch: Data Frame
+
+```{R}
+D1 <- expand.grid(lon = 1:10, lat = 1:10) 
+D1$val <- runif(100)
+head(D1)
+```
+
+---
+# Create a raster from scratch: Data Frame
+
+```{R}
+ras_D1 <- st_as_stars(D1, coords = c("lon", "lat"))
+st_crs(ras_D1) <- st_crs(4326)
+ras_D1
+```
+
+* See `?st_as_stars` for more details.
