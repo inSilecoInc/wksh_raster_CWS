@@ -272,6 +272,10 @@ b <- reactive({2*a()})
 
 ### 3. observers: special reactive expressions 
 
+- An observer is like a reactive expression in that it can read reactive values and call reactive expressions, and will automatically re-execute when those dependencies change
+
+--
+
 - eager (“infectious" eagerness) and forgetful
 - value returned by an observer is ignored
 
