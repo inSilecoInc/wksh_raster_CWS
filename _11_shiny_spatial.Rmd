@@ -158,19 +158,116 @@ shinyApp(ui, server)
  
 
 
---- 
-# mapEdit module 
+---
+# mapEdit module:  `ui` `r ey()`
+
+```R
+library(mapedit)
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      h1("Sidebar"),
+      selectInput(inputId = "species", label = "Select species", choices = "placeholder")
+    ),
+    mainPanel(
+      h1("Main Panel"),
+      mapedit::editModUI("map", width = "100%", height = "90vh")
+    )
+  )
+)
+```
+
+---
+# mapEdit module: `server` `r cg()`
+
+
+```R
+library(sf)
+library(dplyr)
+cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                 coords = c("CentroideX", "CentroideY"),
+                 crs = 4326)
+
+server <- function(input, output, session) {
+  updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
+  observeEvent(input$species, {
+    tmp <- cdqs %>% 
+      filter(Espece.Species.EN == !!input$species) 
+    map <- leaflet(tmp) %>% 
+      setView(lng = -63, lat = 48, zoom = 5) %>% 
+      addProviderTiles("CartoDB.Positron") %>%
+      addCircleMarkers(
+        stroke = FALSE,
+        popup = ~as.character(Nom.de.colonie.Colony.name))
+    callModule(editMod, leafmap = map, id = "map")
+  }, ignoreNULL = FALSE)
+}
+```
 
 
 
+---
+# mapEdit module:  `ui` `r ey()`
+
+```R
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      h1("Sidebar"),
+      selectInput(inputId = "species", label = "Select species", choices = "placeholder"),
+      actionButton('save', 'Save from Map', icon = icon("download"))
+    ),
+    mainPanel(
+      h1("Main Panel"),
+      mapedit::editModUI("map", width = "100%", height = "90vh")
+    )
+  )
+)
+```
+
+---
+# mapEdit module: `server` `r cg()`
+
+
+```R
+server <- function(input, output, session) {
+  updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
+  edits <- callModule(editMod, leafmap = map, id = "map")
+  observeEvent(input$species, {
+    tmp <- cdqs %>% 
+      filter(Espece.Species.EN == !!input$species) 
+    map <- leaflet(tmp) %>% 
+      setView(lng = -63, lat = 48, zoom = 5) %>% 
+      addProviderTiles("CartoDB.Positron") %>%
+      addCircleMarkers(
+        stroke = FALSE,
+        popup = ~as.character(Nom.de.colonie.Colony.name))
+    edits <- callModule(editMod, leafmap = map, id = "map")
+  })
+  observeEvent(input$save, {
+    geom <- edits()$finished
+    if (!is.null(geom)) {
+       assign('new_geom', geom, envir = .GlobalEnv)
+       sf::write_sf(geom, 'new_geom.geojson', delete_layer = TRUE, delete_dsn = TRUE)
+     }
+   })
+}
+```
+
+See https://github.com/r-spatial/mapedit/issues/95
 
 
 ---
 # Examples
 
-### Sky's the limit
+## Sky's the limit
+
+<br>
 
 --
+
+## Two Examples:
+
 
 ### 1. [*eDrivers*](https://david-beauchesne.shinyapps.io/edriversapp/) `shiny` app
 
