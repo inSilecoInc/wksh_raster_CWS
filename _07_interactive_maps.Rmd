@@ -1,5 +1,14 @@
 ---
-title: "intro to leaflet"
+title: "interactive maping"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -16,7 +25,7 @@ class: inverse, center, middle
 
 ![:custom_hr]()
 
-## Why use `r rp()` for interactive data visualization? (~10min)
+## Why use `r rp()` for interactive data visualization? (`r ck()`~10min)
 
 ---
 
@@ -133,65 +142,7 @@ In `r rp()`, HTML widgets are one of two things:
 
 ### **`r rp()` packages expanding `leaflet` capabilities**
 
+  - [`leafem`](https://cran.r-project.org/package=mapview) `r rfa("check")`
   - [`mapview`](https://cran.r-project.org/package=mapview) `r rfa("check")`
   - [`tmap`](https://cran.r-project.org/package=tmap) `r rfa("check")`
 
----
-
-class: inverse, center, middle
-
-# Interactive raster mapping
-<!-- KC changer le titre -->
-
-![:custom_hr]()
-
-## .font160[`r ck()` 20min]
-
----
-
-# <a href="https://leafletjs.com/"><img src="https://leafletjs.com/docs/images/logo.png" alt="" width="25%"></a>
-
-## Leaflet library
-
-> Leaflet is the leading open-source JavaScript library for mobile-friendly interactive maps. Weighing just about 39 KB of JS, it has all the mapping features most developers ever need.
-
---
-
-<h3>Examples<sup>*</sup></h3>
-
-- [The New York Times](https://www.nytimes.com/projects/elections/2013/nyc-primary/mayor/map.html)
-- [The Washington Post](https://www.washingtonpost.com/sf/local/2013/11/09/washington-a-world-apart/)
-- [GitHub](https://github.blog/2013-06-13-there-s-a-map-for-that/)
-- [Open Street Map](https://www.openstreetmap.org/#map=11/46.8543/-71.3414)
-
-
-.font70[
-<sup>*</sup>Examples provided in R Studio's [Leaflet for R](https://rstudio.github.io/leaflet/) introduction
-]
-
-
----
-
-# <a href="https://leafletjs.com/"><img src="https://leafletjs.com/docs/images/logo.png" alt="" width="25%"></a>
-
-## `r rp()` package
-
-[`leaflet`](https://cran.r-project.org/package=leaflet) .font90[06/2015 (1.0.0) &nbsp; // &nbsp; 01/2021 (2.0.4.1)]
-
-- The `leaflet` package integrates and controls Leaflet maps through `r rp()`
-
---
-
-### **Features** - .font70[full list [here](https://rstudio.github.io/leaflet/)]
-
-.font90[
-- Interactive panning/zooming
-- Compose maps using:
-  - Map tiles
-  - Markers
-  - Polygons
-  - Lines
-  - Rasters
-  - Popups
-- Embed maps in knitr/R Markdown documents and Shiny apps
-]
