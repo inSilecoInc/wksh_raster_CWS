@@ -1,0 +1,116 @@
+---
+title: "Exercise leaflet"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+---
+class: inverse, center, middle
+
+# `r nf()` Exercise
+
+![:custom_hr]()
+
+## `r ck()` ~40min
+
+
+---
+# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
+
+
+`r cdw(minutes = 40, seconds = 0)`
+
+
+### .font90[Generate a leaflet map with:]
+
+.font80[
+- Two tile providers (hint: visit [this](http://leaflet-extras.github.io/leaflet-providers/preview/index.html) website)
+
+- `hyp` and `acid`
+
+- Set view to Service Canada Building (45 Alderney Dr. Dartmouth, NS B2Y 2N6)
+  - Get coordinates from [Google Maps](https://www.google.ca/maps) or [OpenStreetMap](https://www.openstreetmap.org/)
+]
+
+### .font90[Use a custom color palette to render the rasters (hint: look up [`colorNumeric()`](https://www.rdocumentation.org/packages/leaflet/versions/2.0.3/topics/colorNumeric))]
+
+### .font90[Render a single raster on map startup (hint: look up [`hideGroup()`](https://rdrr.io/cran/leaflet/man/showGroup.html))]
+
+
+### .font90[Recreate the map you generated before with `leaflet` using `mapview`]
+
+--
+
+### .font90[Export it as a `html` file in the `output/` folder]
+
+--
+
+### .font90[Send it to your best friend!]
+
+
+
+---
+
+# Solution `leaflet`
+
+.font90[
+```{r leafletEx, eval = FALSE, include = FALSE, purl = FALSE}
+# Colors
+cols <- c("#c7cbce", "#687677", "#222d3d", "#25364a", "#172434",
+          "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b")
+
+# Leaflet map
+leaflet() %>%
+  setView(lng = -63.569130, lat = 44.6652645, zoom = 5) %>%
+  addProviderTiles('Esri.OceanBasemap', group = 'Ocean') %>%
+  addProviderTiles("OpenTopoMap", group = "Topo") %>%
+  addStarsImage(hyp, group = 'Hyp', project = FALSE,
+                colors = colorNumeric(cols, hyp[[1]], na.color = "transparent")) %>%
+  addStarsImage(acid, group = 'Acid', project = FALSE,
+                colors = colorNumeric(cols, acid[[1]], na.color = "transparent")) %>%
+
+  # Reset layer selection
+  addLayersControl(baseGroups = c('Ocean', 'Topo'),
+    overlayGroups = c('Hyp','Acid'),
+    position = 'topleft') %>%
+
+  # Hide 2 layers
+  hideGroup(c("Fish","Acid"))
+```
+]
+
+
+---
+
+# Solution `mapview`
+
+```{r mapviewEx, eval = FALSE, include = FALSE, purl = FALSE}
+# Color ramp palette
+pal <- colorRampPalette(cols)
+
+# Mapview
+mv <- mapview(hyp, col.regions = pal) +
+      mapview(acid, col.regions = pal)
+
+# Export
+dir.create('output')
+mapshot(mv, url = 'output/mapviewEx.html')
+
+# Send email
+# Not actually going to do this! But! If you want to send emails through R, check this blog post:
+# https://blog.mailtrap.io/r-send-email/
+```
+
+

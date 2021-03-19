@@ -124,7 +124,7 @@ class: inverse, center, middle
 ```{R, child = "_08_leaflet.Rmd"}
 ```
 
-```{R, child = "_08e_leaflet_manip.Rmd"}
+```{R, child = "_08e_leaflet.Rmd"}
 ```
 
 
