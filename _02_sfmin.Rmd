@@ -27,15 +27,6 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
 # Introduction to `sf`
 
-## What is `sf`
-
-Intro to package, vector objects
-
-
----
-
-# Introduction to `sf`
-
 ## `sf` objects
 
 .pull-left[
@@ -298,12 +289,16 @@ newsp <- as(oldsf, "Spatial")
 
 ## Spatial projections
 
-`r tr()` Covered in `stars` portion of the workshop
+```{r crs}
+cdqs <- st_transform(cdqs, st_crs(atlas))
+```
+
+`r tr()` Covered in more details in the `stars` portion of the workshop
 
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes
 
@@ -313,7 +308,7 @@ newsp <- as(oldsf, "Spatial")
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: new variable
 
@@ -324,7 +319,7 @@ hist(cdqs$Nombre.de.nicheurs.Number.of.Breeders)
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: new variable
 
@@ -335,7 +330,7 @@ hist(cdqs$var2)
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: new variable
 
@@ -346,7 +341,7 @@ hist(cdqs$var3)
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: remove variable
 
@@ -359,7 +354,7 @@ colnames(cdqs)
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: subsets
 
@@ -373,7 +368,7 @@ plot(st_geometry(newcdqs), pch = 20, col = '#d76060', cex = .8, add = TRUE)
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: joins
 
@@ -384,7 +379,7 @@ atlas
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: joins
 
@@ -396,7 +391,7 @@ join_data[1:10, ]
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
 
 ## Manipulating attributes: joins
 
@@ -418,9 +413,70 @@ plot(newatlas[,'value'])
 ```
 ]
 
+
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
+
+## Geometry manipulations: area
+
+```{r area}
+atlas$area <- st_area(atlas)
+atlas
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: distance
+
+```{r distance}
+st_distance(atlas[1:5, ], cdqs[1:5,])
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: logical intersect
+
+```{r intersect}
+st_intersects(atlas[151:160, ], cdqs)
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: buffer (units = projection)
+
+.pull-left[
+.font80[
+```{r buffer1, fig.width = 4, fig.height=4}
+newatlas <- st_buffer(atlas[1:10, ], 30000)
+plot(st_geometry(atlas[1:10, ]))
+plot(st_geometry(newatlas),
+     border = 'red', add = TRUE)
+```
+]
+]
+
+.pull-left[
+.font80[
+```{r buffer2, fig.width = 4, fig.height=4}
+newatlas <- st_buffer(atlas[1:10, ], -30000)
+plot(st_geometry(atlas[1:10, ]))
+plot(st_geometry(newatlas),
+     border = 'red', add = TRUE)
+```
+]
+]
+
+
+---
+
+# Introduction to `sf`
 
 ## Geometry manipulations: union (a.k.a. dissolve)
 
@@ -430,37 +486,49 @@ plot(newatlas)
 ```
 
 
----
-
-# introduction to `sf`
-
-## Geometry manipulations: buffer (units = projection)
-
-.pull-left[
-```{r buffer1, fig.width = 4, fig.height=4}
-newatlas <- st_buffer(atlas, 10000)
-plot(st_geometry(newatlas))
-```
-]
-
-.pull-left[
-```{r buffer2, fig.width = 4, fig.height=4}
-newatlas <- st_buffer(atlas, -10000)
-plot(st_geometry(newatlas))
-```
-]
-
-
-- intersect
-- buffer
-- difference
-- area / distance
-
-
 
 ---
 
-# introduction to `sf`
+# Introduction to `sf`
+
+## Geometry manipulations: convex hull
+
+```{r convex, fig.width = 4, fig.height=4}
+cdqshull <- st_convex_hull(st_union(cdqs))
+plot(st_geometry(cdqshull))
+plot(st_geometry(cdqs), add = TRUE)
+```
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: zonal intersection
+
+```{r intersection, fig.width = 4, fig.height=4}
+cdqs_atlas <- st_intersection(newatlas, cdqshull)
+plot(st_geometry(newatlas))
+plot(st_geometry(cdqshull), add = TRUE)
+plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+```
+
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: difference (order matters!)
+
+```{r difference, fig.width = 4, fig.height=4}
+cdqs_atlas <- st_difference(cdqshull, newatlas)
+plot(st_geometry(newatlas))
+plot(st_geometry(cdqshull), add = TRUE)
+plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+```
+
+---
+
+# Introduction to `sf`
 
 ## Geometry manipulations
 
@@ -476,75 +544,12 @@ R Studio [Cheat sheets](https://github.com/rstudio/cheatsheets/blob/master/sf.pd
 
 - This [vignette](https://cran.r-project.org/web/packages/sf/vignettes/sf3.html) for an overview of geometry manipulations using `sf`
 
-
-
-
-
-
-
-
 ---
 
-# Introduction to `sf`
+class: inverse, center, middle
 
-## Create a `sf` object
+# Questions?
 
-.pull-left[
-```{r mydata}
-# Dummy data
-mylon <- -82+2*runif(20)
-mylat <- 42+2*runif(20)
-mydata <- data.frame(
-  lon = mylon,
-  lat = mylat,
-  var1 = rnorm(20),
-  var2 = 10*runif(20))
-```
-]
+![:custom_hr]()
 
-.pull-right[
-.font80[
-```{r showmydata, echo = FALSE}
-mydata[1:10, ]
-```
-]
-]
-
-`r tr()` Does this look familiar? You probably often deal with this type of data in the form of a `.csv` file with coordinates and attributes.
-
----
-
-# Introduction to `sf`
-
-## Create a `sf` object
-
-.pull-left[
-```{r createsf}
-library(sf)
-pts_sf <- st_as_sf(x = mydata,
-                   coords = c("lon", "lat"),
-                   crs = 4326)
-```
-
-.font80[
-```{r showsf, echo = FALSE}
-pts_sf
-```
-]
-]
-
-
-
----
-
-
-
-This section should cover sf
-
-* what is it
-* understand the object
-* how to manipulate sf attribute tabkle with tidyverse
-* how to do basic spatial manipulations
-  * intersect /union / difference
-  * projection
-  * areas
+## .font150[`r icons::fontawesome("question-circle")`]
