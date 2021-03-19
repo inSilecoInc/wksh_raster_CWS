@@ -71,7 +71,7 @@ shinyApp(ui = ui, server = server)
 
 - User interface object `ui`:
 
-  - Controls layout and appearance of the app
+  - Controls layout and appearance of the app ( where to position the element to display)
   - Front end of the app
   - What the user sees and interacts with
 
@@ -117,6 +117,7 @@ ui <- bootstrapPage(
 
 5. add HTML content with tags (see [Shiny HTML Tags Glossary](https://shiny.rstudio.com/articles/tag-glossary.html))
 
+
 ---
 # Minimal Shiny App: `server` `r cg()`
 
@@ -133,7 +134,6 @@ server <- function(input, output) {
 1. server is a function of `input` and `output` and optionally `session` (used latter, but not covered, see [Session object](https://shiny.rstudio.com/reference/shiny/1.6.0/session.html))
 
 2. process output: `renderPlot()` (see [Display reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/))
-
 
 `r tr()` all `render*()` functions render reactive **output**, they 
 capture R expressions and perform some light pre-processing to make the object suitable for the corresponding `*Output()` function in `ui`.
@@ -283,10 +283,12 @@ Server ===> data will need to be on a SERVER a remote computer
 ```R
 library(sf)
 library(dplyr)
+cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                 coords = c("CentroideX", "CentroideY"),
+                 crs = 4326)
+sl <- st_read("data/st_laurence.geojson")
+
 server <- function(input, output, session) {
-  cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
-                   coords = c("CentroideX", "CentroideY"),
-                   crs = 4326)
   updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
 }
 ```
@@ -302,10 +304,10 @@ server <- function(input, output, session) {
 ```R
 library(sf)
 library(dplyr)
+cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                 coords = c("CentroideX", "CentroideY"),
+                 crs = 4326)
 server <- function(input, output, session) {
-  cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
-                   coords = c("CentroideX", "CentroideY"),
-                   crs = 4326)
   updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
   output$map <- renderPlot({
     plot(st_geometry(sl), border = "grey50") 
