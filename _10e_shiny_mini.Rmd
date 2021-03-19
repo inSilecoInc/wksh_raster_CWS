@@ -18,6 +18,18 @@ class: inverse, center, middle
 ## `r ck()` ~40min
 
 
---- 
+---
+# Interactive Atlas with shiny App 
 
-Dans cet exercise faire un shiny minimal input/output (text figure)
+## Keep adding features to your interactive Atlas! 
+
+-- 
+
+### Examples:
+
+- Improve the map 
+- add a histogram of Number of Breeders
+- Add filters e.g. colony name
+  1. replace species filter by a colony filter
+  2. double filter species/colony
+

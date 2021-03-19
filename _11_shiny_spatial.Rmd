@@ -1,5 +1,5 @@
 ---
-title: "Exercise leaflet"
+title: "Shiny spatial"
 ---
 
 
@@ -7,6 +7,22 @@ title: "Exercise leaflet"
 source("_setup.R")
 ```
 
+---
+## [Reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
+
+.font90[
+| Output function (`ui`) | Render function (`server`) | Creates |
+| :--------------------- | :------------------------- | :------ |
+| `dataTableOutput` |	`renderDataTable()` | DataTable |
+| `htmlOutput` | `renderImage()` | raw HTML |
+| `imageOutput` |	`renderImage()` | image |
+| `plotOutput` |	`renderPlot()` | plot |
+| `tableOutput` |	`renderTable()` | table |
+| `textOutput` |	`renderText()` | text |
+| `uiOutput` | `renderUI()` | raw HTML |
+| `verbatimTextOutput` | `renderVerbatimText()` |	text |
+| `leafletOutput()` | `renderLeaflet()` | leaflet map |
+]
 
 ---
 

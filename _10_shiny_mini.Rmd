@@ -113,6 +113,9 @@ ui <- bootstrapPage(
 
 4. output: `plotOutput()` (see [Display reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/))
 
+--
+
+5. add HTML content with tags (see [Shiny HTML Tags Glossary](https://shiny.rstudio.com/articles/tag-glossary.html))
 
 ---
 # Minimal Shiny App: `server` `r cg()`
@@ -127,7 +130,7 @@ server <- function(input, output) {
 
 --
 
-1. server is a function of `input` and `output` and optionally `session` (not covered here, but see [Session object](https://shiny.rstudio.com/reference/shiny/1.6.0/session.html))
+1. server is a function of `input` and `output` and optionally `session` (used latter, but not covered, see [Session object](https://shiny.rstudio.com/reference/shiny/1.6.0/session.html))
 
 2. process output: `renderPlot()` (see [Display reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/))
 
@@ -142,17 +145,16 @@ capture R expressions and perform some light pre-processing to make the object s
 ## [Reactive output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
 
 .font90[
-| Output function (`ui`) | Render function (`server`) | Creates |
-| :--------------------- | :------------------------- | :------ |
-| `dataTableOutput` |	`renderDataTable()` | DataTable |
-| `htmlOutput` | `renderImage()` | raw HTML |
-| `imageOutput` |	`renderImage()` | image |
-| `plotOutput` |	`renderPlot()` | plot |
-| `tableOutput` |	`renderTable()` | table |
-| `textOutput` |	`renderText()` | text |
-| `uiOutput` | `renderUI()` | raw HTML |
-| `verbatimTextOutput` | `renderVerbatimText()` |	text |
-| `leafletOutput()` | `renderLeaflet()` | leaflet map |
+| Output function (`ui`) | Render function (`server`) | Creates     |
+| :--------------------- | :------------------------- | :-----------|
+| `dataTableOutput`      | `renderDataTable()`        | DataTable   |
+| `htmlOutput`           | `renderImage()`            | raw HTML    |
+| `imageOutput`          | `renderImage()`            | image       |
+| `plotOutput`           | `renderPlot()`             | plot        |
+| `tableOutput`          | `renderTable()`            | table       |
+| `textOutput`           | `renderText()`             | text        |
+| `uiOutput`             | `renderUI()`               | raw HTML    |
+| `verbatimTextOutput`   | `renderVerbatimText()`     | text        |
 ]
 
 
@@ -188,4 +190,139 @@ There are several ways to do so, see [App formats and launching apps](https://sh
 
 
 ---
-# Minimal shiny App v2
+# Interactive Atlas with shiny App 
+
+### Goals
+
+- Let's use `cdqs.csv` (or `XXX.geojson`)
+- Do a map per species
+
+
+### We'll use 
+
+* Let's use a `Fluidpage` and a `sidebarLayout()` that will include a side panel and a main panel.
+* in the side panel we'll have user inputs.
+* in the main panel we'll have maps/plots.
+
+
+---
+# Interactive Atlas with shiny App: `ui` `r ey()`
+
+```R
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      h1("Sidebar"),
+      p("This is our sidebar where inputs will be added.")
+    ),
+    mainPanel(
+      h1("Main Panel"),
+      p("This is where outputs will be added.")
+    )
+  )
+)
+```
+
+--
+
+To check what this gives, once `ui` is loaded, run the following:
+
+```R
+server <- function(input, output) NULL
+shinyApp(ui = ui, server = server)
+```
+
+???
+
+comma are IMPORTANT
+
+
+---
+# Interactive Atlas with shiny App: `ui` `r ey()`
+
+```R
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      h1("Sidebar"),
+      selectInput(inputId = "species", label = "Select species", choices = "placeholder")
+      # input$species
+    ),
+    mainPanel(
+      h1("Main Panel"),
+      plotOutput("map", width = "100%")
+    )
+  )
+)
+```
+
+
+---
+# Interactive Atlas with shiny App: `server` `r cg()`
+
+```R
+library(sf)
+library(dplyr)
+server <- function(input, output) {
+  cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                   coords = c("CentroideX", "CentroideY"),
+                   crs = 4326)
+  print(names(cdqs))
+}
+```
+
+
+???
+
+Server ===> data will need to be on a SERVER a remote computer
+
+
+---
+# Interactive Atlas with shiny App: `server` `r cg()`
+
+```R
+library(sf)
+library(dplyr)
+server <- function(input, output, session) {
+  cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                   coords = c("CentroideX", "CentroideY"),
+                   crs = 4326)
+  updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
+}
+```
+
+--
+
+## Run the app
+
+
+---
+# Interactive Atlas with shiny App: `server` `r cg()`
+
+```R
+library(sf)
+library(dplyr)
+server <- function(input, output, session) {
+  cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                   coords = c("CentroideX", "CentroideY"),
+                   crs = 4326)
+  updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
+  output$map <- renderPlot({
+    plot(st_geometry(sl), border = "grey50") 
+    cdqs %>% 
+    filter(Espece.Species.EN == !!input$species) %>% 
+    st_geometry() %>%
+    plot(add = TRUE, pch = 19)
+  })
+}
+```
+
+--
+
+## Run the app
+
+
+--- 
+# One App one folder
+
+
