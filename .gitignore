@@ -14,6 +14,7 @@ data/*
 tmp/*
 !tmp/cws_input.docx
 _02_sfmin_files/
+demo/atlasv1/
 
 # History files
 .Rhistory
