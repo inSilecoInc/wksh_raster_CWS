@@ -118,7 +118,7 @@ class: inverse, center, middle
 
 <!-- Day2 -->
 
-```{R, child = "_07_interactive_maps"}
+```{R, child = "_07_interactive_maps.Rmd"}
 ```
 
 ```{R, child = "_08_leaflet.Rmd"}

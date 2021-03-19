@@ -3,7 +3,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  cache = TRUE,
   dev = "png",
   dpi = 108,
   fig.width = 6,
