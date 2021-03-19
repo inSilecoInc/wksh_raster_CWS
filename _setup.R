@@ -32,3 +32,4 @@ tr <- function() rfa("exclamation-triangle")
 cb <- function() rfa("clipboard")
 ey <- function() rfa("eye")
 lc <- function() rfa("laptop-code")
+
