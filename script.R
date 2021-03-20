@@ -248,11 +248,66 @@ source("_setup.R")
 ## ----read_stars---------------------------------------------------------------
 library(stars)
 ras <- read_stars("data/bathy.tif")   # argument `driver` to specify the driver
+ras
+
+
+## ----stars_val----------------------------------------------------------------
 class(ras)
+class(ras[[1]])
+ras[[1]]
+
+
+## ----stars_obj_fun1-----------------------------------------------------------
+dim(ras)
+st_bbox(ras)
+
+
+## ----stars_obj_fun2-----------------------------------------------------------
+ras_crs <- st_crs(ras)
+class(ras_crs)
+ras_crs
+
+
+## ----stars_obj_fun3-----------------------------------------------------------
+ras_crs$input
+ras_crs$proj4string
+ras_crs$epsg
+
+
+## ----convert1-----------------------------------------------------------------
+library(raster)
+rar <- raster("data/bathy.tif")
+ras_c <- st_as_stars(rar) 
+class(ras_c)
+
+
+## ----convert2-----------------------------------------------------------------
+rar_c <- as(ras, "Raster") 
+class(rar_c)
+
+
+## ----bc_ras1------------------------------------------------------------------
+# extract value
+class(ras[[1]])
+ras[[1]][1, 1]
+ras[[1]][1:10, 11:20]
+
+
+## ----bc_ras1_2----------------------------------------------------------------
+range(ras[[1]])  # min/max
+diff(range(ras[[1]]))
+mean(ras[[1]]) 
+quantile(ras[[1]])
 
 
 ## ----plot_stars, cache = TRUE-------------------------------------------------
 plot(ras)
+
+
+## ----plot_stars_ar, cache = TRUE, fig.width = 9.5, fig.height = 4-------------
+par(mfrow = c(1, 2))
+hist(ras[[1]])
+plot(density(ras[[1]]))
 
 
 ## ----stars_drivers------------------------------------------------------------
@@ -276,6 +331,38 @@ sort(st_dr$name[st_dr$write])
 write_stars(ras, dsn = "output/ras.gpkg", driver = "GPKG")
 
 
+## ----from_mat-----------------------------------------------------------------
+M1 <- matrix(runif(36), 6, 6)
+M1
+
+
+## -----------------------------------------------------------------------------
+ras_M1 <- st_as_stars(M1) 
+ras_M1
+st_crs(ras_M1)
+
+
+## -----------------------------------------------------------------------------
+plot(ras_M1)
+
+
+## -----------------------------------------------------------------------------
+st_crs(ras_M1) <- st_crs(4326)
+st_crs(ras_M1)
+
+
+## -----------------------------------------------------------------------------
+D1 <- expand.grid(lon = 1:10, lat = 1:10) 
+D1$val <- runif(100)
+head(D1)
+
+
+## -----------------------------------------------------------------------------
+ras_D1 <- st_as_stars(D1, coords = c("lon", "lat"))
+st_crs(ras_D1) <- st_crs(4326)
+ras_D1
+
+
 
 ## ---- child = "_04_stars_manip.Rmd"-------------------------------------------
 
@@ -286,53 +373,28 @@ source("_setup.R")
 ## ----stars_obj----------------------------------------------------------------
 library(stars)
 ras <- read_stars("data/bathy.tif") 
-class(ras)
 ras
 
 
-## ----stars_val----------------------------------------------------------------
-class(ras[[1]])
+## -----------------------------------------------------------------------------
 ras[[1]]
 
 
-## ----stars_obj_fun1-----------------------------------------------------------
-dim(ras)
-st_bbox(ras)
+## ----stars_copy---------------------------------------------------------------
+ras2 <- 2*ras 
+ras2
 
 
-## ----stars_obj_fun2-----------------------------------------------------------
-ras_crs <- st_crs(ras)
-class(ras_crs)
-ras_crs
+## ----stars_filtr--------------------------------------------------------------
+ras_f1 <- ras # create a copy
+ras_f1[[1]][ras[[1]] > units::as_units(0, "m")] <- NA # filter
+plot(ras_f1)
 
 
-## ----stars_obj_fun3-----------------------------------------------------------
-ras_crs$input
-ras_crs$proj4string
-ras_crs$epsg
-
-
-## ----convert2-----------------------------------------------------------------
-ras_c <- as(ras, "Raster") 
-class(ras_c)
-
-
-## ----bc_ras1------------------------------------------------------------------
-# extract value
-class(ras[[1]])
-ras[[1]][1, 1]
-ras[[1]][1:10, 11:20]
-
-
-## ----bc_ras1_2----------------------------------------------------------------
-mean(ras[[1]]) 
-quantile(ras[[1]])
-
-
-## ----bc_rar1_3----------------------------------------------------------------
-ras2 <- ras # create a copy
-ras2[[1]][ras[[1]] > units::as_units(0, "m")] <- NA # filter
-plot(ras2)
+## -----------------------------------------------------------------------------
+ras_f2 <- units::drop_units(ras) # create a copy without unit
+ras_f2[[1]][ras_f2[[1]] < 0] <- NA # filter
+plot(ras_f2)
 
 
 ## ----projrar2, cache = TRUE---------------------------------------------------
@@ -340,10 +402,8 @@ ras_t <- st_transform(ras, crs = 3857)
 st_crs(ras_t)
 
 
-## ----crop0--------------------------------------------------------------------
-# show what it is
-# plot(rar)
-# rect(-65, 45, -60, 50)
+## ----echo = FALSE-------------------------------------------------------------
+plot(ras)
 
 
 ## ----crop_ras, cache = TRUE---------------------------------------------------
@@ -392,6 +452,21 @@ stl_s <- st_rasterize(stl, dy = .1, dx = .1)
 plot(stl_s)
 
 
+## ----get_poly, cache = TRUE---------------------------------------------------
+ras_p <- units::drop_units(ras)
+ras_p[[1]][ras_p[[1]] > 0] <- NA # filter
+ras_p[[1]][ras_p[[1]] < 0] <- 1
+pol <- st_as_sf(ras_p, as_points = FALSE, merge = TRUE)
+
+
+## ---- cache = TRUE------------------------------------------------------------
+plot(pol)  
+
+
+## ---- cache = TRUE------------------------------------------------------------
+plot(pol[which.max(st_area(pol)),])  
+
+
 ## ----ras_stc0-----------------------------------------------------------------
 ras
 
@@ -416,7 +491,7 @@ ras_stc1[2] # or ras_stc1["bath_v2"]
 
 ## ----ras_stc2c----------------------------------------------------------------
 library(dplyr)
-ras_stc1 %>% select("bath_v1")
+ras_stc1 %>% dplyr::select("bath_v1")
 
 
 ## ----ras_stc2d----------------------------------------------------------------
@@ -459,11 +534,68 @@ source("_setup.R")
 source("_setup.R")
 
 
+## ----plot0, cache = TRUE, echo = -1-------------------------------------------
+ras <- stars::read_stars("data/bathy.tif") 
+plot(ras)
+
+
+## ---- pre_plot----------------------------------------------------------------
+# breaks
+bks <- c(seq(-5000, 0, 1000), 250, 500, 750, 1000)
+# cols 
+cls <- c("#c7cbce", "#687677", "#222d3d", "#25364a", "#172434", 
+  "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b")
+
+
+## ---- plot1-------------------------------------------------------------------
+par(las = 1, bg = "#f79c74", cex.axis = .7, mar = c(2, 2, 2, 4))
+plot(ras,  breaks = bks, col = cls, main = "St-Lawrence map", axes = TRUE)
+
+
+## ---- plot1b------------------------------------------------------------------
+par(las = 1, bg = "#f79c74", cex.axis = .7, mar = c(2, 2, 2, 4), oma = c(0, 2, 0 ,2))
+plot(ras,  breaks = bks, col = cls, main = "St-Lawrence map", axes = TRUE)
+
+
 
 ## ---- child = "_06_tmap.Rmd"--------------------------------------------------
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
+
+
+## ----tmap0, echo = -c(1:2)----------------------------------------------------
+stl <- sf::st_read('data/st_laurence.geojson', quiet = TRUE)
+ras <- stars::read_stars("data/bathy.tif") 
+library(tmap)
+map0 <- tm_shape(stl) + tm_borders(col = "red")
+map0
+
+
+## ----tmap1--------------------------------------------------------------------
+map1 <- map0 + tm_compass(type = "8star", position = c("left", "top")) 
+map1 
+
+
+## ----tmap2, cache = TRUE------------------------------------------------------
+names(ras)
+map2 <- tm_shape(ras) + tm_raster("bathy.tif")
+
+
+## ----tmap3, cache = TRUE------------------------------------------------------
+map3 <- map2 + map1  # the order matters
+map3
+
+
+## ----tmap4, cache = TRUE------------------------------------------------------
+map4 <- map2 + map1 + tm_style("bw")
+map4
+
+
+## ----tmap5, cache = TRUE------------------------------------------------------
+map5 <- tm_shape(ras) + tm_raster("bathy.tif", breaks = c(seq(-5000,
+    0, 1000), 250, 500, 750, 1000), palette = "viridis") 
+map5 
 
 
 
@@ -473,15 +605,67 @@ source("_setup.R")
 source("_setup.R")
 
 
+## ----tmap_exo, echo = FALSE, cache = TRUE, fig.width = 6, fig.height = 5, purl = TRUE----
+library(tmap)
+stl <- sf::st_read('data/st_laurence.geojson', quiet = TRUE) 
+ras <- stars::read_stars("data/bathy.tif")                       
+# manipulation 
+ras_v <- ras[stl]
+names(ras_v) <- "Elevation"
+# colors 
+pal <- colorRampPalette(c("#c7cbce", "#687677", "#222d3d", "#25364a", "#172434", "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b"))
+# raster 
+elv <- tm_shape(ras_v) + 
+  tm_raster("Elevation", breaks = seq(-800, 200, 100), palette = pal(11), midpoint = NA) + 
+  tm_layout(main.title = "St-Lawrence river & Gulf", main.title.color = "#ad6a11") + 
+  tm_xlab("longitude", size = 0.5) + tm_ylab("latitude", size = 0.5) +
+  tm_graticules(lwd = .5, col = "#aaaaaa")
+  
+shp <- tm_shape(stl) + tm_borders(col = "black", lwd = 2)
+oth <- tm_compass(type = "8star", position = c("left", "bottom")) +     
+  tm_scale_bar(breaks = c(0, 100, 200), text.size = .9) + 
+  tm_logo(c("https://www.r-project.org/logo/Rlogo.png"), position = c("right", "top"), height = 3) 
+elv + shp + oth
 
-## ---- child = "_07_leaflet_base.Rmd"------------------------------------------
+
+## ----sol4a, include = TRUE, eval = FALSE, purl = TRUE-------------------------
+## # manipulation
+## ras_v <- ras[stl]
+## names(ras_v) <- "Elevation"
+## # colors
+## pal <- colorRampPalette(c("#c7cbce", "#687677", "#222d3d", "#25364a",
+##   "#172434", "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b"))
+## # raster
+## elv <- tm_shape(ras_v) +
+##   tm_raster("Elevation", breaks = seq(-800, 200, 100), palette = pal(11), midpoint = NA) +
+##   tm_layout(main.title = "St-Lawrence (River & Gulf)", main.title.color = "#ad6a11") +
+##   tm_xlab("longitude", size = 0.5) + tm_ylab("latitude", size = 0.5) +
+##   tm_graticules(lwd = .5, col = "#aaaaaa")
+
+
+## ----sol4b, include = TRUE, eval = FALSE, purl = TRUE-------------------------
+## # borders
+## shp <- tm_shape(stl) + tm_borders(col = "black", lwd = 2)
+## 
+## # other elements
+## oth <- tm_compass(type = "8star", position = c("left", "bottom")) +
+##     tm_scale_bar(breaks = c(0, 100, 200), text.size = .9) +
+##     tm_logo("https://www.r-project.org/logo/Rlogo.png", position = c("right", "top"), height = 3)
+## 
+## mymap <- elv + shp + oth
+## mymap
+## tmap_save(mymap, filename = "mymap.png", dpi = 300, units = "mm", width = 160, height = 160)
+
+
+
+## ---- child = "_07_interactive_maps.Rmd"--------------------------------------
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
 
 
 
-## ---- child = "_08_leaflet_manip.Rmd"-----------------------------------------
+## ---- child = "_08_leaflet.Rmd"-----------------------------------------------
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
@@ -554,14 +738,17 @@ lf
 
 # Load data from eDrivers
 library(eDrivers)
-fetchDrivers(drivers = c('Hypoxia','FisheriesDD','Acidification'),
-             output = 'data')
+fetchDrivers(drivers = c('Hypoxia','FisheriesDD','Acidification'), output = 'data')
 
 # Raster objects from eDrivers class objects
-library(raster)
-hyp <- raster('data/Hypoxia.tif')
-fish <- raster('data/FisheriesDD.tif')
-acid <- raster('data/Acidification.tif')
+library(stars)
+hyp <- read_stars('data/Hypoxia.tif')
+fish <- read_stars('data/FisheriesDD.tif')
+acid <- read_stars('data/Acidification.tif')
+
+
+## ----load_leafem--------------------------------------------------------------
+library(leafem)
 
 
 
@@ -569,9 +756,9 @@ acid <- raster('data/Acidification.tif')
 ## ----leaflet_raster, fig.width = 6, fig.height = 6, echo = FALSE, eval = TRUE----
 # Add layers to leaflet map
 lf <- lf %>%
- addRasterImage(hyp,group = 'Hyp') %>%
- addRasterImage(fish,group = 'Fish') %>%
- addRasterImage(acid,group = 'Acid') %>%
+ addStarsImage(hyp, group = 'Hyp') %>%
+ addStarsImage(fish ,group = 'Fish') %>%
+ addStarsImage(acid, group = 'Acid') %>%
 
 # Reset layer selection
 addLayersControl(
@@ -587,12 +774,18 @@ lf
 ## htmlwidgets::saveWidget(lf, file="output/lf.html")
 
 
+## ----mapview, eval = FALSE, out.width = "100%"--------------------------------
+## library(mapview)
+## mv <- mapview(hyp) +
+##   mapview(fish) +
+##   mapview(acid)
+## mv@map
 
 
-## ----mapview, eval = TRUE, fig.width = 12, fig.height = 6---------------------
+## ----mapview2, echo = FALSE, eval = TRUE, out.width = "100%"------------------
 library(mapview)
-mv <- mapview(hyp) + fish + acid
-mv
+mv <- mapview(hyp) + mapview(fish) + mapview(acid)
+mv@map
 
 
 ## ----mapview_export, eval = TRUE, fig.width = 12, fig.height = 6--------------
@@ -601,7 +794,7 @@ mapshot(mv, url = 'output/map.html')
 
 
 
-## ---- child = "_08e_leaflet_manip.Rmd"----------------------------------------
+## ---- child = "_08e_leaflet.Rmd"----------------------------------------------
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
@@ -652,7 +845,6 @@ reactiveConsole(FALSE)
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
-xaringanExtra::use_scribble()
 
 
 ## ----eval = FALSE-------------------------------------------------------------

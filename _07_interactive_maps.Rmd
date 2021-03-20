@@ -1,0 +1,148 @@
+---
+title: "interactive maping"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+
+```{r include = FALSE}
+source("_setup.R")
+```
+
+
+---
+
+class: inverse, center, middle
+
+# `r rfa("info-circle")` Rationalize
+
+![:custom_hr]()
+
+## Why use `r rp()` for interactive data visualization? (`r ck()`~10min)
+
+---
+
+# Interactive visualization
+
+## Interactive data visualization
+
+> Interactive data visualization refers to the use of modern data analysis software that enables users to directly manipulate and explore graphical representations of data.
+
+--
+
+## Why use interactive visualization?
+
+  - Identify trends
+  - Observe relationships in data
+  - Data storytelling
+  - Simplify complex data
+  - Share and explore data
+  - Get more out of static visualizations!
+
+---
+
+# Interactive visualization
+
+## Javascript
+
+> [JavaScript](https://www.javascript.com/) is a text-based programming language used both on the client-side and server-side that allows you to make web pages interactive.
+
+--
+
+> JavaScript is the modern interactive web
+
+--
+
+- Close to 1.5 million libraries
+
+--
+
+- Requires in depth knowledge of web-based programming, and, if you are a `r rp()` user, learning another programming language
+
+---
+
+# Why `r rp()`?
+
+<br>
+
+1. `r rp()` packages are actively developped for interactive visualization. See the [htmlwidgets for R](https://www.htmlwidgets.org/) web page for examples
+
+--
+
+2. No need to learn a new language
+
+--
+
+3. Efficiently explore outputs from `r rp()` analyses
+
+--
+
+4. Share interactive outputs of `r rp()` analyses with collaborators in a variety of formats
+
+--
+
+5. For people still using [ArcGIS](www.arcgis.com) or [QGIS](www.qgis.org) solely for visual data exploration: interactive mapping in `r rp()` can now - *partly* - address this
+
+---
+
+# Why `r rp()`?
+
+## HTML widgets
+
+In `r rp()`, HTML widgets are one of two things:
+
+1. The [`htmlwidgets`](https://cran.r-project.org/package=htmlwidgets) package provides a framework for creating R bindings to JavaScript visualization libraries that can be rendered in a variety of formats (*e.g.* RStudio, R Markdown documents, Shiny applications, or standalone web pages).
+
+--
+
+2. A collection of R packages that allow a user to build interactive visualization (*i.e.* tables, charts, maps, networks, etc) through specific JavaScript libraries
+
+
+---
+
+# Why `r rp()`?
+
+## `r rp()` packages for interactive mapping
+
+### **Interactive visualization in general**
+
+.pull-left[
+- [`plotly`](https://cran.r-project.org/package=plotly) - uses [Plotly.js](https://plotly.com/javascript/)
+- [`highcharter`](https://cran.r-project.org/package=highcharter) - uses [Highcharts.js](https://jkunst.com/highcharter/)
+]
+
+--
+
+.pull-right[
+*Work well with vectorized spatial objects (`sf` and `sp`) in particular. Not so much with rasters yet.*
+]
+
+--
+
+### **Interactive mapping in particular**
+
+.pull-left[
+- [`leaflet`](https://cran.r-project.org/package=leaflet) `r rfa("check")` - uses [Leaflet.js](https://leafletjs.com/)
+]
+
+--
+
+.pull-right[
+*Works well with vectors (`sf` and `sp`) and rasters (`raster` and `stars`)*
+]
+
+--
+
+### **`r rp()` packages expanding `leaflet` capabilities**
+
+  - [`leafem`](https://cran.r-project.org/package=mapview) `r rfa("check")`
+  - [`mapview`](https://cran.r-project.org/package=mapview) `r rfa("check")`
+  - [`tmap`](https://cran.r-project.org/package=tmap) `r rfa("check")`
+

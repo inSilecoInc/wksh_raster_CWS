@@ -1,5 +1,14 @@
 ---
-title: "intro to sf"
+title: "Use stars"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -20,34 +29,7 @@ class: inverse, center, middle
 
 
 ---
-
-This section shows raster manipulations with stars
-
-
-
----
-
-class: inverse, center, middle
-
-# `r cg()`Manipulate 
-
-![:custom_hr]()
-
-## Do whatever you need with raster files (~1h15)
-
-
----
-# Common operations
-
-##  .center[.font200[`r fl()` `r ar()` `r rp()` `r ar()` `r fl()`]]
-
-
----
-# Common operations
-
-##  .center[.font200[`r fl()` `r ar()` `r rp()` `r ar()` `r cg()` `r ar()` `r fl()`]]
-
---
+# Common operations  `r cg()` 
 
 - change projection
 - basic calculations (e.g. average per regions, min/max)
@@ -63,91 +45,43 @@ class: inverse, center, middle
 ```{R stars_obj}
 library(stars)
 ras <- read_stars("data/bathy.tif") 
-class(ras)
 ras
 ```
 
 ---
 # What do we have? 
 
-```{R stars_val}
-class(ras[[1]])
+```{R}
 ras[[1]]
 ```
 
----
-# What do we have? 
-
-```{R stars_obj_fun1}
-dim(ras)
-st_bbox(ras)
-```
 
 ---
-# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+# Create a modified copy
 
-```{R stars_obj_fun2}
-ras_crs <- st_crs(ras)
-class(ras_crs)
-ras_crs
-```
-
----
-# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
-
-```{R stars_obj_fun3}
-ras_crs$input
-ras_crs$proj4string
-ras_crs$epsg
-```
---
-
-- https://epsg.io/
-- https://epsg.io/4326
-
-
----
-# Conversion between [`stars`](https://CRAN.R-project.org/package=stars) and [`raster`](https://CRAN.R-project.org/package=raster)
-
-
-### Use a temporary file (see above)
-
-
-```{R convert2}
-ras_c <- as(ras, "Raster") 
-class(ras_c)
+```{R stars_copy}
+ras2 <- 2*ras 
+ras2
 ```
 
 
 ---
-# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
-
-```{R bc_ras1}
-# extract value
-class(ras[[1]])
-ras[[1]][1, 1]
-ras[[1]][1:10, 11:20]
-```
-
----
-# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
-
-```{R bc_ras1_2}
-mean(ras[[1]]) 
-quantile(ras[[1]])
-```
-
----
-# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+# Simple cell-based filter with [`stars`](https://CRAN.R-project.org/package=stars)
   
-```{R bc_rar1_3}
-ras2 <- ras # create a copy
-ras2[[1]][ras[[1]] > units::as_units(0, "m")] <- NA # filter
-plot(ras2)
+```{R stars_filtr}
+ras_f1 <- ras # create a copy
+ras_f1[[1]][ras[[1]] > units::as_units(0, "m")] <- NA # filter
+plot(ras_f1)
 ```
 
-
-
+---
+# Simple cell-based filter with [`stars`](https://CRAN.R-project.org/package=stars)
+  
+```{R}
+ras_f2 <- units::drop_units(ras) # create a copy without unit
+ras_f2[[1]][ras_f2[[1]] < 0] <- NA # filter
+plot(ras_f2)
+```
 
 
 
@@ -173,23 +107,22 @@ plot(ras2)
 ---
 # Change map projection with [`stars`](https://CRAN.R-project.org/package=stars)
 
+### Just as it is done with `sf`
+
 ```{R projrar2, cache = TRUE}
 ras_t <- st_transform(ras, crs = 3857)
 st_crs(ras_t)
 ```
 
 
-
-
-
 ---
-# Crop 
+# Crop with [`stars`](https://CRAN.R-project.org/package=raster)
 
-```{R crop0}
-# show what it is
-# plot(rar)
-# rect(-65, 45, -60, 50)
+```{R echo = FALSE}
+plot(ras)
 ```
+
+
 
 ---
 # Crop with [`stars`](https://CRAN.R-project.org/package=raster)
@@ -252,16 +185,6 @@ plot(ras_mi)
 
 
 
-
----
-# Warping/Resampling
-
-<br>
-
-## Work with rasters of different resolutions
-
-
-
 ---
 # Warping/Resampling with [`stars`](https://CRAN.R-project.org/package=stars)
 
@@ -271,6 +194,13 @@ ras_template1 <- st_as_stars(st_bbox(ras), nx = 21, ny = 21,
 ras_w1 <- st_warp(ras, ras_template1)
 plot(ras_w1)
 ```
+
+
+???
+
+Work with rasters of different resolutions
+
+
 
 <!-- show how to do this with a second object -->
 
@@ -286,16 +216,6 @@ plot(ras_w2)
 
 
 ---
-# Rasterize 
-
-## Vectors `r rfa("arrow-right")` Raster 
-
---
-
-## Create a raster template 
-
-
----
 # Rasterize with [`stars`](https://CRAN.R-project.org/package=stars)
 
 ```{R rasters1, cache = TRUE}
@@ -303,7 +223,46 @@ stl_s <- st_rasterize(stl, dy = .1, dx = .1)
 plot(stl_s)
 ```
 
+---
+# Rasterize faster 
 
+- Checkout [fasterize](https://github.com/ecohealthalliance/fasterize) 
+
+
+---
+# Polygonize 
+
+```{R get_poly, cache = TRUE}
+ras_p <- units::drop_units(ras)
+ras_p[[1]][ras_p[[1]] > 0] <- NA # filter
+ras_p[[1]][ras_p[[1]] < 0] <- 1
+pol <- st_as_sf(ras_p, as_points = FALSE, merge = TRUE)
+```
+
+---
+# Polygonize 
+
+```{R, cache = TRUE}
+plot(pol)  
+```
+
+---
+# Polygonize 
+
+```{R, cache = TRUE}
+plot(pol[which.max(st_area(pol)),])  
+```
+
+
+---
+# Dealing with large rasters
+
+- When a raster is large (fair amount of your RAM), `stars` creates a `stars_proxy` object.
+
+> Stars proxy objects take another approach: upon creation they contain no data at all, but only pointers to where the data can be read. Data is only read when it is needed, and only as much as is needed [...]. ([Stars proxy objects](https://r-spatial.github.io/stars/articles/stars2.html))
+
+
+- You might want to try out [terra](https://cran.r-project.org/web/packages/terra/index.html).
 
 
 
@@ -318,18 +277,6 @@ plot(stl_s)
 
 ### - Handle several rasters at once 
 
-
----
-# Stack with [`raster`](https://CRAN.R-project.org/package=raster)
-
-
-### 2 classes : `RasterBrick` and `RasterStack`
-
---
-
-> The main difference is that a RasterStack is loose collection of RasterLayer objects that can refer to different files (but must all have the same extent and resolution), whereas a RasterBrick can only point to a single file. 
-
-.right[.font80[ `r rfa("info-circle")` https://rspatial.org/raster/spatial/4-rasterdata.html#rasterstack-and-rasterbrick]]
 
 
 
@@ -378,7 +325,7 @@ ras_stc1[2] # or ras_stc1["bath_v2"]
 
 ```{R ras_stc2c}
 library(dplyr)
-ras_stc1 %>% select("bath_v1")
+ras_stc1 %>% dplyr::select("bath_v1")
 ```
 
 ---

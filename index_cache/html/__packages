@@ -13,9 +13,6 @@ forcats
 rgovcan
 abind
 stars
-leaflet
 sp
 raster
-eDrivers
-mapview
-shiny
+tmap

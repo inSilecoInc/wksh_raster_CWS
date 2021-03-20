@@ -290,3 +290,14 @@ a:hover, a:active {
     font-size: 140%;
     color: #e0b94c;
   }
+  
+  
+.pull-left2 {
+  float: left;
+  width: 42%;
+}
+
+.pull-right2 {
+  float: right;
+  width: 55%;
+}

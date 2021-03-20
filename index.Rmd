@@ -118,13 +118,13 @@ class: inverse, center, middle
 
 <!-- Day2 -->
 
-```{R, child = "_07_leaflet_base.Rmd"}
+```{R, child = "_07_interactive_maps.Rmd"}
 ```
 
-```{R, child = "_08_leaflet_manip.Rmd"}
+```{R, child = "_08_leaflet.Rmd"}
 ```
 
-```{R, child = "_08e_leaflet_manip.Rmd"}
+```{R, child = "_08e_leaflet.Rmd"}
 ```
 
 
@@ -142,3 +142,19 @@ class: inverse, center, middle
 
 ```{R, child = "_11e_shiny_spatial.Rmd"}
 ```
+
+
+---
+class: inverse, center, middle
+
+# `r nf()` Resources
+
+---
+
+# Resources `r rfa("link")`
+
+- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+- [Spatial Data Science](https://keen-swartz-3146c4.netlify.app/)
+- [Blog R-spatial](https://www.r-spatial.org/)
+- [Open Geospatial Consortium](https://www.ogc.org/)
+- https://nowosad.github.io/BioGIS_19/workshop/#64

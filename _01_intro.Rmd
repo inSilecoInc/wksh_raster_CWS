@@ -1,12 +1,20 @@
 ---
 title: "Minimal intro"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
 ```{r include = FALSE}
 source("_setup.R")
 ```
-
 
 
 ---
@@ -17,7 +25,7 @@ class: inverse, center, middle
 
 ![:custom_hr]()
 
-## Why use `r rp()` for rasters? (~20min)
+## Why use `r rp()` for rasters? (`r ck()`~15min)
 
 
 ???
@@ -176,6 +184,10 @@ You don't start from scratch
 ### Vectors 
 
 - [`sp`](https://CRAN.R-project.org/package=sp)
+
+--
+
+
 - [`sf`](https://CRAN.R-project.org/package=sf) `r ch()`
 
 --
@@ -195,50 +207,56 @@ Not visualisation later
 
 
 
+
+---
+# Vectors packages
+
+### [`sp`](https://CRAN.R-project.org/package=sp) .font90[04/2005 (0.7.3) &nbsp; // &nbsp; 01/2021 (1.4.5)]
+
+--
+
+### [`sf`](https://CRAN.R-project.org/package=sf) .font90[10/2016 (0.9.8) &nbsp; // &nbsp; 03/2021 (3.3.7)]
+
+> A package that provides [simple features](https://en.wikipedia.org/wiki/Simple_Features) access for R.
+
+--
+
+As explained in the article ["Simple Features for R"](https://r-spatial.github.io/sf/articles/sf1.html):
+
+> R has well-supported classes for storing spatial data (sp) and interfacing to the above mentioned environments (rgdal, rgeos), but has so far lacked a complete implementation of simple features, making conversions at times convoluted, inefficient or incomplete. The package sf tries to fill this gap, and aims at succeeding sp in the long term. 
+
+---
+# Package [`sf`](https://CRAN.R-project.org/package=sf): Simple Features
+
+Very well documented and very popular.
+
+.center[![:scale 84%](img/sf0.png)]
+
+.right[.font80[see https://r-spatial.github.io/sf/index.html]]
+
+
 ---
 # Raster packages
 
-### [`raster`](https://CRAN.R-project.org/package=raster) .font90[03/2010 (1.0.0) &nbsp; // &nbsp; 11/2020 (3.3-7)]
+### [`raster`](https://CRAN.R-project.org/package=raster) .font90[03/2010 (1.0.0) &nbsp; // &nbsp; 11/2020 (3.3.7)]
   
 <br>
 
 --
   
-### [`terra`](https://CRAN.R-project.org/package=terra) .font90[03/2019 (0.5-2) &nbsp; // &nbsp; 11/2020 (0.9-11)]
+### [`terra`](https://CRAN.R-project.org/package=terra) .font90[03/2019 (0.5-2) &nbsp; // &nbsp; 11/2020 (0.9.11)]
   
 > terra is an R package that replaces raster. It has a very similar interface, but it is simpler and much faster. 
 
 <br>
 --
   
-### [`stars`](https://CRAN.R-project.org/package=stars) .font90[07/2018  (0.1-1) &nbsp; // &nbsp; 07/2020 (0.4-3)]
+### [`stars`](https://CRAN.R-project.org/package=stars) .font90[07/2018  (0.1-1) &nbsp; // &nbsp; 07/2020 (0.4.3)]
   
 > Reading, manipulating, writing and plotting spatiotemporal arrays (raster and vector data cubes) in 'R'. 
 
 Depends on [`sf`](https://CRAN.R-project.org/package=sf).
 Note that `stars` and `sf` are [Tidyverse](https://www.tidyverse.org/) friendly.
-
-
-
----
-# Package [`raster`](https://CRAN.R-project.org/package=raster)
-
-
-### - Well documented 
-  
-  - see https://rspatial.org/raster/
-  - many blog posts and tutorials (e.g. https://datacarpentry.org/r-raster-vector-geospatial/01-raster-structure/)
-
-<!-- length(devtools::revdep("raster", dependencies = c("Depends", "
-   Imports"))) -->
-
---
-
-### - 383 packages depend on or import `raster` 
-
---
-
-### - Depends on `sp` but also works with `sf`.
 
 
 ---
@@ -253,13 +271,13 @@ Note that `stars` and `sf` are [Tidyverse](https://www.tidyverse.org/) friendly.
 ---
 # Package [`stars`](https://CRAN.R-project.org/package=stars): SpatioTemporal ARrayS
 
-### - Well documented too
+### - Well documented
 
 .center[![:scale 92%](img/pkgdown_stars.png)]
 .right[.font80[see https://r-spatial.github.io/stars/index.html]]
 
 --
 
-### - 9 packages depend on [`stars`](https://CRAN.R-project.org/package=stars)
+### - 12 packages depend on/import [`stars`](https://CRAN.R-project.org/package=stars)
 
-### - So far, less material available online.
+### - So far, less material available online, but it's getting better and better!

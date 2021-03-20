@@ -16,3 +16,67 @@ class: inverse, center, middle
 ![:custom_hr]()
 
 ## `r ck()` ~40min
+
+---
+# Reproduce and save the following map
+
+`r cdw(minutes = 30, left = 0, warn_when = 5)`
+
+
+```{R tmap_exo, echo = FALSE, cache = TRUE, fig.width = 6, fig.height = 5, purl = TRUE}
+library(tmap)
+stl <- sf::st_read('data/st_laurence.geojson', quiet = TRUE) 
+ras <- stars::read_stars("data/bathy.tif")                       
+# manipulation 
+ras_v <- ras[stl]
+names(ras_v) <- "Elevation"
+# colors 
+pal <- colorRampPalette(c("#c7cbce", "#687677", "#222d3d", "#25364a", "#172434", "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b"))
+# raster 
+elv <- tm_shape(ras_v) + 
+  tm_raster("Elevation", breaks = seq(-800, 200, 100), palette = pal(11), midpoint = NA) + 
+  tm_layout(main.title = "St-Lawrence river & Gulf", main.title.color = "#ad6a11") + 
+  tm_xlab("longitude", size = 0.5) + tm_ylab("latitude", size = 0.5) +
+  tm_graticules(lwd = .5, col = "#aaaaaa")
+  
+shp <- tm_shape(stl) + tm_borders(col = "black", lwd = 2)
+oth <- tm_compass(type = "8star", position = c("left", "bottom")) +     
+  tm_scale_bar(breaks = c(0, 100, 200), text.size = .9) + 
+  tm_logo(c("https://www.r-project.org/logo/Rlogo.png"), position = c("right", "top"), height = 3) 
+elv + shp + oth
+```
+
+---
+# Solution 
+
+```{R sol4a, include = TRUE, eval = FALSE, purl = TRUE}
+# manipulation 
+ras_v <- ras[stl]
+names(ras_v) <- "Elevation"
+# colors 
+pal <- colorRampPalette(c("#c7cbce", "#687677", "#222d3d", "#25364a", 
+  "#172434", "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b"))
+# raster 
+elv <- tm_shape(ras_v) + 
+  tm_raster("Elevation", breaks = seq(-800, 200, 100), palette = pal(11), midpoint = NA) + 
+  tm_layout(main.title = "St-Lawrence (River & Gulf)", main.title.color = "#ad6a11") + 
+  tm_xlab("longitude", size = 0.5) + tm_ylab("latitude", size = 0.5) +
+  tm_graticules(lwd = .5, col = "#aaaaaa")
+```
+
+---
+# Solution 
+
+```{R sol4b, include = TRUE, eval = FALSE, purl = TRUE}
+# borders 
+shp <- tm_shape(stl) + tm_borders(col = "black", lwd = 2)
+
+# other elements 
+oth <- tm_compass(type = "8star", position = c("left", "bottom")) +
+    tm_scale_bar(breaks = c(0, 100, 200), text.size = .9) + 
+    tm_logo("https://www.r-project.org/logo/Rlogo.png", position = c("right", "top"), height = 3) 
+    
+mymap <- elv + shp + oth
+mymap
+tmap_save(mymap, filename = "mymap.png", dpi = 300, units = "mm", width = 160, height = 160) 
+```

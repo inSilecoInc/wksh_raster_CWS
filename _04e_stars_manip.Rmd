@@ -1,5 +1,5 @@
 ---
-title: "intro to sf"
+title: "Stars Exo"
 ---
 
 
@@ -16,3 +16,26 @@ class: inverse, center, middle
 ![:custom_hr]()
 
 ## `r ck()` ~40min
+
+
+---
+# Exercise
+
+### Import a raster of elevation and the atlas data 
+
+--
+
+### Draw a convex hull around one colony 
+
+--
+
+### Extract the values associated.
+
+--
+
+### Draw a histogram with those values 
+
+--
+
+### Do the same operation with a raster of temperature. 
+
