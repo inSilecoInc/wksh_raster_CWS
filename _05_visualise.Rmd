@@ -1,5 +1,14 @@
 ---
-title: "intro to sf"
+title: "Visualise raster"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -20,20 +29,20 @@ class: inverse, center, middle
 
 
 ---
-# `r rfa("r-project")` packages for raster visualization
+# `r rp()` packages for raster visualization
 
 --
 
 ### Static
 
-- [`tmap`](https://CRAN.R-project.org/package=tmap) `r icon::fontawesome("check")`
+- [`tmap`](https://CRAN.R-project.org/package=tmap) `r rfa("check")`
 - [`ggplot2`](https://CRAN.R-project.org/package=ggplot2) 
-    - `r icon::fontawesome("info-circle")` https://r-spatial.github.io/stars/reference/geom_stars.html
-    - `r icon::fontawesome("info-circle")` https://ggplot2.tidyverse.org/reference/geom_tile.html
+    - `r nf()` https://r-spatial.github.io/stars/reference/geom_stars.html
+    - `r nf()` https://ggplot2.tidyverse.org/reference/geom_tile.html
 - [`ggmap`](https://CRAN.R-project.org/package=ggmap)
-    - `r icon::fontawesome("info-circle")` https://github.com/dkahle/ggmap
+    - `r nf()` https://github.com/dkahle/ggmap
 - [`rasterVis`](https://CRAN.R-project.org/package=rasterVis)
-    - `r icon::fontawesome("info-circle")` https://oscarperpinan.github.io/rastervis/
+    - `r nf()` https://oscarperpinan.github.io/rastervis/
 
 --
 
@@ -43,7 +52,7 @@ class: inverse, center, middle
 - [`leaflet`](https://CRAN.R-project.org/package=leaflet)
 - [`mapview`](https://CRAN.R-project.org/package=mapview)
 
-`r icon::fontawesome("info-circle")` day 2 of the workshop.
+`r nf()` day 2 of the workshop.
 
 
 ---
@@ -52,14 +61,16 @@ class: inverse, center, middle
 --
 
 - `plot()` 
-  - `r icon::fontawesome("arrow-right")` `?plot.stars`
-  - `r icon::fontawesome("arrow-right")` `?raster::plot`
+
+  - `r ar()` `?plot.stars`
+  - `r ar()` `?raster::plot`
 
 --
 
 - `image()` 
-  - `r icon::fontawesome("arrow-right")` `?image.stars`
-  - `r icon::fontawesome("arrow-right")` `?raster::image`
+
+  - `r ar()` `?image.stars`
+  - `r ar()` `?raster::image`
 
 --
 
@@ -70,7 +81,8 @@ class: inverse, center, middle
 ---
 # Using `plot()` and `image()` 
 
-```{R plot0, cache = TRUE}
+```{R plot0, cache = TRUE, echo = -1}
+ras <- stars::read_stars("data/bathy.tif") 
 plot(ras)
 ```
 

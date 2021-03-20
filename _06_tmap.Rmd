@@ -1,5 +1,14 @@
 ---
-title: "intro to sf"
+title: "tmap"
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 
@@ -23,13 +32,15 @@ class: inverse, center, middle
 
 .center[![:scale 74%](img/tmap.png)]
 
-`r icon::fontawesome("info-circle")` https://github.com/mtennekes/tmap
+`r nf()` https://github.com/mtennekes/tmap
 
 
 ---
 # [`tmap`](https://CRAN.R-project.org/package=tmap)
 
-```{R tmap0}
+```{R tmap0, echo = -c(1:2)}
+stl <- sf::st_read('data/st_laurence.geojson', quiet = TRUE)
+ras <- stars::read_stars("data/bathy.tif") 
 library(tmap)
 map0 <- tm_shape(stl) + tm_borders(col = "red")
 map0
@@ -99,10 +110,10 @@ map5
 # [`tmap`](https://CRAN.R-project.org/package=tmap)
 
 
-- `r rfa("info-circle")` https://geocompr.robinlovelace.net/adv-map.html
+- `r nf()` https://geocompr.robinlovelace.net/adv-map.html
 
-- `r rfa("info-circle")` https://github.com/mtennekes/tmap
+- `r nf()` https://github.com/mtennekes/tmap
 
-- `r rfa("info-circle")` https://www.rdocumentation.org/packages/tmap/versions/3.2/topics/tm_layout
+- `r nf()` https://www.rdocumentation.org/packages/tmap/versions/3.2/topics/tm_layout
 
 
