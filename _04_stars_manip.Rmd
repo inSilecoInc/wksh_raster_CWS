@@ -1,5 +1,5 @@
 ---
-title: "intro to sf"
+title: "Use stars"
 output:
   xaringan::moon_reader:
     css: [default, rd.css, rd-font.css, "hygge"]
@@ -223,6 +223,11 @@ stl_s <- st_rasterize(stl, dy = .1, dx = .1)
 plot(stl_s)
 ```
 
+---
+# Rasterize faster 
+
+- Checkout [fasterize](https://github.com/ecohealthalliance/fasterize) 
+
 
 ---
 # Polygonize 
@@ -247,6 +252,17 @@ plot(pol)
 ```{R, cache = TRUE}
 plot(pol[which.max(st_area(pol)),])  
 ```
+
+
+---
+# Dealing with large rasters
+
+- When a raster is large (fair amount of your RAM), `stars` creates a `stars_proxy` object.
+
+> Stars proxy objects take another approach: upon creation they contain no data at all, but only pointers to where the data can be read. Data is only read when it is needed, and only as much as is needed [...]. ([Stars proxy objects](https://r-spatial.github.io/stars/articles/stars2.html))
+
+
+- You might want to try out [terra](https://cran.r-project.org/web/packages/terra/index.html).
 
 
 
@@ -309,7 +325,7 @@ ras_stc1[2] # or ras_stc1["bath_v2"]
 
 ```{R ras_stc2c}
 library(dplyr)
-ras_stc1 %>% select("bath_v1")
+ras_stc1 %>% dplyr::select("bath_v1")
 ```
 
 ---
