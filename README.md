@@ -18,5 +18,5 @@ use the following
 
 
 ```{R}
-install.packages(c("mapview", "stars", "shiny", "mapedit"))
+install.packages(c("mapview", "stars", "shiny", "mapedit", "tmap"))
 ```
