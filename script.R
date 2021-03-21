@@ -28,7 +28,7 @@ library(tidyverse)
 
 ## ----csv----------------------------------------------------------------------
 # Output folder
-dir.create('output')
+if (!file.exists('output')) dir.create('output')
 
 # remotes::install_github("vlucet/rgovcan")
 library(rgovcan)
@@ -49,20 +49,20 @@ cdqs <- st_as_sf(x = cdqs,
 cdqs[,1]
 
 
-## ----csvplot------------------------------------------------------------------
-plot(st_geometry(cdqs))
+## ----csvplot, fig.width=4, fig.height=4---------------------------------------
+plot(cdqs[,1])
 
 
 ## ----shp, messages = FALSE, warnings = FALSE----------------------------------
+# Download from open canada
 id <- "0c469c0e-8afd-4c62-9420-c50af2d34f97"
 govcan_dl_resources(id, path = 'output')
 unzip("output/Sterna_dougallii_Roseate_Tern_CH_2015.zip", exdir = 'output')
 
+
+## ----showshp, messages = FALSE, warnings = FALSE------------------------------
 # Import shapefile
 roseate <- st_read("output/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRUE)
-
-
-## ----showshp, echo = FALSE----------------------------------------------------
 roseate
 
 
@@ -75,8 +75,8 @@ stl <- st_read('data/st_laurence.geojson', quiet = TRUE)
 stl
 
 
-## ----geojsonplot, eval = FALSE------------------------------------------------
-## plot(st_geometry(stl))
+## ----geojsonplot, fig.width=5, fig.height=4, eval=FALSE-----------------------
+## plot(stl)
 
 
 ## ----gbd, messages = FALSE, warnings = FALSE----------------------------------
@@ -89,12 +89,14 @@ unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
 # Visualize layers available in the geodatabase
 st_layers("output/AtlasGrid-GrilleAtlas.gdb")
 
+
+## ----gbdload, messages = FALSE, warnings = FALSE------------------------------
 # Load layer
 atlas <- st_read('output/AtlasGrid-GrilleAtlas.gdb',
                   layer = 'AtlasGrid_GrilleAtlas')
 
 
-## ----gbdplot, messages = FALSE, warnings = FALSE------------------------------
+## ----gbdplot, messages = FALSE, warnings = FALSE, fig.width=4,fig.height=4----
 plot(st_geometry(atlas))
 
 
@@ -151,7 +153,7 @@ cdqs <- cdqs %>% select(-var3)
 colnames(cdqs)
 
 
-## ----attr_sub, fig.width=6,fig.height=3.5-------------------------------------
+## ----attr_sub, fig.width=4,fig.height=4---------------------------------------
 newcdqs <- cdqs[cdqs$Annee.Year > 2000, ]
 plot(st_geometry(cdqs), pch = 1, col = '#2ae9ee', cex = 1)
 plot(st_geometry(newcdqs), pch = 20, col = '#d76060', cex = .8, add = TRUE)
@@ -192,14 +194,14 @@ st_distance(atlas[1:5, ], cdqs[1:5,])
 st_intersects(atlas[151:160, ], cdqs)
 
 
-## ----buffer1, fig.width = 4, fig.height=4-------------------------------------
+## ----buffer1, fig.width = 4, fig.height=3-------------------------------------
 newatlas <- st_buffer(atlas[1:10, ], 30000)
 plot(st_geometry(atlas[1:10, ]))
 plot(st_geometry(newatlas),
      border = 'red', add = TRUE)
 
 
-## ----buffer2, fig.width = 4, fig.height=4-------------------------------------
+## ----buffer2, fig.width = 4, fig.height=3-------------------------------------
 newatlas <- st_buffer(atlas[1:10, ], -30000)
 plot(st_geometry(atlas[1:10, ]))
 plot(st_geometry(newatlas),
@@ -211,7 +213,7 @@ newatlas <- st_union(atlas)
 plot(newatlas)
 
 
-## ----convex, fig.width = 4, fig.height=4--------------------------------------
+## ----convex, fig.width = 4, fig.height=3--------------------------------------
 cdqshull <- st_convex_hull(st_union(cdqs))
 plot(st_geometry(cdqshull))
 plot(st_geometry(cdqs), add = TRUE)
@@ -225,10 +227,27 @@ plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
 
 
 ## ----difference, fig.width = 4, fig.height=4----------------------------------
+cdqs_atlas <- st_difference(newatlas, cdqshull)
+plot(st_geometry(newatlas))
+plot(st_geometry(cdqshull), add = TRUE)
+plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+
+
+## ----difference2, fig.width = 4, fig.height=4---------------------------------
 cdqs_atlas <- st_difference(cdqshull, newatlas)
 plot(st_geometry(newatlas))
 plot(st_geometry(cdqshull), add = TRUE)
 plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+
+
+## ----spatjoin1, fig.width = 4, fig.height=3-----------------------------------
+atlasJ <- st_join(atlas, cdqs)
+plot(atlasJ[,'Nombre.de.nicheurs.Number.of.Breeders'])
+
+
+## ----spatjoin2, fig.width = 4, fig.height=3-----------------------------------
+cdqsJ <- st_join(cdqs, atlas)
+plot(cdqsJ[,'id'])
 
 
 
@@ -236,6 +255,40 @@ plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
 
 ## ----include = FALSE----------------------------------------------------------
 source("_setup.R")
+
+
+## ----exsf, include = TRUE, eval = FALSE, purl = TRUE--------------------------
+## # Download and import atlas grid
+## govcan_dl_resources("f612e2b4-5c67-46dc-9a84-1154c649ab4e", path = 'output')
+## unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
+## atlas <- st_read('output/AtlasGrid-GrilleAtlas.gdb', layer = 'AtlasGrid_GrilleAtlas')
+## 
+## # Import atlas data as csv
+## dat <- read.csv('./data/DensityData-DonneesDeDensite.csv')
+## 
+## # Join data with grid
+## atpu <- dat[dat$Group == 'ATPU', ] %>% group_by(Stratum) %>% summarize(ATPU = mean(Density))
+## razo <- dat[dat$Group == 'RAZO', ] %>% group_by(Stratum) %>% summarize(RAZO = mean(Density))
+## atlas <- left_join(atlas, atpu, by = c("id" = "Stratum")) %>%
+##          left_join(razo, by = c("id" = "Stratum"))
+## 
+## 
+## # Convex hulls
+## atpu_ch <- st_convex_hull(st_union(atlas[atlas$ATPU > 6, ]))
+## razo_ch <- st_convex_hull(st_union(atlas[atlas$RAZO > 1, ]))
+## 
+## # Intersection
+## int <- st_intersection(atpu_ch,razo_ch)
+## 
+## # Area
+## st_area(int)
+## 
+## # Visualize
+## plot(st_geometry(atlas))
+## plot(atpu_ch, border = '#b1646d', lwd = 2, add = TRUE)
+## plot(razo_ch, border = '#b1646d', lwd = 2, add = TRUE)
+## plot(int, col = '#074a6c', add = TRUE)
+## 
 
 
 

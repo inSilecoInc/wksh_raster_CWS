@@ -29,20 +29,7 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
 ## `sf` objects
 
-.pull-left[
-- Most common geometries:
-  - `POINT`
-  - `MULTIPOINT`
-  - `LINESTRING`
-  - `MULTILINESTRING`
-  - `POLYGON`
-  - `MULTIPOLYGON`
-  - `GEOMETRYCOLLECTION`
-]
-
-.pull-right[
-![](https://r-spatial.github.io/sf/articles/sf1_files/figure-html/unnamed-chunk-20-1.png)
-]
+![](https://r-spatial.github.io/sf/articles/sf_xfig.png)
 
 
 ---
@@ -51,7 +38,24 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
 ## `sf` objects
 
-![](https://r-spatial.github.io/sf/articles/sf_xfig.png)
+.pull-left[
+- Most common geometries:
+  - `POINT`: .font80[vector]
+  - `MULTIPOINT`: .font80[matrix]
+  - `LINESTRING`: .font80[matrix]
+  - `MULTILINESTRING`: .font80[list of matrices]
+  - `POLYGON`: .font80[list of matrices]
+  - `MULTIPOLYGON`: .font80[list of lists of matrices]
+  - `GEOMETRYCOLLECTION`: .font80[combinations]
+]
+
+.pull-right[
+![](https://r-spatial.github.io/sf/articles/sf1_files/figure-html/unnamed-chunk-20-1.png)
+]
+
+--
+
+.font90[`r tr()` More [here](https://www.jessesadler.com/post/simple-feature-objects/) on sf objects and geometries]
 
 ---
 
@@ -61,9 +65,10 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
 Acess the [Computerized Database of Québec Seabirds (CDQS)](https://open.canada.ca/data/en/dataset/9cd6f8a1-e660-4e78-89a8-6e3f781da556) data using the [`rgovcan`](https://github.com/VLucet/rgovcan) package.
 
+.font90[
 ```{r csv}
 # Output folder
-dir.create('output')
+if (!file.exists('output')) dir.create('output')
 
 # remotes::install_github("vlucet/rgovcan")
 library(rgovcan)
@@ -73,6 +78,8 @@ govcan_dl_resources(id, path = 'output')
 # Import csv
 cdqs <- read.csv('output/CDQS_BIOMQ_2017.csv')
 ```
+]
+
 
 
 ---
@@ -81,11 +88,13 @@ cdqs <- read.csv('output/CDQS_BIOMQ_2017.csv')
 
 ## Importing: from `.csv`
 
+.font90[
 ```{r csvsf}
 cdqs <- st_as_sf(x = cdqs,
                  coords = c("CentroideX", "CentroideY"),
                  crs = 4326)
 ```
+]
 
 .font80[
 ```{r showcsvsf, echo = FALSE}
@@ -99,13 +108,13 @@ cdqs[,1]
 
 ## Importing: from `.csv`
 
-```{r csvplot}
-plot(st_geometry(cdqs))
+.font90[
+```{r csvplot, fig.width=4, fig.height=4}
+plot(cdqs[,1])
 ```
-
+]
 
 ---
-
 
 # Introduction to `sf`
 
@@ -113,17 +122,16 @@ plot(st_geometry(cdqs))
 
 [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
+.font90[
 ```{r shp, messages = FALSE, warnings = FALSE}
+# Download from open canada
 id <- "0c469c0e-8afd-4c62-9420-c50af2d34f97"
 govcan_dl_resources(id, path = 'output')
 unzip("output/Sterna_dougallii_Roseate_Tern_CH_2015.zip", exdir = 'output')
-
-# Import shapefile
-roseate <- st_read("output/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRUE)
 ```
+]
 
 ---
-
 
 # Introduction to `sf`
 
@@ -131,8 +139,10 @@ roseate <- st_read("output/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = T
 
 [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
-.font80[
-```{r showshp, echo = FALSE}
+.font90[
+```{r showshp, messages = FALSE, warnings = FALSE}
+# Import shapefile
+roseate <- st_read("output/Sterna_dougallii_Roseate_Tern_CH_2015.shp", quiet = TRUE)
 roseate
 ```
 ]
@@ -146,7 +156,7 @@ roseate
 
 [Roseate Tern critical habitats in Atlantic Canada](https://open.canada.ca/data/en/dataset/0c469c0e-8afd-4c62-9420-c50af2d34f97)
 
-.font80[
+.font90[
 ```{r shpplot}
 plot(st_geometry(roseate[4,]))
 ```
@@ -160,12 +170,16 @@ plot(st_geometry(roseate[4,]))
 
 We already have a geojson included in the workshop data: `st_laurence.geojson`
 
+.font90[
 ```{r geojson, hold = TRUE}
 stl <- st_read('data/st_laurence.geojson', quiet = TRUE)
 stl
 ```
+]
 
-`r tr()` We strongly suggest using geojson (single file) rather than shapefiles (multiple files)
+--
+
+.font90[`r tr()` We strongly suggest using geojson (single file) rather than shapefiles (multiple files)]
 
 ---
 
@@ -175,10 +189,11 @@ stl
 
 We already have a geojson included in the workshop data: `st_laurence.geojson`
 
-```{r geojsonplot, eval = FALSE}
-plot(st_geometry(stl))
+.font90[
+```{r geojsonplot, fig.width=5, fig.height=4, eval=FALSE}
+plot(stl)
 ```
-
+]
 
 ---
 
@@ -188,11 +203,13 @@ plot(st_geometry(stl))
 
 [Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
 
+.font90[
 ```{r gbd, messages = FALSE, warnings = FALSE}
 id <- "f612e2b4-5c67-46dc-9a84-1154c649ab4e"
 govcan_dl_resources(id, path = 'output')
 unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
 ```
+]
 
 ---
 
@@ -202,14 +219,29 @@ unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
 
 [Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
 
+.font90[
 ```{r gbdlayer, messages = FALSE, warnings = FALSE}
 # Visualize layers available in the geodatabase
 st_layers("output/AtlasGrid-GrilleAtlas.gdb")
+```
+]
 
+---
+
+# Introduction to `sf`
+
+## Importing: from `.gbd`
+
+[Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
+
+.font90[
+```{r gbdload, messages = FALSE, warnings = FALSE}
 # Load layer
 atlas <- st_read('output/AtlasGrid-GrilleAtlas.gdb',
                   layer = 'AtlasGrid_GrilleAtlas')
 ```
+]
+
 
 ---
 
@@ -219,9 +251,11 @@ atlas <- st_read('output/AtlasGrid-GrilleAtlas.gdb',
 
 [Atlas of Seabirds at Sea in Eastern Canada 2006-2016](https://open.canada.ca/data/en/dataset/f612e2b4-5c67-46dc-9a84-1154c649ab4e)
 
-```{r gbdplot, messages = FALSE, warnings = FALSE}
+.font90[
+```{r gbdplot, messages = FALSE, warnings = FALSE, fig.width=4,fig.height=4}
 plot(st_geometry(atlas))
 ```
+]
 
 ---
 
@@ -360,11 +394,13 @@ colnames(cdqs)
 
 - Working with conditional statements (use `filter()` from the tidyverse)
 
-```{r attr_sub, fig.width=6,fig.height=3.5}
+.font90[
+```{r attr_sub, fig.width=4,fig.height=4}
 newcdqs <- cdqs[cdqs$Annee.Year > 2000, ]
 plot(st_geometry(cdqs), pch = 1, col = '#2ae9ee', cex = 1)
 plot(st_geometry(newcdqs), pch = 20, col = '#d76060', cex = .8, add = TRUE)
 ```
+]
 
 ---
 
@@ -383,11 +419,13 @@ atlas
 
 ## Manipulating attributes: joins
 
+.font90[
 ```{r attr_join2, fig.width=6,fig.height=3.5}
 join_data <- data.frame(id = paste0('g', sample(nrow(atlas), nrow(atlas))),
                         value = runif(nrow(atlas)))
 join_data[1:10, ]
 ```
+]
 
 ---
 
@@ -395,9 +433,11 @@ join_data[1:10, ]
 
 ## Manipulating attributes: joins
 
+.font90[
 ```{r attr_join3, fig.width=6,fig.height=3.5}
 newatlas <- left_join(atlas, join_data, by='id')
 ```
+]
 
 .pull-left[
 .font80[
@@ -420,11 +460,12 @@ plot(newatlas[,'value'])
 
 ## Geometry manipulations: area
 
+.font90[
 ```{r area}
 atlas$area <- st_area(atlas)
 atlas
 ```
-
+]
 ---
 
 # Introduction to `sf`
@@ -445,26 +486,30 @@ st_distance(atlas[1:5, ], cdqs[1:5,])
 st_intersects(atlas[151:160, ], cdqs)
 ```
 
+.font90[`r tr()` Projections should be the same when doing binary manipulations (*i.e.* multiple objects)]
+.font90[`r tr()` Order matters. Returns the id of the 2nd object intersecting the 1st object]
+
 ---
 
 # Introduction to `sf`
 
-## Geometry manipulations: buffer (units = projection)
+## Geometry manipulations: buffer
 
 .pull-left[
 .font80[
-```{r buffer1, fig.width = 4, fig.height=4}
+```{r buffer1, fig.width = 4, fig.height=3}
 newatlas <- st_buffer(atlas[1:10, ], 30000)
 plot(st_geometry(atlas[1:10, ]))
 plot(st_geometry(newatlas),
      border = 'red', add = TRUE)
 ```
 ]
+.font90[`r tr()` Units = units of projection]
 ]
 
 .pull-left[
 .font80[
-```{r buffer2, fig.width = 4, fig.height=4}
+```{r buffer2, fig.width = 4, fig.height=3}
 newatlas <- st_buffer(atlas[1:10, ], -30000)
 plot(st_geometry(atlas[1:10, ]))
 plot(st_geometry(newatlas),
@@ -472,6 +517,7 @@ plot(st_geometry(newatlas),
 ```
 ]
 ]
+
 
 
 ---
@@ -493,11 +539,13 @@ plot(newatlas)
 
 ## Geometry manipulations: convex hull
 
-```{r convex, fig.width = 4, fig.height=4}
+```{r convex, fig.width = 4, fig.height=3}
 cdqshull <- st_convex_hull(st_union(cdqs))
 plot(st_geometry(cdqshull))
 plot(st_geometry(cdqs), add = TRUE)
 ```
+
+.font90[`r tr()` Geometries should be a single feature, hence the use of `union()`]
 
 ---
 
@@ -517,14 +565,55 @@ plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
 
 # Introduction to `sf`
 
-## Geometry manipulations: difference (order matters!)
+## Geometry manipulations: difference
 
+.pull-left[
+.font80[
 ```{r difference, fig.width = 4, fig.height=4}
+cdqs_atlas <- st_difference(newatlas, cdqshull)
+plot(st_geometry(newatlas))
+plot(st_geometry(cdqshull), add = TRUE)
+plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
+```
+]
+]
+
+.pull-right[
+.font80[
+```{r difference2, fig.width = 4, fig.height=4}
 cdqs_atlas <- st_difference(cdqshull, newatlas)
 plot(st_geometry(newatlas))
 plot(st_geometry(cdqshull), add = TRUE)
 plot(st_geometry(cdqs_atlas), col = 'red', add = TRUE)
 ```
+]
+]
+
+---
+
+# Introduction to `sf`
+
+## Geometry manipulations: spatial join
+
+.pull-left[
+.font80[
+```{r spatjoin1, fig.width = 4, fig.height=3}
+atlasJ <- st_join(atlas, cdqs)
+plot(atlasJ[,'Nombre.de.nicheurs.Number.of.Breeders'])
+```
+]
+]
+
+.pull-right[
+.font80[
+```{r spatjoin2, fig.width = 4, fig.height=3}
+cdqsJ <- st_join(cdqs, atlas)
+plot(cdqsJ[,'id'])
+```
+]
+]
+
+.font90[`r tr()` use the `join` argument to select any function compatible to `st_intersects`]
 
 ---
 
