@@ -26,14 +26,16 @@ jobs:
       - name: Build presentation
         run: |
           icons::download_fontawesome()
-          rmarkdown::render("index.Rmd", "all")
+          rmarkdown::render("_part1.Rmd", "all")
+          rmarkdown::render("_part2.Rmd", "all")
+          rmarkdown::render("_part3.Rmd", "all")
         shell: Rscript {0}
         
-      - name: Build data and script 
-        run: |
-          knitr::purl("index.Rmd", "script.R")
-          zip("data_and_script.zip", c("data", "script.R"))
-        shell: Rscript {0}
+      # - name: Build data and script 
+      #   run: |
+      #     knitr::purl("index.Rmd", "script.R")
+      #     zip("data_and_script.zip", c("data", "script.R"))
+      #   shell: Rscript {0}
                 
       - name: Deploy workshop 
         uses: peaceiris/actions-gh-pages@v3
