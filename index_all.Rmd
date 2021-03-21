@@ -1,0 +1,160 @@
+---
+title: "Raster with R"
+author: "inSileco Team"
+date: 2021-03-02
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+
+```{r setup, include = FALSE}
+source("_setup.R")
+# knitr::clean_cache(TRUE)
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+xaringanExtra::use_scribble()
+```
+
+
+class: title-slide, middle
+
+
+## .font200[`r rp()`asters]
+
+<br>
+
+.instructors[
+  .font160[Manipulate and visualize rasters with `r rp()`]
+  <br><br><br>
+  .authors140[David Beauchesne & Kevin Cazelles]
+  <br><br>
+  `r format(Sys.time(), '%B %d, %Y')`
+  <br>
+  .font200[
+  [`r gh()`](https://github.com/inSilecoInc/workshop_raster)
+  [`r db()`](https://github.com/inSilecoInc/workshop_raster/raw/gh-pages/data_and_script.zip)
+  [`r pd()`](https://github.com/inSilecoInc/workshop_raster/raw/main/raster_p1.pdf)
+  ]
+]
+
+<br>
+<img src="img/logoW.png" width="140px"></img>
+
+<!-- Modify accordingly -->
+[![deploy workshop](https://github.com/inSilecoInc/wksh_raster_CWS/actions/workflows/deploy.yml/badge.svg)](https://github.com/inSilecoInc/wksh_raster_CWS/actions/workflows/deploy.yml)
+
+.instructors[Content under [`r rfa("creative-commons")` `r rfa("creative-commons-by")`](https://creativecommons.org/licenses/by/4.0/) unless otherwise specified.]
+
+
+
+
+---
+
+class: inverse, center, middle
+
+# Learning objectives
+
+![:custom_hr]()
+
+## .font160[`r rfa("map")`  + `r rp()`]
+
+
+---
+
+# Learning objectives
+
+
+<!-- Day1 -->
+
+
+```{R, child = "_01_intro.Rmd"}
+```
+
+
+```{R, child = "_02_sfmin.Rmd"}
+```
+
+
+```{R, child = "_02e_sfmin.Rmd"}
+```
+
+
+```{R, child = "_03_stars_base.Rmd"}
+```
+
+
+```{R, child = "_04_stars_manip.Rmd"}
+```
+
+
+```{R, child = "_04e_stars_manip.Rmd"}
+```
+
+
+```{R, child = "_05_visualise.Rmd"}
+```
+
+
+```{R, child = "_06_tmap.Rmd"}
+```
+
+
+```{R, child = "_06e_tmap.Rmd"}
+```
+
+
+
+<!-- Day2 -->
+
+```{R, child = "_07_interactive_maps.Rmd"}
+```
+
+```{R, child = "_08_leaflet.Rmd"}
+```
+
+```{R, child = "_08e_leaflet.Rmd"}
+```
+
+
+```{R, child = "_09_shiny_intro.Rmd"}
+```
+
+```{R, child = "_10_shiny_mini.Rmd"}
+```
+
+```{R, child = "_10e_shiny_mini.Rmd"}
+```
+
+```{R, child = "_11_shiny_spatial.Rmd"}
+```
+
+```{R, child = "_11e_shiny_spatial.Rmd"}
+```
+
+
+---
+class: inverse, center, middle
+
+# `r nf()` Resources
+
+---
+
+# Resources `r rfa("link")`
+
+- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+- [Spatial Data Science](https://keen-swartz-3146c4.netlify.app/)
+- [Blog R-spatial](https://www.r-spatial.org/)
+- [Open Geospatial Consortium](https://www.ogc.org/)
+- https://nowosad.github.io/BioGIS_19/workshop/#64
