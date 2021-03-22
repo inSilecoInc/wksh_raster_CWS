@@ -28,11 +28,17 @@ install.packages(c("mapview", "stars", "shiny", "mapedit", "tmap"))
 
 ### Day 1
 
-* [Part 1: introduction + vectors (`sf`)](https://insilecoinc.github.io/wksh_raster_CWS/_part1.html)
+* [Part 1: introduction + vectors (`sf`)](https://insilecoinc.github.io/wksh_raster_CWS/_part1.html) 
+  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part1.html) 
+  - [code](https://insilecoinc.github.io/wksh_raster_CWS/code_part1.R)
 
 * [Part 2: raster (`stars`)](https://insilecoinc.github.io/wksh_raster_CWS/_part2.html)
+  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part2.html) 
+  - [code](https://insilecoinc.github.io/wksh_raster_CWS/code_part2.R)
 
 * [Part 3: visualisation (`tmap`)](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html)
+  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html) 
+  - [code](https://insilecoinc.github.io/wksh_raster_CWS/code_part3.R)
 
 
 ### Day 2
