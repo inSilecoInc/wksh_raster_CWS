@@ -111,6 +111,8 @@ class(rar_c)
 
 ```{R}
 class(ras[[1]])
+class(ras[["bathy.tif"]])
+class(ras$bathy.tif)
 ```
 
 ---
@@ -145,11 +147,33 @@ ras[[1]][1, 1]
 ras[[1]][1:10, 11:20]
 ```
 
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+
 ```{R apply}
-# mean along lat 
-apply(ras[[1]], 1, mean)
-# mean along long 
-apply(ras[[1]], 2, mean)
+# mean along latitude
+m_lat <- apply(ras[[1]], 2, mean)
+m_lat[1:10]
+# mean along longitude
+m_lon <- apply(ras[[1]], 1, mean)
+m_lon[1:10]
+```
+
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R}
+lon <- st_get_dimension_values(ras, 1)
+lat <- st_get_dimension_values(ras, 2)
+```
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R}
+plot(lat, m_lat)
 ```
 
 ---

@@ -111,7 +111,6 @@ plot(ras_c)
 ```
 
 
-
 ---
 # Mask 
 
@@ -160,15 +159,13 @@ plot(ras_mi)
 
 
 
-
-
 ---
 # Warping/Resampling with [`stars`](https://CRAN.R-project.org/package=stars)
 
 ```{R ras_warp, cache = TRUE}
 ras_template1 <- st_as_stars(st_bbox(ras), nx = 21, ny = 21, 
   values = runif(21 * 21)) # create template
-ras_w1 <- st_warp(ras, ras_template1)
+ras_w1 <- st_warp(ras, ras_template1) 
 plot(ras_w1)
 ```
 
@@ -177,6 +174,16 @@ plot(ras_w1)
 
 Work with rasters of different resolutions
 
+
+---
+# Warping/Resampling with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R ras_warp_crs, cache = TRUE}
+ras_template1 <- st_as_stars(st_bbox(ras), nx = 21, ny = 21, 
+  values = runif(21 * 21)) # create template
+ras_w1 <- st_warp(ras, st_transform(ras_template1, crs = 3857)) 
+plot(ras_w1)
+```
 
 
 <!-- show how to do this with a second object -->
@@ -191,19 +198,61 @@ plot(ras_w2)
 
 
 
+---
+# Rasterize with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R, cache = TRUE}
+ras_template1[[1]] <- NA
+stl_r <- st_rasterize(stl, ras_template1) # use a template
+plot(stl_r)
+```
 
 ---
 # Rasterize with [`stars`](https://CRAN.R-project.org/package=stars)
 
 ```{R rasters1, cache = TRUE}
-stl_s <- st_rasterize(stl, dy = .1, dx = .1)
+stl_s <- st_rasterize(stl, dy = .1, dx = .1) # use cell-size
 plot(stl_s)
 ```
+
 
 ---
 # Rasterize faster 
 
 - Checkout [fasterize](https://github.com/ecohealthalliance/fasterize) 
+
+- Check out [terra](https://cran.r-project.org/web/packages/terra/index.html)
+
+
+---
+# Mask faster with `st_rasterize()`
+
+### Solution proposed by Dewey Dunnington
+ 
+```{R, soldd1} 
+# load files
+gulf_region <- sf::read_sf("data/st_laurence.geojson")
+strs <- stars::read_stars("data/bathy.tif")
+# create raster mask
+template <- strs
+template[[1]][] <- NA
+gulf_region$val_ras <- 1
+
+rasterized <- stars::st_rasterize(gulf_region["val_ras"], template = template)
+```
+
+---
+# Mask faster  with `st_rasterize()`
+
+### Solution proposed by Dewey Dunnington
+ 
+```{R, soldd2} 
+plot(rasterized)
+```
+
+
+
+
 
 
 ---
@@ -234,7 +283,7 @@ plot(pol[which.max(st_area(pol)),])
 ---
 # Dealing with large rasters
 
-- When a raster is large (fair amount of your RAM), `stars` creates a `stars_proxy` object.
+- When a raster is large (takes fair amount of your RAM), `stars` creates a `stars_proxy` object.
 
 > Stars proxy objects take another approach: upon creation they contain no data at all, but only pointers to where the data can be read. Data is only read when it is needed, and only as much as is needed [...]. ([Stars proxy objects](https://r-spatial.github.io/stars/articles/stars2.html))
 
@@ -253,6 +302,10 @@ plot(pol[which.max(st_area(pol)),])
 ### - Multi-band rasters (satellite images)
 
 ### - Handle several rasters at once 
+
+--
+
+### - `rasterStack` and `rasterBrick` in package `raster`
 
 
 
@@ -342,6 +395,17 @@ plot(st_crop(ras_stc2, ext))
 ```{R ras_stc6, cache = TRUE}
 (ras_ap <- st_apply(ras_stc2, c(1, 2), sum))
 ```
+
+
+---
+# Stack with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```R
+?st.apply
+```
+
+[`future.apply`](https://github.com/HenrikBengtsson/future.apply) ==> `st_apply(..., future = TRUE)`
+
 
 ---
 # Stack with [`stars`](https://CRAN.R-project.org/package=stars)
