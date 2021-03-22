@@ -1100,17 +1100,17 @@ atlas
 join_data &lt;- data.frame(id = paste0('g', sample(nrow(atlas), nrow(atlas))),
                         value = runif(nrow(atlas)))
 join_data[1:10, ]
-#&gt;      id     value
-#&gt; 1  g477 0.8242749
-#&gt; 2  g261 0.9519837
-#&gt; 3   g25 0.3245183
-#&gt; 4  g368 0.5657104
-#&gt; 5  g167 0.4112566
-#&gt; 6  g448 0.2608792
-#&gt; 7  g200 0.9861265
-#&gt; 8  g214 0.9870325
-#&gt; 9  g455 0.2046733
-#&gt; 10 g337 0.8757051
+#&gt;      id      value
+#&gt; 1  g467 0.36190400
+#&gt; 2  g352 0.96915035
+#&gt; 3   g62 0.64290221
+#&gt; 4  g512 0.65581474
+#&gt; 5   g88 0.10871468
+#&gt; 6  g207 0.32755810
+#&gt; 7  g420 0.79630763
+#&gt; 8  g251 0.38239524
+#&gt; 9  g506 0.01713558
+#&gt; 10  g72 0.86291482
 ```
 ]
 
@@ -1131,17 +1131,17 @@ newatlas &lt;- left_join(atlas, join_data, by='id')
 .font80[
 
 ```
-#&gt;     id     value                          Shape
-#&gt; 1   g1 0.9120130 MULTIPOLYGON (((-1161755 -1...
-#&gt; 2   g2 0.3702108 MULTIPOLYGON (((38245.24 -1...
-#&gt; 3   g3 0.6766675 MULTIPOLYGON (((-811754.8 -...
-#&gt; 4   g4 0.5501040 MULTIPOLYGON (((-711754.8 -...
-#&gt; 5   g5 0.1695208 MULTIPOLYGON (((-611754.8 -...
-#&gt; 6   g6 0.8309321 MULTIPOLYGON (((-511754.8 -...
-#&gt; 7   g7 0.5039707 MULTIPOLYGON (((-411754.8 -...
-#&gt; 8   g8 0.4126902 MULTIPOLYGON (((-311754.8 -...
-#&gt; 9   g9 0.4759540 MULTIPOLYGON (((88245.24 -1...
-#&gt; 10 g10 0.2300357 MULTIPOLYGON (((188245.2 -1...
+#&gt;     id      value                          Shape
+#&gt; 1   g1 0.69470630 MULTIPOLYGON (((-1161755 -1...
+#&gt; 2   g2 0.43052726 MULTIPOLYGON (((38245.24 -1...
+#&gt; 3   g3 0.97190296 MULTIPOLYGON (((-811754.8 -...
+#&gt; 4   g4 0.24354893 MULTIPOLYGON (((-711754.8 -...
+#&gt; 5   g5 0.20258070 MULTIPOLYGON (((-611754.8 -...
+#&gt; 6   g6 0.16577466 MULTIPOLYGON (((-511754.8 -...
+#&gt; 7   g7 0.15049562 MULTIPOLYGON (((-411754.8 -...
+#&gt; 8   g8 0.85207006 MULTIPOLYGON (((-311754.8 -...
+#&gt; 9   g9 0.25559032 MULTIPOLYGON (((88245.24 -1...
+#&gt; 10 g10 0.04651859 MULTIPOLYGON (((188245.2 -1...
 ```
 ]
 ]
@@ -1451,22 +1451,6 @@ class: inverse, center, middle
 
 .font100[
 
-```r
-# Download and import atlas grid
-govcan_dl_resources("f612e2b4-5c67-46dc-9a84-1154c649ab4e", path = 'output')
-unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
-atlas &lt;- st_read('output/AtlasGrid-GrilleAtlas.gdb', layer = 'AtlasGrid_GrilleAtlas')
-
-# Import atlas data as csv
-dat &lt;- read.csv('./data/DensityData-DonneesDeDensite.csv')
-
-# Join data with grid
-atpu &lt;- dat[dat$Group == 'ATPU', ] %&gt;% group_by(Stratum) %&gt;% summarize(ATPU = mean(Density))
-razo &lt;- dat[dat$Group == 'RAZO', ] %&gt;% group_by(Stratum) %&gt;% summarize(RAZO = mean(Density))
-atlas &lt;- left_join(atlas, atpu, by = c("id" = "Stratum")) %&gt;%
-         left_join(razo, by = c("id" = "Stratum"))
-
-```
 ]
 
 ---
@@ -1477,24 +1461,6 @@ atlas &lt;- left_join(atlas, atpu, by = c("id" = "Stratum")) %&gt;%
 
 .font100[
 
-```r
-# Convex hulls
-atpu_ch &lt;- st_convex_hull(st_union(atlas[atlas$ATPU &gt; 6, ]))
-razo_ch &lt;- st_convex_hull(st_union(atlas[atlas$RAZO &gt; 1, ]))
-
-# Intersection
-int &lt;- st_intersection(atpu_ch,razo_ch)
-
-# Area
-st_area(int)
-
-# Visualize
-plot(st_geometry(atlas))
-plot(atpu_ch, border = '#b1646d', lwd = 2, add = TRUE)
-plot(razo_ch, border = '#b1646d', lwd = 2, add = TRUE)
-plot(int, col = '#074a6c', add = TRUE)
-
-```
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

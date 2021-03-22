@@ -26,8 +26,14 @@ install.packages(c("mapview", "stars", "shiny", "mapedit", "tmap"))
 
 ## Presentations
 
+### Day 1
+
 * [Part 1: introduction + vectors (`sf`)](https://insilecoinc.github.io/wksh_raster_CWS/_part1.html)
 
 * [Part 2: raster (`stars`)](https://insilecoinc.github.io/wksh_raster_CWS/_part2.html)
 
 * [Part 3: visualisation (`tmap`)](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html)
+
+
+### Day 2
+

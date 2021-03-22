@@ -28,22 +28,10 @@ class: inverse, center, middle
 
 
 
----
-# What do we have? 
-
-```{R stars_obj}
+```{R stars_obj, echo = FALSE}
 library(stars)
 ras <- read_stars("data/bathy.tif") 
-ras
 ```
-
----
-# What do we have? 
-
-```{R}
-ras[[1]]
-```
-
 
 ---
 # Create a modified copy

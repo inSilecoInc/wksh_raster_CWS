@@ -39,3 +39,10 @@ class: inverse, center, middle
 
 ### Do the same operation with a raster of temperature. 
 
+
+
+---
+
+# Exercice
+
+## Solution
