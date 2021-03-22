@@ -2,7 +2,7 @@
 title: "intro to sf"
 ---
 
-```{r include = FALSE}
+```{r include = FALSE, purl = FALSE}
 source("_setup.R")
 library(sf)
 library(tidyverse)

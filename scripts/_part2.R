@@ -1,18 +1,3 @@
-## ----setup, include = FALSE---------------------------------
-source("_setup.R")
-# knitr::clean_cache(TRUE)
-htmltools::tagList(
-  xaringanExtra::use_clipboard(
-    button_text = "<i class=\"fa fa-clipboard\"></i>",
-    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
-  ),
-  rmarkdown::html_dependency_font_awesome()
-)
-xaringanExtra::use_scribble()
-
-
-## ---- child = "_03_stars_base.Rmd"--------------------------
-
 ## ----read_stars---------------------------------------------
 library(stars)
 ras <- read_stars("data/bathy.tif")   # argument `driver` to specify the driver
@@ -342,12 +327,5 @@ plot(st_crop(ras_stc2, ext))
 
 ## ----ras_stc6b, cache = TRUE--------------------------------
 plot(ras_ap)
-
-
-
-## ---- child = "_04e_stars_manip.Rmd"------------------------
-
-## ----include = FALSE----------------------------------------
-source("_setup.R")
 
 

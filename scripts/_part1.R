@@ -1,27 +1,3 @@
-## ----setup, include = FALSE---------------------------------
-source("_setup.R")
-# knitr::clean_cache(TRUE)
-htmltools::tagList(
-  xaringanExtra::use_clipboard(
-    button_text = "<i class=\"fa fa-clipboard\"></i>",
-    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
-  ),
-  rmarkdown::html_dependency_font_awesome()
-)
-xaringanExtra::use_scribble()
-
-
-## ---- child = "_01_intro.Rmd"-------------------------------
-
-## ----include = FALSE----------------------------------------
-source("_setup.R")
-
-
-
-## ---- child = "_02_sfmin.Rmd"-------------------------------
-
-## ----include = FALSE----------------------------------------
-source("_setup.R")
 library(sf)
 library(tidyverse)
 
@@ -264,10 +240,5 @@ cdqsJ <- st_join(cdqs, atlas)
 plot(cdqsJ[,'id'])
 
 
-
-## ---- child = "_02e_sfmin.Rmd"------------------------------
-
-## ----include = FALSE----------------------------------------
-source("_setup.R")
 
 

@@ -12,7 +12,7 @@ output:
 ---
 
 
-```{r include = FALSE}
+```{r include = FALSE, purl = FALSE}
 source("_setup.R")
 ```
 
