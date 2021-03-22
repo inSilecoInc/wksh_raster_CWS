@@ -190,8 +190,8 @@ stl
 We already have a geojson included in the workshop data: `st_laurence.geojson`
 
 .font90[
-```{r geojsonplot, fig.width=5, fig.height=4, eval=FALSE}
-plot(stl)
+```{r geojsonplot, fig.width=5, fig.height=4, eval=TRUE}
+plot(st_geometry(stl))
 ```
 ]
 
@@ -369,7 +369,7 @@ hist(cdqs$var2)
 ## Manipulating attributes: new variable
 
 ```{r attr_add2, fig.width=6,fig.height=4}
-cdqs <- cdqs %>% mutate(var3 = log(Nombre.de.nicheurs.Number.of.Breeders+1))
+cdqs <- mutate(cdqs, var3 = log(Nombre.de.nicheurs.Number.of.Breeders+1))
 hist(cdqs$var3)
 ```
 
@@ -384,6 +384,45 @@ cdqs$var2 <- NULL
 cdqs <- cdqs %>% select(-var3)
 colnames(cdqs)
 ```
+
+---
+
+# Introduction to `sf`
+
+## A quick word on pipes
+
+The pipe operator `%>%` is a chained method that lets you pass an intermediate result to the next function. Thus, these two code chunks provide the same output:
+
+.pull-left[
+.font90[
+```{r use_pipe}
+# Example with pipe operator
+cdqs <- cdqs %>%
+        mutate(var3 = log(Nombre.de.nicheurs.Number.of.Breeders+1)) %>%
+        select(-var3)
+'var3' %in% colnames(cdqs)
+```
+]
+]
+
+.pull-right[
+.font90[
+```{r nopipe}
+cdqs <- mutate(cdqs, var3 = log(Nombre.de.nicheurs.Number.of.Breeders+1))
+cdqs <- select(cdqs, -var3)
+'var3' %in% colnames(cdqs)
+```
+]
+]
+
+
+.font70[`%>%` is similar to the `+` operator used by `ggplot2` and `tmap`. More on this later]
+
+.font70[See [here](https://www.datacamp.com/community/tutorials/pipe-r-tutorial) for a full description of the history and use of pipes. Note that in the upcoming release
+
+A [simple native pipe syntax](https://cran.r-project.org/doc/manuals/r-devel/NEWS.html), `|>`, will be included in the upcoming stable release.
+
+]
 
 
 ---

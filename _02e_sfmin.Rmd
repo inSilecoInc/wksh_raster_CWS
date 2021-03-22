@@ -23,13 +23,13 @@ class: inverse, center, middle
 
 ## Steps
 
-1. Use `rgovcan` to download the atlas data ID = "f612e2b4-5c67-46dc-9a84-1154c649ab4e"
+1. Use `rgovcan` to download the atlas data `ID = "f612e2b4-5c67-46dc-9a84-1154c649ab4e"`
 2. Load ‘data/dat.csv’ to access the data associated with the atlas
 3. Create two objects containing data for Atlantic Puffin and Razorbill
 4. Join the data for the Atlantic Puffin and Razorbill with the atlas grid
 5. Create two convex hulls:
-  - Atlantic Puffin with densities > 6 birds / km^2
-  - Razorbill with densities > 1 birds / km^2
+  - Atlantic Puffin with densities > 6 birds / $km^2$
+  - Razorbill with densities > 1 birds / $km^2$
 6. Do a zonal intersection between the convex hulls
 7. Measure the overlapping area between the two convex hulls
 
