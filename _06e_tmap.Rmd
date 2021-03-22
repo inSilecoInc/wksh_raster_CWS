@@ -49,7 +49,7 @@ elv + shp + oth
 ---
 # Solution 
 
-```{R sol4a, include = TRUE, eval = FALSE, purl = TRUE}
+```{R sol4a, include = TRUE, eval = FALSE, purl = FALSE}
 # manipulation 
 ras_v <- ras[stl]
 names(ras_v) <- "Elevation"
@@ -67,7 +67,7 @@ elv <- tm_shape(ras_v) +
 ---
 # Solution 
 
-```{R sol4b, include = TRUE, eval = FALSE, purl = TRUE}
+```{R sol4b, include = TRUE, eval = FALSE, purl = FALSE}
 # borders 
 shp <- tm_shape(stl) + tm_borders(col = "black", lwd = 2)
 

@@ -3,7 +3,7 @@ title: "intro to sf"
 ---
 
 
-```{r include = FALSE}
+```{r include = FALSE, purl = FALSE}
 source("_setup.R")
 ```
 
@@ -43,7 +43,7 @@ class: inverse, center, middle
 ## Solution
 
 .font100[
-```{r exsf, include = FALSE, eval = FALSE, purl = TRUE}
+```{r exsf, include = FALSE, eval = FALSE, purl = FALSE}
 # Download and import atlas grid
 govcan_dl_resources("f612e2b4-5c67-46dc-9a84-1154c649ab4e", path = 'output')
 unzip("output/AtlasGrid-GrilleAtlas.gdb.zip", exdir = 'output')
@@ -68,7 +68,7 @@ atlas <- left_join(atlas, atpu, by = c("id" = "Stratum")) %>%
 ## Solution
 
 .font100[
-```{r exsf2, include = FALSE, eval = FALSE, purl = TRUE}
+```{r exsf2, include = FALSE, eval = FALSE, purl = FALSE}
 # Convex hulls
 atpu_ch <- st_convex_hull(st_union(atlas[atlas$ATPU > 6, ]))
 razo_ch <- st_convex_hull(st_union(atlas[atlas$RAZO > 1, ]))

@@ -25,7 +25,7 @@ class: inverse, center, middle
 
 --
 
-### Draw a convex hull around one colony 
+### Draw a convex hull around one colony or one species distribution
 
 --
 
@@ -37,12 +37,36 @@ class: inverse, center, middle
 
 --
 
-### Do the same operation with a raster of temperature. 
+### Extract values from raster for a given species using `st_extract()`
 
 
 
 ---
 
-# Exercice
+# Exercise
 
 ## Solution
+
+```{R, echo = FALSE, eval = FALSE, purl = FALSE}
+library(stars)
+library(dplyr)
+ras <- read_stars("data/bathy.tif")
+cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
+                 coords = c("CentroideX", "CentroideY"),
+                 crs = 4326)
+cdqs_ce <- cdqs %>% 
+  filter(Espece.Species.EN == "Common Eider") %>% 
+  st_union %>%
+  st_convex_hull
+# plot(st_geometry(cdqs_ce))
+# try to mask faster if you want! 
+ras_tmp <- st_crop(ras, st_bbox(cdqs_ce))
+ras_ce <- ras_tmp[cdqs_re]
+# plot(ras_ce)
+hist(ras_ce[[1]])
+#
+df_ce <- st_extract(ras, cdqs %>% 
+  filter(Espece.Species.EN == "Common Eider"))
+hist(df_ce$bathy.tif)
+```
+
