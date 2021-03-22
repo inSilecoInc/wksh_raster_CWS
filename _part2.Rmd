@@ -57,22 +57,6 @@ class: title-slide, middle
 
 
 
----
-
-class: inverse, center, middle
-
-# Learning objectives
-
-![:custom_hr]()
-
-## .font160[`r rfa("map")`  + `r rp()`]
-
-
----
-
-# Learning objectives
-
-
 <!-- Day1 -->
 
 

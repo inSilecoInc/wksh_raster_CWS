@@ -43,6 +43,9 @@ class: inverse, center, middle
     - `r nf()` https://github.com/dkahle/ggmap
 - [`rasterVis`](https://CRAN.R-project.org/package=rasterVis)
     - `r nf()` https://oscarperpinan.github.io/rastervis/
+- [`mapsf`](https://CRAN.R-project.org/package=mapsf)
+    - `r nf()` https://riatelab.github.io/mapsf/
+
 
 --
 
@@ -52,7 +55,6 @@ class: inverse, center, middle
 - [`leaflet`](https://CRAN.R-project.org/package=leaflet)
 - [`mapview`](https://CRAN.R-project.org/package=mapview)
 
-`r nf()` day 2 of the workshop.
 
 
 ---
