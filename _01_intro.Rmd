@@ -123,6 +123,9 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
 .center[![:scale 50%](https://roelverbelen.netlify.app/img/hex-stickers.png)]
 
+???
+
+Also tons of spatial packages
 
 
 ---
@@ -153,7 +156,7 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 ???
 
 One is not better than the other
-do more, oik but do it in a better way
+do more, ok but do it in a better way
 
 
 ---
