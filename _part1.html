@@ -1060,17 +1060,17 @@ atlas
 join_data &lt;- data.frame(id = paste0('g', sample(nrow(atlas), nrow(atlas))),
                         value = runif(nrow(atlas)))
 join_data[1:10, ]
-#&gt;      id      value
-#&gt; 1  g316 0.09432881
-#&gt; 2  g364 0.95592181
-#&gt; 3  g394 0.57728568
-#&gt; 4   g87 0.78560630
-#&gt; 5  g238 0.79969831
-#&gt; 6   g20 0.18202800
-#&gt; 7  g462 0.41587109
-#&gt; 8  g339 0.39653571
-#&gt; 9    g8 0.49198455
-#&gt; 10 g249 0.23305315
+#&gt;      id     value
+#&gt; 1  g128 0.1862800
+#&gt; 2  g418 0.6473264
+#&gt; 3  g283 0.7137069
+#&gt; 4  g390 0.4688739
+#&gt; 5  g415 0.3701115
+#&gt; 6  g318 0.3368625
+#&gt; 7  g311 0.5636832
+#&gt; 8   g49 0.3180208
+#&gt; 9   g86 0.6454947
+#&gt; 10  g66 0.3462861
 ```
 ]
 
@@ -1092,16 +1092,16 @@ newatlas &lt;- left_join(atlas, join_data, by='id')
 
 ```
 #&gt;     id      value                          Shape
-#&gt; 1   g1 0.62730109 MULTIPOLYGON (((-1161755 -1...
-#&gt; 2   g2 0.43720217 MULTIPOLYGON (((38245.24 -1...
-#&gt; 3   g3 0.19803506 MULTIPOLYGON (((-811754.8 -...
-#&gt; 4   g4 0.50451810 MULTIPOLYGON (((-711754.8 -...
-#&gt; 5   g5 0.58478506 MULTIPOLYGON (((-611754.8 -...
-#&gt; 6   g6 0.67373456 MULTIPOLYGON (((-511754.8 -...
-#&gt; 7   g7 0.46770675 MULTIPOLYGON (((-411754.8 -...
-#&gt; 8   g8 0.49198455 MULTIPOLYGON (((-311754.8 -...
-#&gt; 9   g9 0.31729556 MULTIPOLYGON (((88245.24 -1...
-#&gt; 10 g10 0.05908929 MULTIPOLYGON (((188245.2 -1...
+#&gt; 1   g1 0.76336396 MULTIPOLYGON (((-1161755 -1...
+#&gt; 2   g2 0.30436117 MULTIPOLYGON (((38245.24 -1...
+#&gt; 3   g3 0.89946050 MULTIPOLYGON (((-811754.8 -...
+#&gt; 4   g4 0.57845194 MULTIPOLYGON (((-711754.8 -...
+#&gt; 5   g5 0.62347877 MULTIPOLYGON (((-611754.8 -...
+#&gt; 6   g6 0.12247536 MULTIPOLYGON (((-511754.8 -...
+#&gt; 7   g7 0.28821053 MULTIPOLYGON (((-411754.8 -...
+#&gt; 8   g8 0.09934152 MULTIPOLYGON (((-311754.8 -...
+#&gt; 9   g9 0.76372238 MULTIPOLYGON (((88245.24 -1...
+#&gt; 10 g10 0.21736751 MULTIPOLYGON (((188245.2 -1...
 ```
 ]
 ]
@@ -1409,6 +1409,7 @@ class: inverse, center, middle
 
 ## Solution
 
+.font100[
 
 ```r
 # Download and import atlas grid
@@ -1425,7 +1426,18 @@ razo &lt;- dat[dat$Group == 'RAZO', ] %&gt;% group_by(Stratum) %&gt;% summarize(
 atlas &lt;- left_join(atlas, atpu, by = c("id" = "Stratum")) %&gt;%
          left_join(razo, by = c("id" = "Stratum"))
 
+```
+]
 
+---
+
+# Exercice
+
+## Solution
+
+.font100[
+
+```r
 # Convex hulls
 atpu_ch &lt;- st_convex_hull(st_union(atlas[atlas$ATPU &gt; 6, ]))
 razo_ch &lt;- st_convex_hull(st_union(atlas[atlas$RAZO &gt; 1, ]))
@@ -1443,6 +1455,7 @@ plot(razo_ch, border = '#b1646d', lwd = 2, add = TRUE)
 plot(int, col = '#074a6c', add = TRUE)
 
 ```
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
