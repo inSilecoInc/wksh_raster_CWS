@@ -116,47 +116,6 @@ lf
 ]
 
 
----
-
-# Package [`leaflet`](https://cran.r-project.org/package=leaflet)
-
-## A quick word on pipes
-
-The pipe operator `%>%` is a chained method that lets you pass an intermediate result to the next function. Thus, these two code chunks provide the same output:
-
-.pull-left[
-```{r use_pipe}
-# Example with pipe operator
-lf <- leaflet() %>%
- setView(lng = -63,
-         lat = 48,
-         zoom = 5) %>%
- addTiles(group = 'Default')
-
-```
-]
-
-.pull-right[
-```{r nopipe}
-# Example without pipe operator
-lf <- setView(map = leaflet(),
-              lng = -63,
-              lat = 48,
-              zoom = 5)
-lf <- addTiles(map = lf,
-               group = 'Default')
-```
-]
-
-
-
-.font70[`%>%` is similar to the `+` operator used by `ggplot2` and `tmap`]
-
-.font70[See [here](https://www.datacamp.com/community/tutorials/pipe-r-tutorial) for a full description of the history and use of pipes. Note that in the upcoming release
-
-A [simple native pipe syntax](https://cran.r-project.org/doc/manuals/r-devel/NEWS.html), `|>`, will be included in the upcoming stable release.
-
-]
 
 ---
 
@@ -388,8 +347,8 @@ htmlwidgets::saveWidget(lf, file="output/lf.html")
 .pull-left2[
 ```{r mapview, eval = FALSE, out.width = "100%"}
 library(mapview)
-mv <- mapview(hyp) + 
-  mapview(fish) + 
+mv <- mapview(hyp) +
+  mapview(fish) +
   mapview(acid)
 mv@map
 ```
@@ -415,5 +374,3 @@ mapshot(mv, url = 'output/map.html')
 ```
 
 The interactive map can then be shared with the `html` file and `map_files/` folder.
-
-
