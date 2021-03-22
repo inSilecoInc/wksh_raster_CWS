@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Rasters with R
 
 ![deploy workshop](https://github.com/inSilecoInc/workshop_R_template/workflows/deploy%20workshop/badge.svg)
@@ -25,8 +29,8 @@ install.packages(c("mapview", "stars", "shiny", "mapedit", "tmap"))
 
 ## Presentations
 
-* [Part 1: introduction + vectors (`sf`)](_part1.html)
+* [Part 1: introduction + vectors (`sf`)](https://insilecoinc.github.io/wksh_raster_CWS/_part1.html)
 
-* [Part 2: raster (`stars`](_part2.html)
+* [Part 2: raster (`stars`)](https://insilecoinc.github.io/wksh_raster_CWS/_part2.html)
 
-* [Part 2: visualisation (`tmap`)](_part2.html)
+* [Part 2: visualisation (`tmap`)](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html)

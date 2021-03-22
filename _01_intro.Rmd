@@ -25,7 +25,7 @@ class: inverse, center, middle
 
 ![:custom_hr]()
 
-## Why use `r rp()` for rasters? (`r ck()`~15min)
+## Why use `r rp()` for spatial data? (`r ck()`~15min)
 
 
 ???
@@ -34,37 +34,75 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
 
 
-
 ---
 
-# Raster files 
+# Spatial Data: Vectors
 
-> Raster files are grids of equally sized (most often) cells (or pixels).
-
---
-
-> Every cell has one or several values (or missing values).
+* Vectors are collections of points
 
 --
 
-> Cells are georeferenced: coordinates + CRS 
+* Points may be grouped and ordered (lines, polygons)
 
 --
 
-> Commonly used to represent continuous phenomena (e.g. temperature, elevation) and images (airborne or satellite imagery).
+* Points are georeferenced: coordinates + CRS 
 
 
+--
+
+* Additional data may be associated with the different points or group of points (attribute table)
+
+--
+
+* Commonly used to represent areas, trajectories....
 
 
 ---
-# Raster files 
+# Spatial Data: Vectors
 
 - Examples of raster file formats: 
+
+  - **ESRI Shapefile** (see https://www.loc.gov/preservation/digital/formats/fdd/fdd000280.shtml)
+  - **GeoJSON** (see https://en.wikipedia.org/wiki/GeoJSON)
+  - **GeoPackage** (vectors and raster, see https://www.ogc.org/standards/geopackage)
+  
+--
+
+- `r nf()` More details :
+
+  - https://gisgeography.com/gis-formats/
+  - https://gdal.org/drivers/vector/index.html
+
+
+---
+
+# Spatial Data: Rasters
+
+* Raster are grids of equally sized (most often) cells (or pixels).
+
+--
+
+* Every cell has one or several values (or missing values).
+
+--
+
+* Cells are georeferenced: coordinates + CRS 
+
+--
+
+* Commonly used to represent continuous phenomena (e.g. temperature, elevation) and images (airborne or satellite imagery).
+
+
+---
+# Spatial Data: Rasters
+
+- Examples of vector file formats: 
 
   - **GeoTIFF** (see https://trac.osgeo.org/geotiff)
   - **NetCDF** (see https://www.unidata.ucar.edu/software/netcdf/)
   - **KML** (also supports vector objects, see https://www.ogc.org/standards/kml/)
-  - **GeoPackage** (also supports vector objects, see https://www.ogc.org/standards/geopackage)
+  - **GeoPackage** (see https://www.ogc.org/standards/geopackage)
   
 --
 
@@ -72,6 +110,8 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
 
   - https://gisgeography.com/gis-formats/
   - https://gdal.org/drivers/raster/index.html
+
+
 
 
 ---
