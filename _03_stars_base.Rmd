@@ -20,7 +20,7 @@ source("_setup.R")
 
 class: inverse, center, middle
 
-# `r nf()` Introduction to stars
+# `r nf()` Introduction to `stars`
 
 ![:custom_hr]()
 
@@ -29,15 +29,6 @@ class: inverse, center, middle
 
 ---
 
-This section should introduce stars
-
-* what is it 
-* understand the object 
-* import/export
-* raster conversion
-
-
----
 # Package [`stars`](https://CRAN.R-project.org/package=stars): SpatioTemporal ARrayS
 
 ### Extent `sf` to Raster and Vector Datacubes

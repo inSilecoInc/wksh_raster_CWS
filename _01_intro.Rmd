@@ -112,22 +112,7 @@ If after the workshop what follows makes sense and you feel it is kind of true, 
   - https://gdal.org/drivers/raster/index.html
 
 
-
-
----
-# About `r rp()`
-
-> R is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing. &nbsp;&nbsp; [Wikipedia](https://bit.ly/2WFv1Nu)
-
---
-
-.center[![:scale 50%](https://roelverbelen.netlify.app/img/hex-stickers.png)]
-
-???
-
-Also tons of spatial packages
-
-
+  
 ---
 # Coding vs clicking
 
@@ -146,17 +131,29 @@ Also tons of spatial packages
 
 ### 3. Increase efficiency (spend more time thinking)
 
-
 --
 
 ### 4. Feeling empowered
-
-
 
 ???
 
 One is not better than the other
 do more, ok but do it in a better way
+
+
+---
+# About `r rp()`
+
+> R is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing. &nbsp;&nbsp; [Wikipedia](https://bit.ly/2WFv1Nu)
+
+--
+
+.center[![:scale 50%](https://roelverbelen.netlify.app/img/hex-stickers.png)]
+
+???
+
+Also tons of spatial packages
+
 
 
 ---
@@ -260,7 +257,7 @@ Not visualisation later
 
 ### [`sf`](https://CRAN.R-project.org/package=sf) .font90[10/2016 (0.9.8) &nbsp; // &nbsp; 03/2021 (3.3.7)]
 
-> A package that provides [simple features](https://en.wikipedia.org/wiki/Simple_Features) access for R.
+> A package that provides [Simple Features Access](https://en.wikipedia.org/wiki/Simple_Features) for R.
 
 --
 

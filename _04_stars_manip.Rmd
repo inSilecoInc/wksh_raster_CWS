@@ -29,17 +29,6 @@ class: inverse, center, middle
 
 
 ---
-# Common operations  `r cg()` 
-
-- change projection
-- basic calculations (e.g. average per regions, min/max)
-- crop/mask 
-- extraction
-- resample 
-- etc.
-
-
----
 # What do we have? 
 
 ```{R stars_obj}
