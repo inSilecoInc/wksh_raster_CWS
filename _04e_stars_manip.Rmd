@@ -47,7 +47,7 @@ class: inverse, center, middle
 
 ## Solution
 
-```{R, echo = FALSE, eval = FALSE, purl = FALSE}
+```{R, echo = TRUE, eval = FALSE, purl = FALSE}
 library(stars)
 library(dplyr)
 ras <- read_stars("data/bathy.tif")

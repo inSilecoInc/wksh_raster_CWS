@@ -66,7 +66,7 @@ class: inverse, center, middle
 # Solution `leaflet`
 
 .font90[
-```{r leafletEx, eval = FALSE, include = FALSE, purl = FALSE}
+```{r leafletEx, include = FALSE, purl = FALSE}
 # Colors
 cols <- c("#c7cbce", "#687677", "#222d3d", "#25364a", "#172434",
           "#ad6a11", "#e6a331", "#e4be29", "#f2ea8b")

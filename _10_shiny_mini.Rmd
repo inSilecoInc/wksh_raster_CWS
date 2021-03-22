@@ -33,7 +33,7 @@ class: inverse, center, middle
 `r lc()` [Simple shiny app](https://shiny.rstudio.com/gallery/single-file-shiny-app.html)
 
 .pull-left[
-```{R eval = FALSE}
+```{R, eval = FALSE}
 # Global variables can go here
 n <- 200
 
@@ -89,7 +89,7 @@ shinyApp(ui = ui, server = server)
 ---
 # Minimal Shiny App: `ui` `r ey()`
 
-```R
+```{R, eval = FALSE}
 ui <- bootstrapPage(
   numericInput('n', 'Number of obs', n),
   plotOutput('plot')
@@ -120,7 +120,7 @@ ui <- bootstrapPage(
 ---
 # Minimal Shiny App: `server` `r cg()`
 
-```R
+```{R, eval = FALSE}
 server <- function(input, output) {
   output$plot <- renderPlot({
     hist(runif(input$n))
@@ -161,7 +161,7 @@ capture R expressions and perform some light pre-processing to make the object s
 ---
 # Minimal Shiny App: run the app
 
-```R
+```{R, eval = FALSE}
 shinyApp(ui = ui, server = server)
 ```
 
@@ -207,7 +207,7 @@ There are several ways to do so, see [App formats and launching apps](https://sh
 ---
 # Interactive Atlas with shiny App: `ui` `r ey()`
 
-```R
+```{R, eval = FALSE}
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
@@ -226,7 +226,7 @@ ui <- fluidPage(
 
 To check what this gives, once `ui` is loaded, run the following:
 
-```R
+```{R, eval = FALSE}
 server <- function(input, output) NULL
 shinyApp(ui = ui, server = server)
 ```
@@ -239,7 +239,7 @@ comma are IMPORTANT
 ---
 # Interactive Atlas with shiny App: `ui` `r ey()`
 
-```R
+```{R, eval = FALSE}
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
@@ -259,7 +259,7 @@ ui <- fluidPage(
 ---
 # Interactive Atlas with shiny App: `server` `r cg()`
 
-```R
+```{R, eval = FALSE}
 library(sf)
 library(dplyr)
 server <- function(input, output) {
@@ -279,7 +279,7 @@ Server ===> data will need to be on a SERVER a remote computer
 ---
 # Interactive Atlas with shiny App: `server` `r cg()`
 
-```R
+```{R, eval = FALSE}
 library(sf)
 library(dplyr)
 cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
@@ -300,7 +300,7 @@ server <- function(input, output, session) {
 ---
 # Interactive Atlas with shiny App: `server` `r cg()`
 
-```R
+```{R, eval = FALSE}
 library(sf)
 library(dplyr)
 cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),

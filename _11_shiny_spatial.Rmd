@@ -62,7 +62,7 @@ class: inverse, center, middle
 
 ### Previously
 
-```R
+```{R, eval = FALSE}
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
@@ -83,7 +83,7 @@ ui <- fluidPage(
 
 ### Now
 
-```R
+```{R, eval = FALSE}
 library(leaflet)
 ui <- fluidPage(
   sidebarLayout(
@@ -104,7 +104,7 @@ ui <- fluidPage(
 
 ### Previously
 
-```R
+```{R, eval = FALSE}
 library(sf)
 library(dplyr)
 server <- function(input, output, session) {
@@ -122,7 +122,7 @@ server <- function(input, output, session) {
 
 ### Now
 
-```R
+```{R, eval = FALSE}
 library(sf)
 library(dplyr)
 cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
@@ -147,7 +147,7 @@ server <- function(input, output, session) {
 
 --
 
-```R
+```{R, eval = FALSE}
 shinyApp(ui, server)
 ```
 
@@ -155,7 +155,7 @@ shinyApp(ui, server)
 ---
 # mapEdit module:  `ui` `r ey()`
 
-```R
+```{R, eval = FALSE}
 library(mapedit)
 ui <- fluidPage(
   sidebarLayout(
@@ -175,7 +175,7 @@ ui <- fluidPage(
 # mapEdit module: `server` `r cg()`
 
 
-```R
+```{R, eval = FALSE}
 library(sf)
 library(dplyr)
 cdqs <- st_as_sf(x = read.csv('output/CDQS_BIOMQ_2017.csv'),
@@ -203,7 +203,7 @@ server <- function(input, output, session) {
 ---
 # mapEdit module:  `ui` `r ey()`
 
-```R
+```{R, eval = FALSE}
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
@@ -223,7 +223,7 @@ ui <- fluidPage(
 # mapEdit module: `server` `r cg()`
 
 
-```R
+```{R, eval = FALSE}
 server <- function(input, output, session) {
   updateSelectInput(session, "species", choices = unique(cdqs$Espece.Species.EN))
   observeEvent(input$species, {

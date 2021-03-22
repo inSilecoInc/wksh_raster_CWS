@@ -36,10 +36,18 @@ install.packages(c("mapview", "stars", "shiny", "mapedit", "tmap"))
   - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part2.html) 
   - [code](https://insilecoinc.github.io/wksh_raster_CWS/scripts/_part2.R)
 
-* [Part 3: visualisation (`tmap`)](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html)
-  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html) 
-  - [code](https://insilecoinc.github.io/wksh_raster_CWS/scripts/_part3.R)
 
 
 ### Day 2
 
+* [Part 3: visualisation (`tmap`)](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html)
+  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part3.html) 
+  - [code](https://insilecoinc.github.io/wksh_raster_CWS/scripts/_part3.R)
+
+* [Part 4: interactive maps (`leaflet`)](https://insilecoinc.github.io/wksh_raster_CWS/_part4.html)
+  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part4.html) 
+  - [code](https://insilecoinc.github.io/wksh_raster_CWS/scripts/_part4.R)
+
+* [Part 5: Shiny App (`shiny`)](https://insilecoinc.github.io/wksh_raster_CWS/_part5.html)
+  - [presentation](https://insilecoinc.github.io/wksh_raster_CWS/_part5.html) 
+  - [code](https://insilecoinc.github.io/wksh_raster_CWS/scripts/_part5.R)
