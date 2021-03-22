@@ -12,9 +12,6 @@ output:
 ---
 
 
-```{r include = FALSE}
-source("_setup.R")
-```
 
 ---
 
@@ -37,27 +34,6 @@ class: inverse, center, middle
 .right[.font80[see https://r-spatial.github.io/stars/index.html]]
 
 
----
-# Read a raster file with `stars`
-
-
-## .center[.font200[ `r fl()` `r ar()` `r rp()`]]
-
-<br>
-
---
-
-### 1. Files you created 
-
---
-
-### 2. Files you found on the Internet 
-
---
-
-### 3. `r rp()` packages to download raster files
-
-
 
 ---
 # Example file 
@@ -76,17 +52,10 @@ class: inverse, center, middle
 ```{R read_stars}
 library(stars)
 ras <- read_stars("data/bathy.tif")   # argument `driver` to specify the driver
+class(ras)
 ras
 ```
 
----
-# What do we have? 
-
-```{R stars_val}
-class(ras)
-class(ras[[1]])
-ras[[1]]
-```
 
 ---
 # What do we have? 
@@ -97,7 +66,7 @@ st_bbox(ras)
 ```
 
 ---
-# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+# What do we have? 
 
 ```{R stars_obj_fun2}
 ras_crs <- st_crs(ras)
@@ -106,7 +75,7 @@ ras_crs
 ```
 
 ---
-# What do we have? [`stars`](https://CRAN.R-project.org/package=stars)
+# What do we have? 
 
 ```{R stars_obj_fun3}
 ras_crs$input
@@ -140,11 +109,47 @@ class(rar_c)
 ---
 # Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
 
+```{R}
+class(ras[[1]])
+```
+
+---
+# Use units with [`units`](https://CRAN.R-project.org/package=units)
+
+```{R}
+library(units)
+as_units(1, "mm") + as_units(1, "cm")
+```
+
+--
+
+```{R}
+units::as_units(0, "celsius") + units::as_units(0, "fahrenheit")
+```
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
+```{R nounit}
+ras_nounit <- drop_units(ras)
+class(ras_nounit[[1]])
+```
+
+
+---
+# Basic cell-based computations with [`stars`](https://CRAN.R-project.org/package=stars)
+
 ```{R bc_ras1}
 # extract value
-class(ras[[1]])
 ras[[1]][1, 1]
 ras[[1]][1:10, 11:20]
+```
+
+```{R bc_ras1}
+# mean along lat 
+apply(ras[[1]], 1, mean)
+# mean along long 
+apply(ras[[1]], 2, mean)
 ```
 
 ---
