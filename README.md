@@ -24,6 +24,7 @@ use the following
 install.packages(c("mapview", "stars", "shiny", "mapedit", "tmap"))
 ```
 
+
 ## Presentations
 
 ### Day 1

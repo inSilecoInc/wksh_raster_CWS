@@ -32,9 +32,7 @@ class: inverse, center, middle
 
 ### Example
 
-1. Select species (or colony)  
-2. display species (or colony) on the map 
-3. add a raster layer on the map 
-4. draw a polygon around the colony (interactively) or compute a convex hull (programmatically)
-5. Extract values
-6. Display a histogram of values extracted (plus the mean)
+1. add a raster layer on the map 
+2. draw a polygon around the colony (interactively) (or compute a convex hull (programmatically))
+3. Extract values
+4. Display a histogram of values extracted (plus the mean)
