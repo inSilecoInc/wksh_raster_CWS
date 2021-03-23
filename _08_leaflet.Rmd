@@ -251,7 +251,7 @@ library(leafem)
 
 .pull-left2[
 
-Use [`addRasterImage()`](https://www.rdocumentation.org/packages/leaflet/versions/2.0.3/topics/addRasterImage) to add rasters from `raster` package.
+Use [`addStarsImage()`](https://rdrr.io/github/r-spatial/leafem/man/addStarsImage.html) to add rasters from `raster` package.
 
 
 ```{r, eval = FALSE, purl = FALSE}
@@ -301,7 +301,7 @@ lf
 
 --
 
-- Raster size is limited by default. Use argument `maxBytes` in `ddStarsImage()` to change this. (Hint: try to add `bathy.tif` to a leaflet map)
+- Raster size is limited by default. Use argument `maxBytes` in `addStarsImage()` to change this. (Hint: try to add `bathy.tif` to a leaflet map)
 
 
 ---
