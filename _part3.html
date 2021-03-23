@@ -246,8 +246,8 @@ map0
 
 
 ```r
-map1 &lt;- map0 + tm_compass(type = "8star", position = c("left", "top")) 
-map1 
+map1 &lt;- map0 + tm_compass(type = "8star", position = c("left", "top"))
+map1
 ```
 
 &lt;img src="_part3_files/figure-html/tmap1-1.png" style="display: block; margin: auto;" /&gt;
@@ -266,7 +266,7 @@ map1
 # create a stars object from a raster one
 st_as_stars(rar)
 # create a raster object from a stars one
-as(ras, "Raster") 
+as(ras, "Raster")
 ```
 
 ---
@@ -309,11 +309,21 @@ map4
 
 ```r
 map5 &lt;- tm_shape(ras) + tm_raster("bathy.tif", breaks = c(seq(-5000,
-    0, 1000), 250, 500, 750, 1000), palette = "viridis") 
-map5 
+    0, 1000), 250, 500, 750, 1000), palette = "viridis")
+map5
 ```
 
 &lt;img src="_part3_files/figure-html/tmap5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# [`tmap`](https://CRAN.R-project.org/package=tmap)
+
+
+```r
+# Export tmap
+tmap_save(map5, filename = "output/mymap.png", dpi = 300, units = "mm", width = 160, height = 160)
+```
+
 
 ---
 # [`tmap`](https://CRAN.R-project.org/package=tmap)
@@ -324,8 +334,6 @@ map5
 - &lt;svg viewBox="0 0 512 512" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"&gt;&lt;/path&gt;&lt;/svg&gt; https://github.com/mtennekes/tmap
 
 - &lt;svg viewBox="0 0 512 512" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"&gt;&lt;/path&gt;&lt;/svg&gt; https://www.rdocumentation.org/packages/tmap/versions/3.2/topics/tm_layout
-
-
 
 
 
@@ -349,7 +357,7 @@ class: inverse, center, middle
 ---
 # Reproduce and save the following map
 
-<div class="countdown" id="timer_6059e622" style="bottom:0;left:0;" data-warnwhen="5">
+<div class="countdown" id="timer_6059ec13" style="bottom:0;left:0;" data-warnwhen="5">
 <code class="countdown-time"><span class="countdown-digits minutes">30</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 

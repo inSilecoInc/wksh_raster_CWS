@@ -40,7 +40,7 @@ class: inverse, center, middle
 
 ```{R tmap0, echo = -c(1:2)}
 stl <- sf::st_read('data/st_laurence.geojson', quiet = TRUE)
-ras <- stars::read_stars("data/bathy.tif") 
+ras <- stars::read_stars("data/bathy.tif")
 library(tmap)
 map0 <- tm_shape(stl) + tm_borders(col = "red")
 map0
@@ -50,8 +50,8 @@ map0
 # [`tmap`](https://CRAN.R-project.org/package=tmap)
 
 ```{R tmap1}
-map1 <- map0 + tm_compass(type = "8star", position = c("left", "top")) 
-map1 
+map1 <- map0 + tm_compass(type = "8star", position = c("left", "top"))
+map1
 ```
 
 ---
@@ -68,7 +68,7 @@ map1
 # create a stars object from a raster one
 st_as_stars(rar)
 # create a raster object from a stars one
-as(ras, "Raster") 
+as(ras, "Raster")
 ```
 
 ---
@@ -102,9 +102,18 @@ map4
 
 ```{R tmap5, cache = TRUE}
 map5 <- tm_shape(ras) + tm_raster("bathy.tif", breaks = c(seq(-5000,
-    0, 1000), 250, 500, 750, 1000), palette = "viridis") 
-map5 
+    0, 1000), 250, 500, 750, 1000), palette = "viridis")
+map5
 ```
+
+---
+# [`tmap`](https://CRAN.R-project.org/package=tmap)
+
+```{R tmap5ex, cache = TRUE}
+# Export tmap
+tmap_save(map5, filename = "output/mymap.png", dpi = 300, units = "mm", width = 160, height = 160)
+```
+
 
 ---
 # [`tmap`](https://CRAN.R-project.org/package=tmap)
@@ -115,5 +124,3 @@ map5
 - `r nf()` https://github.com/mtennekes/tmap
 
 - `r nf()` https://www.rdocumentation.org/packages/tmap/versions/3.2/topics/tm_layout
-
-
