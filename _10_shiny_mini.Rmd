@@ -193,7 +193,7 @@ There are several ways to do so, see [App formats and launching apps](https://sh
 
 ### Goals
 
-- Let's use `cdqs.csv` (or `XXX.geojson`)
+- Let's use `cdqs.csv` see (https://github.com/inSilecoInc/wksh_raster_CWS/tree/main/data)
 - Do a map per species
 
 
