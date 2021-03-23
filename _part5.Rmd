@@ -1,0 +1,77 @@
+---
+title: "Raster with R"
+author: "inSileco Team"
+date: 2021-03-21
+output:
+  xaringan::moon_reader:
+    css: [default, rd.css, rd-font.css, "hygge"]
+    lib_dir: assets
+    seal: false
+    nature:
+      highlightStyle: dracula
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+
+```{r setup, include = FALSE, purl = FALSE}
+source("_setup.R")
+# knitr::clean_cache(TRUE)
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #37abc8\"></i>",
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+xaringanExtra::use_scribble()
+```
+
+
+class: title-slide, middle
+
+
+## .font200[`r rp()`asters]
+
+<br>
+
+.instructors[
+  .font140[Manipulate and visualize spatial data with `r rp()`]
+  <br><br><br>
+  .authors140[David Beauchesne & Kevin Cazelles]
+  <br><br>
+  `r format(Sys.time(), '%B %d, %Y')`
+  <br>
+  .font200[
+  [`r gh()`](https://github.com/inSilecoInc/wksh_raster_CWS)
+  ]
+]
+
+<br>
+<img src="img/logoW.png" width="140px"></img>
+
+<!-- Modify accordingly -->
+[![deploy workshop](https://github.com/inSilecoInc/wksh_raster_CWS/actions/workflows/deploy.yml/badge.svg)](https://github.com/inSilecoInc/wksh_raster_CWS/actions/workflows/deploy.yml)
+
+.instructors[Content under [`r rfa("creative-commons")` `r rfa("creative-commons-by")`](https://creativecommons.org/licenses/by/4.0/) unless otherwise specified.]
+
+
+
+
+```{R, child = "_09_shiny_intro.Rmd"}
+```
+
+```{R, child = "_10_shiny_mini.Rmd"}
+```
+
+
+```{R, child = "_10e_shiny_mini.Rmd"}
+```
+
+
+```{R, child = "_11_shiny_spatial.Rmd"}
+```
+
+
+```{R, child = "_11e_shiny_spatial.Rmd"}
+```
