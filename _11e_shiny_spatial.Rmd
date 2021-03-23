@@ -28,7 +28,7 @@ class: inverse, center, middle
 
 ### Use `leaflet`
 
--- 
+--
 
 ### Example
 
