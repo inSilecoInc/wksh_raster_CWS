@@ -249,7 +249,7 @@ Because now variables are somehow linked!
 # Reactive programming in Shiny
 
 
-### 1. reactive values 
+### 1. **reactive values****
 
 ```R
 a <- reactiveVal()
@@ -262,7 +262,7 @@ could be a data frame
 
 --
 
-### 2. reactive expressions 
+### 2. **reactive expressions**
 
 ```R
 b <- reactive({2*a()})
@@ -270,7 +270,7 @@ b <- reactive({2*a()})
 
 --
 
-### 3. observers: special reactive expressions 
+### 3. **observers: special reactive expressions**
 
 - An observer is like a reactive expression in that it can read reactive values and call reactive expressions, and will automatically re-execute when those dependencies change
 

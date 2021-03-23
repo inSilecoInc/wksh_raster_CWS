@@ -28,10 +28,9 @@ class: inverse, center, middle
 ### Examples:
 
 - Improve the map 
-- add a histogram of Number of Breeders
 - Add filters e.g. colony name
   1. replace species filter by a colony filter
   2. double filter species/colony
-
+- Add a button save
 
 `r cdw(minutes = 40)`
