@@ -34,3 +34,11 @@ class: inverse, center, middle
 - Add a button save
 
 `r cdw(minutes = 40)`
+
+
+---
+# Solution: 
+
+* the folder `data/` should include : `bathy.tif`, `cdqs.csv` and `st_laurence.geojson`
+
+* for the code, see https://raw.githubusercontent.com/inSilecoInc/wksh_raster_CWS/main/scripts/_sol_shiny1.R

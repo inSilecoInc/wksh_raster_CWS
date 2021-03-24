@@ -36,3 +36,10 @@ class: inverse, center, middle
 2. draw a polygon around the colony (interactively) (or compute a convex hull (programmatically))
 3. Extract values
 4. Display a histogram of values extracted (plus the mean)
+
+---
+# Solution 
+
+* the folder `data/` should include : `bathy.tif`, `cdqs.csv` and `st_laurence.geojson`
+
+* for the code, see https://raw.githubusercontent.com/inSilecoInc/wksh_raster_CWS/main/scripts/_sol_shiny3.R
